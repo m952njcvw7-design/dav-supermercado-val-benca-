@@ -8,559 +8,339 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-
-body{
-    background:#f3f3f3;
-    color:#222;
-    height:100vh;
-    overflow:hidden
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.topo{
-    height:76px;
-    background:#171717;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 25px
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #111;
+    min-height: 100vh;
+    overflow: hidden;
 }
 
-.topo h1{
-    font-size:29px;
-    letter-spacing:1px
+/* TELA INICIAL */
+#telaInicial {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: #fff;
 }
 
-.topo small{
-    color:#aaa;
-    font-size:13px
+.titulo-caixa {
+    font-size: clamp(55px, 10vw, 150px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-align: center;
 }
 
-.gt{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    color:#ff7900;
-    font-size:10px;
-    font-weight:bold
+.gt {
+    position: absolute;
+    right: 20px;
+    bottom: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0.45;
 }
 
-.gt-logo{
-    width:28px;
-    height:28px;
-    background:#ff7900;
-    border-radius:7px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white
+/* CAMPO INVISÍVEL DO LEITOR */
+#scannerInput {
+    position: fixed;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    border: 0;
+    outline: none;
 }
 
-.principal{
-    height:calc(100vh - 76px);
-    padding:18px 25px;
-    display:flex;
-    flex-direction:column
+/* VENDA */
+#telaVenda {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    padding: 25px;
+    background: #fff;
+    overflow-y: auto;
 }
 
-.busca{
-    display:flex;
-    gap:10px;
-    margin-bottom:14px
+.cabecalho-venda {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
 }
 
-.busca input{
-    flex:1;
-    height:58px;
-    border:2px solid #ddd;
-    border-radius:9px;
-    padding:0 18px;
-    font-size:19px;
-    outline:none;
-    background:white
+.cabecalho-venda h1 {
+    font-size: 38px;
+    font-weight: 900;
 }
 
-.busca input:focus{
-    border-color:#ff7900
+.supermercado {
+    font-size: 14px;
+    font-weight: bold;
+    opacity: .6;
 }
 
-.btn{
-    border:0;
-    border-radius:8px;
-    padding:13px 20px;
-    font-weight:bold;
-    cursor:pointer
+#listaProdutos {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.laranja{
-    background:#ff7900;
-    color:white
+#listaProdutos th {
+    text-align: left;
+    padding: 12px;
+    background: #111;
+    color: white;
 }
 
-.tabela{
-    flex:1;
-    background:white;
-    border:1px solid #ddd;
-    border-radius:10px;
-    overflow:auto
+#listaProdutos td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse
+.total-area {
+    margin-top: 25px;
+    text-align: right;
 }
 
-thead{
-    background:#222;
-    color:white;
-    position:sticky;
-    top:0
+.total-label {
+    font-size: 18px;
 }
 
-th,td{
-    padding:14px;
-    text-align:left;
-    border-bottom:1px solid #eee
+.total {
+    font-size: 55px;
+    font-weight: 900;
+    margin-top: 5px;
 }
 
-.vazio{
-    text-align:center;
-    color:#999;
-    padding:70px
+.botoes {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 25px;
 }
 
-.rodape{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-    margin-top:14px
+button {
+    border: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.total-box{
-    text-align:right
+.cancelar {
+    background: #ddd;
 }
 
-.total-box small{
-    color:#777
+.finalizar {
+    background: #111;
+    color: white;
 }
 
-.total{
-    font-size:38px;
-    font-weight:bold
+/* MENSAGEM */
+#mensagem {
+    position: fixed;
+    left: 50%;
+    bottom: 35px;
+    transform: translateX(-50%);
+    background: #111;
+    color: white;
+    padding: 13px 22px;
+    border-radius: 8px;
+    display: none;
+    font-weight: bold;
+    z-index: 20;
 }
 
-.acoes{
-    display:flex;
-    gap:10px
+/* MODAL PAGAMENTO */
+#modalPagamento {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
 }
 
-.cancelar{
-    background:#ddd
+.modal {
+    background: white;
+    width: min(450px, 90%);
+    padding: 30px;
+    border-radius: 15px;
 }
 
-.finalizar{
-    background:#ff7900;
-    color:white;
-    min-width:190px
+.modal h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
 }
 
-/* MENU */
-.menu-btn{
-    position:fixed;
-    left:18px;
-    bottom:18px;
-    width:46px;
-    height:46px;
-    border:0;
-    border-radius:50%;
-    background:#222;
-    color:white;
-    font-size:21px;
-    cursor:pointer;
-    z-index:30
+.pagamento {
+    width: 100%;
+    margin-bottom: 10px;
+    background: #111;
+    color: white;
 }
 
-.menu{
-    position:fixed;
-    left:18px;
-    bottom:75px;
-    width:270px;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 5px 30px #0004;
-    padding:10px;
-    display:none;
-    z-index:30
+.fechar {
+    width: 100%;
+    background: #ddd;
+    margin-top: 10px;
 }
 
-.menu.aberto{
-    display:block
+/* CADASTRO ESCONDIDO */
+#modalCadastro {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
 }
 
-.menu h3{
-    padding:12px;
-    border-bottom:1px solid #eee
+.cadastro {
+    background: white;
+    width: min(500px, 92%);
+    padding: 30px;
+    border-radius: 15px;
 }
 
-.menu button{
-    width:100%;
-    padding:14px;
-    border:0;
-    background:white;
-    text-align:left;
-    border-radius:7px;
-    cursor:pointer
+.cadastro h2 {
+    margin-bottom: 20px;
 }
 
-.menu button:hover{
-    background:#f2f2f2
+.cadastro input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 16px;
 }
 
-/* CADASTRO */
-.modal{
-    position:fixed;
-    inset:0;
-    background:#0008;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:50
+.salvar {
+    width: 100%;
+    background: #111;
+    color: white;
 }
 
-.modal.aberto{
-    display:flex
-}
-
-.caixa{
-    background:white;
-    width:450px;
-    max-width:92%;
-    padding:25px;
-    border-radius:14px
-}
-
-.caixa h2{
-    margin-bottom:18px
-}
-
-.caixa input{
-    width:100%;
-    padding:13px;
-    margin-bottom:10px;
-    border:1px solid #ccc;
-    border-radius:7px;
-    font-size:16px
-}
-
-.botoes-modal{
-    display:flex;
-    gap:10px;
-    margin-top:10px
-}
-
-.botoes-modal button{
-    flex:1
-}
-
-.status{
-    font-size:13px;
-    margin-top:10px;
-    min-height:18px
-}
-
-/* PAGAMENTO */
-.formas{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px
-}
-
-.formas button{
-    padding:18px;
-    border:1px solid #ddd;
-    background:#fafafa;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold
-}
-
-.formas button:hover{
-    background:#ff7900;
-    color:white
-}
-
-@media(max-width:700px){
-    body{overflow:auto}
-
-    .topo{
-        height:65px;
-        padding:0 12px
-    }
-
-    .topo h1{font-size:21px}
-    .topo small{display:none}
-
-    .principal{
-        height:auto;
-        min-height:calc(100vh - 65px);
-        padding:12px
-    }
-
-    .busca{
-        flex-direction:column
-    }
-
-    .busca button{
-        height:52px
-    }
-
-    .rodape{
-        flex-direction:column;
-        align-items:stretch
-    }
-
-    .total-box{text-align:center}
-
-    .acoes{
-        display:grid;
-        grid-template-columns:1fr 1fr
-    }
-
-    .finalizar{min-width:0}
-
-    th,td{
-        padding:9px;
-        font-size:12px
-    }
+.fecharCadastro {
+    width: 100%;
+    margin-top: 10px;
+    background: #ddd;
 }
 </style>
 </head>
 
 <body>
 
-<header class="topo">
+<!-- TELA INICIAL -->
+<div id="telaInicial">
 
-    <div>
-        <h1>CAIXA LIVRE</h1>
-        <small>Supermercado Val Bença</small>
+    <div class="titulo-caixa">
+        CAIXA LIVRE
     </div>
 
     <div class="gt">
-        <div class="gt-logo">GT</div>
-        GT DELIVERY
+        GT Delivery
     </div>
 
-</header>
+</div>
 
+<!-- LEITOR DE CÓDIGO DE BARRAS -->
+<input
+    id="scannerInput"
+    type="text"
+    autocomplete="off"
+    autofocus
+>
 
-<main class="principal">
+<!-- TELA DA VENDA -->
+<div id="telaVenda">
 
-    <div class="busca">
-
-        <input
-            id="codigo"
-            type="text"
-            inputmode="numeric"
-            autocomplete="off"
-            autofocus
-            placeholder="Passe o código de barras no leitor..."
-            onkeydown="codigoEnter(event)"
-        >
-
-        <button class="btn laranja" onclick="buscarProduto()">
-            ADICIONAR
-        </button>
-
-    </div>
-
-
-    <div class="tabela">
-
-        <table>
-
-            <thead>
-                <tr>
-                    <th>CÓDIGO</th>
-                    <th>PRODUTO</th>
-                    <th>QTD.</th>
-                    <th>PREÇO</th>
-                    <th>TOTAL</th>
-                </tr>
-            </thead>
-
-            <tbody id="lista">
-
-                <tr>
-                    <td colspan="5" class="vazio">
-                        Passe o primeiro produto no leitor de código de barras
-                    </td>
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-
-    <div class="rodape">
-
+    <div class="cabecalho-venda">
         <div>
-            Itens: <strong id="itens">0</strong>
-        </div>
-
-        <div class="total-box">
-            <small>TOTAL DA COMPRA</small>
-            <div class="total">
-                R$ <span id="total">0,00</span>
+            <h1>CAIXA LIVRE</h1>
+            <div class="supermercado">
+                Supermercado Val Bença
             </div>
         </div>
 
-        <div class="acoes">
-
-            <button class="btn cancelar" onclick="cancelarVenda()">
-                CANCELAR
-            </button>
-
-            <button class="btn finalizar" onclick="abrirPagamento()">
-                FINALIZAR VENDA
-            </button>
-
+        <div class="gt">
+            GT Delivery
         </div>
-
     </div>
 
-</main>
+    <table id="listaProdutos">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Qtd.</th>
+                <th>Preço</th>
+                <th>Total</th>
+            </tr>
+        </thead>
 
+        <tbody id="produtosBody"></tbody>
+    </table>
 
-<!-- MENU ESCONDIDO -->
-
-<button class="menu-btn" onclick="abrirMenu()">☰</button>
-
-<div id="menu" class="menu">
-
-    <h3>Menu do Sistema</h3>
-
-    <button onclick="abrirCadastro()">
-        📦 Cadastro de Produtos
-    </button>
-
-    <button onclick="mostrarProdutos()">
-        📋 Produtos Cadastrados
-    </button>
-
-    <button onclick="alert('Estoque será conectado na próxima etapa.')">
-        📊 Estoque
-    </button>
-
-    <button onclick="alert('Relatórios serão conectados na próxima etapa.')">
-        📈 Relatórios
-    </button>
-
-    <button onclick="alert('Configurações serão conectadas na próxima etapa.')">
-        ⚙️ Configurações
-    </button>
-
-</div>
-
-
-<!-- CADASTRO -->
-
-<div id="cadastroModal" class="modal">
-
-    <div class="caixa">
-
-        <h2>Cadastro de Produto</h2>
-
-        <input
-            id="cadCodigo"
-            placeholder="Código de barras"
-        >
-
-        <input
-            id="cadNome"
-            placeholder="Nome do produto"
-        >
-
-        <input
-            id="cadPreco"
-            type="number"
-            step="0.01"
-            placeholder="Preço de venda"
-        >
-
-        <input
-            id="cadEstoque"
-            type="number"
-            step="0.001"
-            placeholder="Estoque inicial"
-        >
-
-        <div class="botoes-modal">
-
-            <button
-                class="btn cancelar"
-                onclick="fecharCadastro()">
-                CANCELAR
-            </button>
-
-            <button
-                class="btn laranja"
-                onclick="salvarProduto()">
-                SALVAR PRODUTO
-            </button>
-
+    <div class="total-area">
+        <div class="total-label">TOTAL DA VENDA</div>
+        <div class="total" id="totalVenda">
+            R$ 0,00
         </div>
+    </div>
 
-        <div id="statusCadastro" class="status"></div>
+    <div class="botoes">
+        <button class="cancelar" onclick="cancelarVenda()">
+            CANCELAR
+        </button>
 
+        <button class="finalizar" onclick="abrirPagamento()">
+            FINALIZAR VENDA
+        </button>
     </div>
 
 </div>
 
+<!-- MENSAGEM -->
+<div id="mensagem"></div>
 
 <!-- PAGAMENTO -->
+<div id="modalPagamento">
 
-<div id="pagamentoModal" class="modal">
+    <div class="modal">
 
-    <div class="caixa">
+        <h2>Forma de pagamento</h2>
 
-        <h2>Finalizar Venda</h2>
+        <button class="pagamento" onclick="finalizarVenda('Dinheiro')">
+            DINHEIRO
+        </button>
 
-        <div class="total">
-            R$ <span id="valorPagamento">0,00</span>
-        </div>
+        <button class="pagamento" onclick="finalizarVenda('Pix')">
+            PIX
+        </button>
 
-        <br>
+        <button class="pagamento" onclick="finalizarVenda('Débito')">
+            CARTÃO DE DÉBITO
+        </button>
 
-        <div class="formas">
+        <button class="pagamento" onclick="finalizarVenda('Crédito')">
+            CARTÃO DE CRÉDITO
+        </button>
 
-            <button onclick="finalizarVenda('Dinheiro')">
-                💵 Dinheiro
-            </button>
-
-            <button onclick="finalizarVenda('Pix')">
-                📱 Pix
-            </button>
-
-            <button onclick="finalizarVenda('Débito')">
-                💳 Débito
-            </button>
-
-            <button onclick="finalizarVenda('Crédito')">
-                💳 Crédito
-            </button>
-
-        </div>
-
-        <br>
-
-        <button
-            class="btn cancelar"
-            style="width:100%"
-            onclick="fecharPagamento()">
+        <button class="fechar" onclick="fecharPagamento()">
             VOLTAR
         </button>
 
@@ -568,605 +348,488 @@ th,td{
 
 </div>
 
+<!-- CADASTRO ESCONDIDO -->
+<div id="modalCadastro">
+
+    <div class="cadastro">
+
+        <h2>Cadastrar produto</h2>
+
+        <input id="cadCodigo" placeholder="Código de barras">
+
+        <input id="cadNome" placeholder="Nome do produto">
+
+        <input id="cadPreco" type="number" step="0.01" placeholder="Preço">
+
+        <input id="cadEstoque" type="number" placeholder="Estoque">
+
+        <button class="salvar" onclick="cadastrarProduto()">
+            SALVAR PRODUTO
+        </button>
+
+        <button class="fecharCadastro" onclick="fecharCadastro()">
+            FECHAR
+        </button>
+
+    </div>
+
+</div>
 
 <script>
 
-/* ================================
+/* =========================
    SUPABASE
-================================ */
+========================= */
 
 const SUPABASE_URL =
-"https://cgdvehummqfttsyfebfo.supabase.co";
+    "https://cgdvehummqfttsyfebfo.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_rzYfEMq3RKJwlVPOmMQaUA_AAxWN9nr";
+    "sb_publishable_rzYfEMq3RKJwlVPOmMQaUA_AAxWN9nr";
 
 const supabaseClient =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
-/* ================================
-   VENDA ATUAL
-================================ */
+/* =========================
+   VARIÁVEIS
+========================= */
 
 let venda = [];
 
+const scanner =
+    document.getElementById("scannerInput");
 
-/* ================================
-   LEITOR
-================================ */
 
-function codigoEnter(event){
+/* =========================
+   FOCO NO LEITOR
+========================= */
 
-    if(event.key === "Enter"){
-
-        event.preventDefault();
-
-        buscarProduto();
-
-    }
-
+function focarScanner() {
+    scanner.focus();
 }
 
+window.addEventListener("load", () => {
+    focarScanner();
+});
 
-/* ================================
-   BUSCAR PRODUTO PELO CÓDIGO
-================================ */
+document.addEventListener("click", () => {
+    focarScanner();
+});
 
-async function buscarProduto(){
 
-    const campo =
-        document.getElementById("codigo");
+/* =========================
+   RECEBER CÓDIGO DO LEITOR
+========================= */
 
-    const codigo =
-        campo.value.trim();
+scanner.addEventListener("keydown", async function(event) {
 
-    if(!codigo){
-
-        campo.focus();
-
+    if (event.key !== "Enter") {
         return;
     }
 
+    const codigo =
+        scanner.value.trim();
+
+    scanner.value = "";
+
+    if (!codigo) {
+        focarScanner();
+        return;
+    }
+
+    await procurarProduto(codigo);
+
+    focarScanner();
+});
+
+
+/* =========================
+   PROCURAR PRODUTO
+========================= */
+
+async function procurarProduto(codigo) {
 
     const { data, error } =
         await supabaseClient
-        .from("dav_produtos")
-        .select("id,codigo_barras,nome,preco,estoque,ativo")
-        .eq("codigo_barras", codigo)
-        .eq("ativo", true)
-        .maybeSingle();
+            .from("dav_produtos")
+            .select("*")
+            .eq("codigo_barras", codigo)
+            .eq("ativo", true)
+            .maybeSingle();
 
+    if (error) {
 
-    if(error){
-
-        alert(
-            "Erro ao consultar produto:\\n" +
-            error.message
+        mostrarMensagem(
+            "Erro ao consultar produto."
         );
 
-        campo.focus();
+        console.error(error);
 
         return;
     }
 
+    if (!data) {
 
-    if(!data){
-
-        alert(
-            "Produto não cadastrado.\\n\\n" +
-            "Código: " + codigo
+        mostrarMensagem(
+            "Produto não cadastrado."
         );
-
-        campo.value = "";
-
-        campo.focus();
 
         return;
     }
 
+    adicionarProduto(data);
+}
+
+
+/* =========================
+   ADICIONAR PRODUTO
+========================= */
+
+function adicionarProduto(produto) {
 
     const existente =
         venda.find(
-            item => item.id === data.id
+            item =>
+                item.id === produto.id
         );
 
-
-    if(existente){
+    if (existente) {
 
         existente.quantidade++;
 
-    }else{
+    } else {
 
         venda.push({
-
-            id:data.id,
-
-            codigo:data.codigo_barras,
-
-            nome:data.nome,
-
-            preco:Number(data.preco),
-
-            quantidade:1,
-
-            estoque:Number(data.estoque)
-
+            ...produto,
+            quantidade: 1
         });
 
     }
 
-
-    campo.value = "";
-
-    atualizarTela();
-
-    campo.focus();
-
+    mostrarVenda();
 }
 
 
-/* ================================
-   ATUALIZAR CAIXA
-================================ */
+/* =========================
+   MOSTRAR VENDA
+========================= */
 
-function atualizarTela(){
+function mostrarVenda() {
 
-    const lista =
-        document.getElementById("lista");
+    document.getElementById(
+        "telaInicial"
+    ).style.display = "none";
 
-    lista.innerHTML = "";
+    document.getElementById(
+        "telaVenda"
+    ).style.display = "block";
 
+    const body =
+        document.getElementById(
+            "produtosBody"
+        );
+
+    body.innerHTML = "";
 
     let total = 0;
 
-    let quantidadeItens = 0;
-
-
-    venda.forEach(produto => {
+    venda.forEach(item => {
 
         const subtotal =
-            produto.preco *
-            produto.quantidade;
+            Number(item.preco) *
+            item.quantidade;
 
         total += subtotal;
 
-        quantidadeItens +=
-            produto.quantidade;
+        const tr =
+            document.createElement("tr");
 
-
-        lista.innerHTML += `
-
-        <tr>
-
-            <td>${produto.codigo}</td>
-
-            <td>${produto.nome}</td>
-
-            <td>${produto.quantidade}</td>
-
-            <td>
-                R$ ${dinheiro(produto.preco)}
-            </td>
-
-            <td>
-                R$ ${dinheiro(subtotal)}
-            </td>
-
-        </tr>
-
+        tr.innerHTML = `
+            <td>${item.nome}</td>
+            <td>${item.quantidade}</td>
+            <td>${formatarMoeda(item.preco)}</td>
+            <td>${formatarMoeda(subtotal)}</td>
         `;
+
+        body.appendChild(tr);
 
     });
 
-
-    if(venda.length === 0){
-
-        lista.innerHTML = `
-
-        <tr>
-
-            <td colspan="5" class="vazio">
-                Passe o primeiro produto no leitor de código de barras
-            </td>
-
-        </tr>
-
-        `;
-
-    }
-
-
-    document.getElementById("total")
-        .innerText = dinheiro(total);
-
-    document.getElementById("itens")
-        .innerText = quantidadeItens;
-
-}
-
-
-/* ================================
-   DINHEIRO
-================================ */
-
-function dinheiro(valor){
-
-    return Number(valor)
-        .toFixed(2)
-        .replace(".",",");
-
-}
-
-
-/* ================================
-   CANCELAR
-================================ */
-
-function cancelarVenda(){
-
-    if(venda.length === 0)
-        return;
-
-
-    if(confirm("Cancelar esta venda?")){
-
-        venda = [];
-
-        atualizarTela();
-
-        document.getElementById("codigo")
-            .focus();
-
-    }
-
-}
-
-
-/* ================================
-   PAGAMENTO
-================================ */
-
-function abrirPagamento(){
-
-    if(venda.length === 0){
-
-        alert(
-            "Nenhum produto foi registrado."
-        );
-
-        document.getElementById("codigo")
-            .focus();
-
-        return;
-    }
-
-
-    const total =
-        venda.reduce(
-            (soma, produto) =>
-                soma +
-                produto.preco *
-                produto.quantidade,
-            0
-        );
-
-
     document.getElementById(
-        "valorPagamento"
-    ).innerText = dinheiro(total);
-
-
-    document.getElementById(
-        "pagamentoModal"
-    ).classList.add("aberto");
-
+        "totalVenda"
+    ).textContent =
+        formatarMoeda(total);
 }
 
 
-function fecharPagamento(){
+/* =========================
+   MOEDA
+========================= */
 
-    document.getElementById(
-        "pagamentoModal"
-    ).classList.remove("aberto");
+function formatarMoeda(valor) {
 
-}
-
-
-/* ================================
-   FINALIZAR VENDA
-================================ */
-
-async function finalizarVenda(forma){
-
-    if(venda.length === 0)
-        return;
-
-
-    const total =
-        venda.reduce(
-            (soma, produto) =>
-                soma +
-                produto.preco *
-                produto.quantidade,
-            0
-        );
-
-
-    /*
-       Atualiza o estoque dos produtos
-       no Supabase.
-    */
-
-    for(const produto of venda){
-
-        const novoEstoque =
-            Math.max(
-                0,
-                produto.estoque -
-                produto.quantidade
-            );
-
-
-        const { error } =
-            await supabaseClient
-            .from("dav_produtos")
-            .update({
-                estoque:novoEstoque,
-                updated_at:new Date().toISOString()
-            })
-            .eq("id", produto.id);
-
-
-        if(error){
-
-            alert(
-                "Não foi possível atualizar o estoque:\\n" +
-                error.message
-            );
-
-            return;
+    return Number(valor).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
         }
+    );
+}
 
+
+/* =========================
+   CANCELAR
+========================= */
+
+function cancelarVenda() {
+
+    if (!venda.length) {
+        voltarCaixa();
+        return;
     }
 
-
-    alert(
-        "VENDA FINALIZADA!\\n\\n" +
-        "Pagamento: " + forma +
-        "\\nTotal: R$ " + dinheiro(total)
-    );
-
+    if (
+        !confirm(
+            "Cancelar esta venda?"
+        )
+    ) {
+        return;
+    }
 
     venda = [];
 
-    atualizarTela();
-
-    fecharPagamento();
-
-    document.getElementById("codigo")
-        .focus();
-
+    voltarCaixa();
 }
 
 
-/* ================================
-   MENU
-================================ */
+/* =========================
+   VOLTAR PARA CAIXA LIVRE
+========================= */
 
-function abrirMenu(){
+function voltarCaixa() {
 
-    document
-        .getElementById("menu")
-        .classList.toggle("aberto");
+    venda = [];
 
+    document.getElementById(
+        "telaVenda"
+    ).style.display = "none";
+
+    document.getElementById(
+        "telaInicial"
+    ).style.display = "flex";
+
+    focarScanner();
 }
 
 
-/* ================================
-   CADASTRO
-================================ */
+/* =========================
+   PAGAMENTO
+========================= */
 
-function abrirCadastro(){
+function abrirPagamento() {
 
-    document
-        .getElementById("menu")
-        .classList.remove("aberto");
+    if (!venda.length) {
+        return;
+    }
 
-    document
-        .getElementById("cadastroModal")
-        .classList.add("aberto");
-
-    document
-        .getElementById("cadCodigo")
-        .focus();
-
+    document.getElementById(
+        "modalPagamento"
+    ).style.display = "flex";
 }
 
 
-function fecharCadastro(){
+function fecharPagamento() {
 
-    document
-        .getElementById("cadastroModal")
-        .classList.remove("aberto");
+    document.getElementById(
+        "modalPagamento"
+    ).style.display = "none";
 
-    limparCadastro();
-
+    focarScanner();
 }
 
 
-function limparCadastro(){
+/* =========================
+   FINALIZAR VENDA
+========================= */
 
-    document.getElementById("cadCodigo").value = "";
+async function finalizarVenda(formaPagamento) {
 
-    document.getElementById("cadNome").value = "";
+    if (!venda.length) {
+        return;
+    }
 
-    document.getElementById("cadPreco").value = "";
+    /*
+      Aqui podemos posteriormente
+      registrar a venda completa
+      no Supabase.
+    */
 
-    document.getElementById("cadEstoque").value = "";
+    mostrarMensagem(
+        "Venda finalizada • " +
+        formaPagamento
+    );
 
-    document.getElementById("statusCadastro").innerText = "";
+    document.getElementById(
+        "modalPagamento"
+    ).style.display = "none";
 
+    setTimeout(() => {
+
+        voltarCaixa();
+
+    }, 1200);
 }
 
 
-/* ================================
-   SALVAR PRODUTO NO SUPABASE
-================================ */
+/* =========================
+   MENSAGEM
+========================= */
 
-async function salvarProduto(){
+function mostrarMensagem(texto) {
+
+    const mensagem =
+        document.getElementById(
+            "mensagem"
+        );
+
+    mensagem.textContent = texto;
+
+    mensagem.style.display = "block";
+
+    setTimeout(() => {
+
+        mensagem.style.display = "none";
+
+    }, 2200);
+}
+
+
+/* =========================
+   CADASTRO ESCONDIDO
+   F2 NO COMPUTADOR
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "F2") {
+
+            event.preventDefault();
+
+            abrirCadastro();
+        }
+
+    }
+);
+
+
+function abrirCadastro() {
+
+    document.getElementById(
+        "modalCadastro"
+    ).style.display = "flex";
+}
+
+
+function fecharCadastro() {
+
+    document.getElementById(
+        "modalCadastro"
+    ).style.display = "none";
+
+    focarScanner();
+}
+
+
+/* =========================
+   CADASTRAR PRODUTO
+========================= */
+
+async function cadastrarProduto() {
 
     const codigo =
-        document.getElementById("cadCodigo")
-        .value.trim();
+        document.getElementById(
+            "cadCodigo"
+        ).value.trim();
 
     const nome =
-        document.getElementById("cadNome")
-        .value.trim();
+        document.getElementById(
+            "cadNome"
+        ).value.trim();
 
     const preco =
         Number(
-            document.getElementById("cadPreco")
-            .value
+            document.getElementById(
+                "cadPreco"
+            ).value
         );
 
     const estoque =
         Number(
-            document.getElementById("cadEstoque")
-            .value || 0
+            document.getElementById(
+                "cadEstoque"
+            ).value
         );
 
+    if (!codigo || !nome || !preco) {
 
-    if(!codigo || !nome || !preco){
-
-        document.getElementById(
-            "statusCadastro"
-        ).innerText =
-            "Preencha código, nome e preço.";
+        alert(
+            "Preencha código, nome e preço."
+        );
 
         return;
     }
-
 
     const { error } =
         await supabaseClient
-        .from("dav_produtos")
-        .upsert(
-            {
-                codigo_barras:codigo,
-                nome:nome,
-                preco:preco,
-                estoque:estoque,
-                ativo:true,
-                updated_at:new Date().toISOString()
-            },
-            {
-                onConflict:"codigo_barras"
-            }
-        );
+            .from("dav_produtos")
+            .insert({
+                codigo_barras: codigo,
+                nome: nome,
+                preco: preco,
+                estoque: estoque,
+                ativo: true
+            });
 
+    if (error) {
 
-    if(error){
-
-        document.getElementById(
-            "statusCadastro"
-        ).innerText =
-            "Erro: " + error.message;
-
-        return;
-    }
-
-
-    document.getElementById(
-        "statusCadastro"
-    ).innerText =
-        "✅ Produto salvo com sucesso!";
-
-
-    document.getElementById("cadCodigo").value = "";
-
-    document.getElementById("cadNome").value = "";
-
-    document.getElementById("cadPreco").value = "";
-
-    document.getElementById("cadEstoque").value = "";
-
-}
-
-
-/* ================================
-   PRODUTOS CADASTRADOS
-================================ */
-
-async function mostrarProdutos(){
-
-    document
-        .getElementById("menu")
-        .classList.remove("aberto");
-
-
-    const { data, error } =
-        await supabaseClient
-        .from("dav_produtos")
-        .select("codigo_barras,nome,preco,estoque")
-        .order("nome");
-
-
-    if(error){
+        console.error(error);
 
         alert(
-            "Erro ao carregar produtos:\\n" +
-            error.message
+            "Não foi possível cadastrar."
         );
 
         return;
     }
 
+    alert(
+        "Produto cadastrado com sucesso!"
+    );
 
-    if(!data || data.length === 0){
+    document.getElementById(
+        "cadCodigo"
+    ).value = "";
 
-        alert("Nenhum produto cadastrado.");
+    document.getElementById(
+        "cadNome"
+    ).value = "";
 
-        return;
-    }
+    document.getElementById(
+        "cadPreco"
+    ).value = "";
 
+    document.getElementById(
+        "cadEstoque"
+    ).value = "";
 
-    let texto =
-        "PRODUTOS CADASTRADOS\\n\\n";
-
-
-    data.forEach(produto => {
-
-        texto +=
-            produto.codigo_barras +
-            " — " +
-            produto.nome +
-            " — R$ " +
-            dinheiro(produto.preco) +
-            " — Estoque: " +
-            produto.estoque +
-            "\\n";
-
-    });
-
-
-    alert(texto);
-
+    fecharCadastro();
 }
-
-
-/* ================================
-   INÍCIO
-================================ */
-
-atualizarTela();
-
-document
-    .getElementById("codigo")
-    .focus();
 
 </script>
 
