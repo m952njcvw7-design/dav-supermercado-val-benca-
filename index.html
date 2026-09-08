@@ -14,238 +14,514 @@
     padding: 0;
 }
 
+html,
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
-    color: #111;
-    min-height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #090909;
 }
 
-/* TELA INICIAL */
+/* ==============================
+   TELA INICIAL
+============================== */
+
 #telaInicial {
     width: 100vw;
     height: 100vh;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    background: #fff;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255, 102, 0, 0.16),
+            transparent 34%
+        ),
+        linear-gradient(
+            135deg,
+            #050505 0%,
+            #111111 50%,
+            #050505 100%
+        );
 }
 
-.titulo-caixa {
-    font-size: clamp(55px, 10vw, 150px);
-    font-weight: 900;
-    letter-spacing: 4px;
-    text-align: center;
+/* brilho laranja superior */
+
+#telaInicial::before {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    background: #ff6600;
+    opacity: 0.07;
+    filter: blur(100px);
+    border-radius: 50%;
 }
+
+/* linha laranja */
+
+#telaInicial::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #ff6600;
+    box-shadow: 0 0 25px rgba(255,102,0,.7);
+}
+
+/* ==============================
+   CAIXA LIVRE
+============================== */
+
+.titulo-caixa {
+    position: relative;
+    z-index: 2;
+
+    color: #ffffff;
+
+    font-size: clamp(
+        60px,
+        11vw,
+        155px
+    );
+
+    font-weight: 900;
+
+    letter-spacing: 5px;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 20px rgba(255,102,0,.18);
+}
+
+/* detalhe laranja */
+
+.titulo-caixa::after {
+    content: "";
+    display: block;
+
+    width: 150px;
+    height: 6px;
+
+    margin: 18px auto 0;
+
+    background: #ff6600;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 0 18px rgba(255,102,0,.65);
+}
+
+/* ==============================
+   GT DELIVERY
+============================== */
 
 .gt {
     position: absolute;
-    right: 20px;
-    bottom: 15px;
-    font-size: 12px;
-    font-weight: 700;
-    opacity: 0.45;
+
+    right: 25px;
+    bottom: 22px;
+
+    color: #ff6600;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    opacity: .65;
+
+    z-index: 5;
 }
 
-/* CAMPO INVISÍVEL DO LEITOR */
+.gt span {
+    color: #fff;
+    opacity: .75;
+}
+
+/* ==============================
+   LEITOR INVISÍVEL
+============================== */
+
 #scannerInput {
     position: fixed;
+
     left: -9999px;
     top: -9999px;
+
     width: 1px;
     height: 1px;
+
     opacity: 0;
+
     border: 0;
     outline: none;
 }
 
-/* VENDA */
+/* ==============================
+   TELA DE VENDA
+============================== */
+
 #telaVenda {
     display: none;
+
     width: 100vw;
     height: 100vh;
+
     padding: 25px;
-    background: #fff;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(255,102,0,.12),
+            transparent 30%
+        ),
+        #0b0b0b;
+
     overflow-y: auto;
 }
 
+/* topo */
+
 .cabecalho-venda {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid #292929;
+
     margin-bottom: 25px;
 }
 
 .cabecalho-venda h1 {
     font-size: 38px;
+
     font-weight: 900;
 }
 
 .supermercado {
+    color: #aaa;
+
     font-size: 14px;
-    font-weight: bold;
-    opacity: .6;
+
+    margin-top: 5px;
 }
+
+/* GT dentro da venda */
+
+.cabecalho-venda .gt {
+    position: static;
+
+    color: #ff6600;
+
+    opacity: 1;
+}
+
+/* ==============================
+   TABELA
+============================== */
 
 #listaProdutos {
     width: 100%;
+
     border-collapse: collapse;
+
+    background: #111;
 }
 
 #listaProdutos th {
     text-align: left;
-    padding: 12px;
-    background: #111;
-    color: white;
+
+    padding: 14px;
+
+    background: #ff6600;
+
+    color: #fff;
+
+    font-size: 15px;
 }
 
 #listaProdutos td {
-    padding: 14px 12px;
-    border-bottom: 1px solid #ddd;
+    padding: 15px 14px;
+
+    border-bottom: 1px solid #292929;
+
     font-size: 18px;
+
+    color: #eee;
 }
 
+/* ==============================
+   TOTAL
+============================== */
+
 .total-area {
-    margin-top: 25px;
+    margin-top: 28px;
+
     text-align: right;
 }
 
 .total-label {
-    font-size: 18px;
+    color: #999;
+
+    font-size: 16px;
+
+    font-weight: bold;
 }
 
 .total {
-    font-size: 55px;
+    color: #ff6600;
+
+    font-size: 58px;
+
     font-weight: 900;
+
     margin-top: 5px;
+
+    text-shadow:
+        0 0 20px rgba(255,102,0,.25);
 }
+
+/* ==============================
+   BOTÕES
+============================== */
 
 .botoes {
     display: flex;
+
     gap: 12px;
+
     justify-content: flex-end;
+
     margin-top: 25px;
 }
 
 button {
     border: none;
+
     padding: 15px 25px;
+
     border-radius: 8px;
-    font-size: 17px;
-    font-weight: bold;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
     cursor: pointer;
 }
 
 .cancelar {
-    background: #ddd;
+    background: #292929;
+
+    color: #fff;
 }
 
 .finalizar {
-    background: #111;
-    color: white;
+    background: #ff6600;
+
+    color: #fff;
+
+    box-shadow:
+        0 5px 20px rgba(255,102,0,.25);
 }
 
-/* MENSAGEM */
+/* ==============================
+   MENSAGEM
+============================== */
+
 #mensagem {
     position: fixed;
+
     left: 50%;
     bottom: 35px;
+
     transform: translateX(-50%);
-    background: #111;
+
+    background: #ff6600;
+
     color: white;
+
     padding: 13px 22px;
+
     border-radius: 8px;
+
     display: none;
+
     font-weight: bold;
-    z-index: 20;
+
+    z-index: 50;
 }
 
-/* MODAL PAGAMENTO */
-#modalPagamento {
+/* ==============================
+   PAGAMENTO
+============================== */
+
+#modalPagamento,
+#modalCadastro {
     display: none;
+
     position: fixed;
+
     inset: 0;
-    background: rgba(0,0,0,.65);
+
+    background: rgba(0,0,0,.78);
+
     align-items: center;
+
     justify-content: center;
-    z-index: 30;
+
+    z-index: 100;
 }
 
-.modal {
-    background: white;
-    width: min(450px, 90%);
+.modal,
+.cadastro {
+    background: #151515;
+
+    color: white;
+
+    width: min(450px, 92%);
+
     padding: 30px;
+
     border-radius: 15px;
+
+    border: 1px solid #333;
+
+    box-shadow:
+        0 20px 80px rgba(0,0,0,.6);
 }
 
-.modal h2 {
+.modal h2,
+.cadastro h2 {
     margin-bottom: 20px;
+
     font-size: 28px;
 }
 
 .pagamento {
     width: 100%;
+
     margin-bottom: 10px;
-    background: #111;
+
+    background: #ff6600;
+
     color: white;
 }
 
-.fechar {
+.fechar,
+.fecharCadastro {
     width: 100%;
-    background: #ddd;
+
+    background: #292929;
+
+    color: white;
+
     margin-top: 10px;
 }
 
-/* CADASTRO ESCONDIDO */
-#modalCadastro {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.65);
-    align-items: center;
-    justify-content: center;
-    z-index: 40;
-}
-
-.cadastro {
-    background: white;
-    width: min(500px, 92%);
-    padding: 30px;
-    border-radius: 15px;
-}
-
-.cadastro h2 {
-    margin-bottom: 20px;
-}
+/* cadastro */
 
 .cadastro input {
     width: 100%;
+
     padding: 13px;
+
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+
+    border: 1px solid #444;
+
+    background: #0b0b0b;
+
+    color: white;
+
     border-radius: 7px;
+
     font-size: 16px;
 }
 
 .salvar {
     width: 100%;
-    background: #111;
+
+    background: #ff6600;
+
     color: white;
 }
 
-.fecharCadastro {
-    width: 100%;
-    margin-top: 10px;
-    background: #ddd;
+/* ==============================
+   CELULAR
+============================== */
+
+@media (max-width: 700px) {
+
+    .titulo-caixa {
+        font-size: 48px;
+
+        letter-spacing: 2px;
+    }
+
+    .titulo-caixa::after {
+        width: 100px;
+        height: 4px;
+    }
+
+    .gt {
+        right: 15px;
+        bottom: 15px;
+        font-size: 11px;
+    }
+
+    #telaVenda {
+        padding: 15px;
+    }
+
+    .cabecalho-venda h1 {
+        font-size: 28px;
+    }
+
+    #listaProdutos th,
+    #listaProdutos td {
+        padding: 10px 7px;
+
+        font-size: 14px;
+    }
+
+    .total {
+        font-size: 45px;
+    }
+
+    .botoes {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- TELA INICIAL -->
+<!-- =================================
+     TELA INICIAL
+================================= -->
+
 <div id="telaInicial">
 
     <div class="titulo-caixa">
@@ -253,12 +529,12 @@ button {
     </div>
 
     <div class="gt">
-        GT Delivery
+        GT <span>Delivery</span>
     </div>
 
 </div>
 
-<!-- LEITOR DE CÓDIGO DE BARRAS -->
+<!-- LEITOR -->
 <input
     id="scannerInput"
     type="text"
@@ -266,81 +542,123 @@ button {
     autofocus
 >
 
-<!-- TELA DA VENDA -->
+<!-- =================================
+     VENDA
+================================= -->
+
 <div id="telaVenda">
 
     <div class="cabecalho-venda">
+
         <div>
             <h1>CAIXA LIVRE</h1>
+
             <div class="supermercado">
                 Supermercado Val Bença
             </div>
         </div>
 
         <div class="gt">
-            GT Delivery
+            GT <span>Delivery</span>
         </div>
+
     </div>
 
     <table id="listaProdutos">
+
         <thead>
+
             <tr>
                 <th>Produto</th>
                 <th>Qtd.</th>
                 <th>Preço</th>
                 <th>Total</th>
             </tr>
+
         </thead>
 
         <tbody id="produtosBody"></tbody>
+
     </table>
 
     <div class="total-area">
-        <div class="total-label">TOTAL DA VENDA</div>
+
+        <div class="total-label">
+            TOTAL DA VENDA
+        </div>
+
         <div class="total" id="totalVenda">
             R$ 0,00
         </div>
+
     </div>
 
     <div class="botoes">
-        <button class="cancelar" onclick="cancelarVenda()">
+
+        <button
+            class="cancelar"
+            onclick="cancelarVenda()"
+        >
             CANCELAR
         </button>
 
-        <button class="finalizar" onclick="abrirPagamento()">
+        <button
+            class="finalizar"
+            onclick="abrirPagamento()"
+        >
             FINALIZAR VENDA
         </button>
+
     </div>
 
 </div>
 
 <!-- MENSAGEM -->
+
 <div id="mensagem"></div>
 
-<!-- PAGAMENTO -->
+<!-- =================================
+     PAGAMENTO
+================================= -->
+
 <div id="modalPagamento">
 
     <div class="modal">
 
         <h2>Forma de pagamento</h2>
 
-        <button class="pagamento" onclick="finalizarVenda('Dinheiro')">
+        <button
+            class="pagamento"
+            onclick="finalizarVenda('Dinheiro')"
+        >
             DINHEIRO
         </button>
 
-        <button class="pagamento" onclick="finalizarVenda('Pix')">
+        <button
+            class="pagamento"
+            onclick="finalizarVenda('Pix')"
+        >
             PIX
         </button>
 
-        <button class="pagamento" onclick="finalizarVenda('Débito')">
+        <button
+            class="pagamento"
+            onclick="finalizarVenda('Débito')"
+        >
             CARTÃO DE DÉBITO
         </button>
 
-        <button class="pagamento" onclick="finalizarVenda('Crédito')">
+        <button
+            class="pagamento"
+            onclick="finalizarVenda('Crédito')"
+        >
             CARTÃO DE CRÉDITO
         </button>
 
-        <button class="fechar" onclick="fecharPagamento()">
+        <button
+            class="fechar"
+            onclick="fecharPagamento()"
+        >
             VOLTAR
         </button>
 
@@ -348,26 +666,50 @@ button {
 
 </div>
 
-<!-- CADASTRO ESCONDIDO -->
+<!-- =================================
+     CADASTRO ESCONDIDO
+================================= -->
+
 <div id="modalCadastro">
 
     <div class="cadastro">
 
         <h2>Cadastrar produto</h2>
 
-        <input id="cadCodigo" placeholder="Código de barras">
+        <input
+            id="cadCodigo"
+            placeholder="Código de barras"
+        >
 
-        <input id="cadNome" placeholder="Nome do produto">
+        <input
+            id="cadNome"
+            placeholder="Nome do produto"
+        >
 
-        <input id="cadPreco" type="number" step="0.01" placeholder="Preço">
+        <input
+            id="cadPreco"
+            type="number"
+            step="0.01"
+            placeholder="Preço"
+        >
 
-        <input id="cadEstoque" type="number" placeholder="Estoque">
+        <input
+            id="cadEstoque"
+            type="number"
+            placeholder="Estoque"
+        >
 
-        <button class="salvar" onclick="cadastrarProduto()">
+        <button
+            class="salvar"
+            onclick="cadastrarProduto()"
+        >
             SALVAR PRODUTO
         </button>
 
-        <button class="fecharCadastro" onclick="fecharCadastro()">
+        <button
+            class="fecharCadastro"
+            onclick="fecharCadastro()"
+        >
             FECHAR
         </button>
 
@@ -377,97 +719,102 @@ button {
 
 <script>
 
-/* =========================
+/* =================================
    SUPABASE
-========================= */
+================================= */
 
 const SUPABASE_URL =
-    "https://cgdvehummqfttsyfebfo.supabase.co";
+"https://cgdvehummqfttsyfebfo.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_rzYfEMq3RKJwlVPOmMQaUA_AAxWN9nr";
+"sb_publishable_rzYfEMq3RKJwlVPOmMQaUA_AAxWN9nr";
 
 const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
-/* =========================
+/* =================================
    VARIÁVEIS
-========================= */
+================================= */
 
 let venda = [];
 
 const scanner =
-    document.getElementById("scannerInput");
+document.getElementById("scannerInput");
 
 
-/* =========================
-   FOCO NO LEITOR
-========================= */
+/* =================================
+   FOCO DO LEITOR
+================================= */
 
 function focarScanner() {
     scanner.focus();
 }
 
-window.addEventListener("load", () => {
-    focarScanner();
-});
+window.addEventListener(
+    "load",
+    focarScanner
+);
 
-document.addEventListener("click", () => {
-    focarScanner();
-});
+document.addEventListener(
+    "click",
+    focarScanner
+);
 
 
-/* =========================
-   RECEBER CÓDIGO DO LEITOR
-========================= */
+/* =================================
+   LEITOR
+================================= */
 
-scanner.addEventListener("keydown", async function(event) {
+scanner.addEventListener(
+    "keydown",
+    async function(event) {
 
-    if (event.key !== "Enter") {
-        return;
-    }
+        if (event.key !== "Enter") {
+            return;
+        }
 
-    const codigo =
-        scanner.value.trim();
+        const codigo =
+            scanner.value.trim();
 
-    scanner.value = "";
+        scanner.value = "";
 
-    if (!codigo) {
+        if (!codigo) {
+            focarScanner();
+            return;
+        }
+
+        await procurarProduto(codigo);
+
         focarScanner();
-        return;
     }
-
-    await procurarProduto(codigo);
-
-    focarScanner();
-});
+);
 
 
-/* =========================
-   PROCURAR PRODUTO
-========================= */
+/* =================================
+   PESQUISAR PRODUTO
+================================= */
 
 async function procurarProduto(codigo) {
 
     const { data, error } =
         await supabaseClient
-            .from("dav_produtos")
-            .select("*")
-            .eq("codigo_barras", codigo)
-            .eq("ativo", true)
-            .maybeSingle();
+        .from("dav_produtos")
+        .select("*")
+        .eq("codigo_barras", codigo)
+        .eq("ativo", true)
+        .maybeSingle();
 
     if (error) {
+
+        console.error(error);
 
         mostrarMensagem(
             "Erro ao consultar produto."
         );
-
-        console.error(error);
 
         return;
     }
@@ -485,16 +832,16 @@ async function procurarProduto(codigo) {
 }
 
 
-/* =========================
-   ADICIONAR PRODUTO
-========================= */
+/* =================================
+   ADICIONAR
+================================= */
 
 function adicionarProduto(produto) {
 
     const existente =
         venda.find(
             item =>
-                item.id === produto.id
+            item.id === produto.id
         );
 
     if (existente) {
@@ -504,8 +851,11 @@ function adicionarProduto(produto) {
     } else {
 
         venda.push({
+
             ...produto,
+
             quantidade: 1
+
         });
 
     }
@@ -514,9 +864,9 @@ function adicionarProduto(produto) {
 }
 
 
-/* =========================
+/* =================================
    MOSTRAR VENDA
-========================= */
+================================= */
 
 function mostrarVenda() {
 
@@ -549,10 +899,19 @@ function mostrarVenda() {
             document.createElement("tr");
 
         tr.innerHTML = `
+
             <td>${item.nome}</td>
+
             <td>${item.quantidade}</td>
-            <td>${formatarMoeda(item.preco)}</td>
-            <td>${formatarMoeda(subtotal)}</td>
+
+            <td>
+                ${formatarMoeda(item.preco)}
+            </td>
+
+            <td>
+                ${formatarMoeda(subtotal)}
+            </td>
+
         `;
 
         body.appendChild(tr);
@@ -566,9 +925,9 @@ function mostrarVenda() {
 }
 
 
-/* =========================
+/* =================================
    MOEDA
-========================= */
+================================= */
 
 function formatarMoeda(valor) {
 
@@ -582,9 +941,9 @@ function formatarMoeda(valor) {
 }
 
 
-/* =========================
+/* =================================
    CANCELAR
-========================= */
+================================= */
 
 function cancelarVenda() {
 
@@ -601,15 +960,13 @@ function cancelarVenda() {
         return;
     }
 
-    venda = [];
-
     voltarCaixa();
 }
 
 
-/* =========================
-   VOLTAR PARA CAIXA LIVRE
-========================= */
+/* =================================
+   VOLTAR
+================================= */
 
 function voltarCaixa() {
 
@@ -627,9 +984,9 @@ function voltarCaixa() {
 }
 
 
-/* =========================
+/* =================================
    PAGAMENTO
-========================= */
+================================= */
 
 function abrirPagamento() {
 
@@ -653,21 +1010,17 @@ function fecharPagamento() {
 }
 
 
-/* =========================
-   FINALIZAR VENDA
-========================= */
+/* =================================
+   FINALIZAR
+================================= */
 
-async function finalizarVenda(formaPagamento) {
+async function finalizarVenda(
+    formaPagamento
+) {
 
     if (!venda.length) {
         return;
     }
-
-    /*
-      Aqui podemos posteriormente
-      registrar a venda completa
-      no Supabase.
-    */
 
     mostrarMensagem(
         "Venda finalizada • " +
@@ -678,17 +1031,16 @@ async function finalizarVenda(formaPagamento) {
         "modalPagamento"
     ).style.display = "none";
 
-    setTimeout(() => {
-
-        voltarCaixa();
-
-    }, 1200);
+    setTimeout(
+        voltarCaixa,
+        1200
+    );
 }
 
 
-/* =========================
+/* =================================
    MENSAGEM
-========================= */
+================================= */
 
 function mostrarMensagem(texto) {
 
@@ -697,22 +1049,25 @@ function mostrarMensagem(texto) {
             "mensagem"
         );
 
-    mensagem.textContent = texto;
+    mensagem.textContent =
+        texto;
 
-    mensagem.style.display = "block";
+    mensagem.style.display =
+        "block";
 
-    setTimeout(() => {
-
-        mensagem.style.display = "none";
-
-    }, 2200);
+    setTimeout(
+        () => {
+            mensagem.style.display =
+                "none";
+        },
+        2200
+    );
 }
 
 
-/* =========================
-   CADASTRO ESCONDIDO
-   F2 NO COMPUTADOR
-========================= */
+/* =================================
+   CADASTRO - F2
+================================= */
 
 document.addEventListener(
     "keydown",
@@ -733,7 +1088,8 @@ function abrirCadastro() {
 
     document.getElementById(
         "modalCadastro"
-    ).style.display = "flex";
+    ).style.display =
+        "flex";
 }
 
 
@@ -741,15 +1097,16 @@ function fecharCadastro() {
 
     document.getElementById(
         "modalCadastro"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
     focarScanner();
 }
 
 
-/* =========================
+/* =================================
    CADASTRAR PRODUTO
-========================= */
+================================= */
 
 async function cadastrarProduto() {
 
@@ -777,7 +1134,11 @@ async function cadastrarProduto() {
             ).value
         );
 
-    if (!codigo || !nome || !preco) {
+    if (
+        !codigo ||
+        !nome ||
+        !preco
+    ) {
 
         alert(
             "Preencha código, nome e preço."
@@ -788,14 +1149,20 @@ async function cadastrarProduto() {
 
     const { error } =
         await supabaseClient
-            .from("dav_produtos")
-            .insert({
-                codigo_barras: codigo,
-                nome: nome,
-                preco: preco,
-                estoque: estoque,
-                ativo: true
-            });
+        .from("dav_produtos")
+        .insert({
+
+            codigo_barras: codigo,
+
+            nome: nome,
+
+            preco: preco,
+
+            estoque: estoque,
+
+            ativo: true
+
+        });
 
     if (error) {
 
