@@ -1,285 +1,873 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>DAV - Caixa Livre</title>
+<title>DAV - Supermercado Val Bença</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-        }
+html,body{
+    width:100%;
+    height:100%;
+}
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #ffffff;
-            overflow: hidden;
-        }
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f7f7f4;
+    overflow:hidden;
+}
 
-        /* TELA PRINCIPAL */
-        .tela {
-            width: 100vw;
-            height: 100vh;
+/* =========================
+   TELA INICIAL
+========================= */
 
-            position: relative;
+.tela{
+    width:100vw;
+    height:100vh;
+    position:relative;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-            background: #ffffff;
+    background:#f7f7f4;
+    overflow:hidden;
+}
 
-            overflow: hidden;
-        }
+/* =========================
+   DAV NO FUNDO
+========================= */
 
-        /* =========================
-           DAV - MARCA D'ÁGUA
-        ========================= */
+.dav-fundo{
+    position:absolute;
 
-        .dav-fundo {
-            position: absolute;
+    left:50%;
+    top:50%;
 
-            left: 50%;
-            top: 50%;
+    transform:translate(-50%,-50%);
 
-            transform: translate(-50%, -50%);
+    font-size:clamp(250px,45vw,680px);
 
-            font-size: clamp(260px, 48vw, 700px);
+    font-weight:900;
 
-            font-weight: 900;
+    color:#ff6600;
 
-            color: #ff6600;
+    opacity:0.035;
 
-            opacity: 0.035;
+    letter-spacing:15px;
 
-            letter-spacing: 20px;
+    white-space:nowrap;
 
-            white-space: nowrap;
+    user-select:none;
+    pointer-events:none;
 
-            user-select: none;
+    z-index:1;
+}
 
-            pointer-events: none;
+/* =========================
+   CONTEÚDO
+========================= */
 
-            z-index: 1;
-        }
+.conteudo{
+    position:relative;
+    z-index:2;
 
-        /* =========================
-           CONTEÚDO
-        ========================= */
+    text-align:center;
+}
 
-        .conteudo {
-            position: relative;
+.caixa-livre{
+    color:#ff6600;
 
-            z-index: 2;
+    font-size:clamp(55px,9vw,140px);
 
-            text-align: center;
+    font-weight:900;
 
-            display: flex;
+    letter-spacing:4px;
 
-            flex-direction: column;
+    line-height:1;
 
-            align-items: center;
-        }
+    text-shadow:
+        0 3px 10px rgba(255,102,0,0.10);
+}
 
-        /* CAIXA LIVRE */
+.supermercado{
+    margin-top:20px;
 
-        .caixa-livre {
-            color: #ff6600;
+    color:#0756a6;
 
-            font-size: clamp(58px, 10vw, 150px);
+    font-size:clamp(22px,3vw,42px);
 
-            font-weight: 900;
+    font-weight:800;
 
-            letter-spacing: 5px;
+    letter-spacing:1px;
+}
 
-            line-height: 1;
+.horario{
+    margin-top:12px;
 
-            text-shadow:
-                0 3px 10px rgba(255, 102, 0, 0.10);
-        }
+    color:#555;
 
-        /* SUPERMERCADO */
+    font-size:clamp(20px,2.5vw,30px);
 
-        .supermercado {
-            margin-top: 20px;
+    font-weight:600;
 
-            color: #0756a6;
+    letter-spacing:2px;
+}
 
-            font-size: clamp(22px, 3vw, 42px);
+.linha{
+    width:120px;
+    height:4px;
 
-            font-weight: 800;
+    margin:20px auto 0;
 
-            letter-spacing: 1px;
-        }
+    background:#ff6600;
 
-        /* HORÁRIO */
+    border-radius:20px;
+}
 
-        .horario {
-            margin-top: 12px;
+/* =========================
+   GT DELIVERY
+========================= */
 
-            color: #555555;
+.gt-delivery{
+    position:absolute;
 
-            font-size: clamp(20px, 2.8vw, 32px);
+    right:22px;
+    bottom:18px;
 
-            font-weight: 600;
+    color:#ff6600;
 
-            letter-spacing: 2px;
-        }
+    font-size:14px;
 
-        /* LINHA */
+    font-weight:800;
 
-        .linha {
-            width: 130px;
+    letter-spacing:1px;
 
-            height: 5px;
+    opacity:0.8;
 
-            margin-top: 22px;
+    z-index:10;
+}
 
-            background: #ff6600;
+/* =========================
+   TRÊS PONTINHOS
+========================= */
 
-            border-radius: 20px;
-        }
+.botao-menu{
+    position:absolute;
 
-        /* =========================
-           GT DELIVERY
-        ========================= */
+    top:18px;
+    right:18px;
 
-        .gt-delivery {
-            position: absolute;
+    width:48px;
+    height:48px;
 
-            right: 25px;
-            bottom: 20px;
+    border:none;
 
-            color: #ff6600;
+    background:transparent;
 
-            font-size: 14px;
+    color:#555;
 
-            font-weight: 800;
+    font-size:34px;
 
-            letter-spacing: 1px;
+    font-weight:bold;
 
-            opacity: 0.65;
+    line-height:40px;
 
-            z-index: 5;
-        }
+    cursor:pointer;
 
-        /* =========================
-           RESPONSIVO
-        ========================= */
+    border-radius:12px;
 
-        @media (max-width: 700px) {
+    z-index:20;
+}
 
-            .caixa-livre {
-                font-size: 48px;
-                letter-spacing: 2px;
-            }
+.botao-menu:hover{
+    background:#eeeeea;
+    color:#ff6600;
+}
 
-            .supermercado {
-                font-size: 21px;
-                margin-top: 15px;
-            }
+/* =========================
+   MENU
+========================= */
 
-            .horario {
-                font-size: 18px;
-                margin-top: 10px;
-            }
+.menu{
+    position:absolute;
 
-            .dav-fundo {
-                font-size: 220px;
-                opacity: 0.035;
-            }
+    top:70px;
+    right:18px;
 
-            .linha {
-                width: 100px;
-                height: 4px;
-            }
+    width:230px;
 
-            .gt-delivery {
-                right: 15px;
-                bottom: 15px;
-                font-size: 11px;
-            }
-        }
-    </style>
+    background:#ffffff;
+
+    border:1px solid #e5e5e0;
+
+    border-radius:14px;
+
+    padding:8px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.15);
+
+    display:none;
+
+    z-index:30;
+}
+
+.menu.aberto{
+    display:block;
+}
+
+.menu-titulo{
+    padding:10px 12px 8px;
+
+    color:#888;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+}
+
+.menu-item{
+    width:100%;
+
+    border:none;
+
+    background:transparent;
+
+    color:#333;
+
+    text-align:left;
+
+    padding:14px 12px;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.menu-item:hover{
+    background:#fff1e8;
+
+    color:#ff6600;
+}
+
+/* =========================
+   TELA VENDAS
+========================= */
+
+.tela-vendas{
+    position:fixed;
+
+    inset:0;
+
+    background:#f7f7f4;
+
+    z-index:50;
+
+    display:none;
+
+    flex-direction:column;
+}
+
+.tela-vendas.aberta{
+    display:flex;
+}
+
+.cabecalho-vendas{
+    min-height:75px;
+
+    background:#ffffff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 25px;
+
+    border-bottom:1px solid #e3e3df;
+
+    box-shadow:
+        0 2px 10px rgba(0,0,0,0.05);
+}
+
+.titulo-vendas{
+    color:#ff6600;
+
+    font-size:28px;
+
+    font-weight:900;
+}
+
+.data-vendas{
+    margin-top:4px;
+
+    color:#777;
+
+    font-size:14px;
+}
+
+.botao-voltar{
+    border:none;
+
+    background:#ff6600;
+
+    color:white;
+
+    padding:11px 18px;
+
+    border-radius:9px;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+/* =========================
+   CONTEÚDO VENDAS
+========================= */
+
+.conteudo-vendas{
+    flex:1;
+
+    padding:25px;
+
+    overflow:auto;
+}
+
+.resumo-vendas{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,minmax(180px,1fr));
+
+    gap:18px;
+
+    margin-bottom:25px;
+}
+
+.cartao-resumo{
+    background:#ffffff;
+
+    border:1px solid #e6e6e2;
+
+    border-radius:14px;
+
+    padding:20px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.05);
+}
+
+.cartao-resumo span{
+    display:block;
+
+    color:#777;
+
+    font-size:14px;
+
+    margin-bottom:8px;
+}
+
+.cartao-resumo strong{
+    color:#0756a6;
+
+    font-size:28px;
+}
+
+.caixa-vendas{
+    background:#ffffff;
+
+    border:1px solid #e6e6e2;
+
+    border-radius:14px;
+
+    padding:20px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.05);
+}
+
+.titulo-tabela{
+    color:#333;
+
+    font-size:19px;
+
+    font-weight:800;
+
+    margin-bottom:18px;
+}
+
+.tabela{
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+.tabela th{
+    background:#f3f3ef;
+
+    color:#555;
+
+    text-align:left;
+
+    padding:12px;
+
+    font-size:13px;
+}
+
+.tabela td{
+    padding:14px 12px;
+
+    border-bottom:1px solid #eeeeea;
+
+    color:#444;
+
+    font-size:14px;
+}
+
+.nenhuma-venda{
+    text-align:center;
+
+    padding:70px 20px;
+
+    color:#999;
+
+    font-size:16px;
+}
+
+.nenhuma-venda strong{
+    display:block;
+
+    color:#777;
+
+    font-size:21px;
+
+    margin-bottom:8px;
+}
+
+/* =========================
+   CELULAR
+========================= */
+
+@media(max-width:700px){
+
+    .caixa-livre{
+        font-size:46px;
+        letter-spacing:2px;
+    }
+
+    .supermercado{
+        font-size:21px;
+        margin-top:15px;
+    }
+
+    .horario{
+        font-size:18px;
+    }
+
+    .dav-fundo{
+        font-size:210px;
+    }
+
+    .gt-delivery{
+        right:15px;
+        bottom:15px;
+        font-size:11px;
+    }
+
+    .botao-menu{
+        top:10px;
+        right:10px;
+    }
+
+    .menu{
+        top:62px;
+        right:10px;
+    }
+
+    .cabecalho-vendas{
+        padding:12px 15px;
+    }
+
+    .titulo-vendas{
+        font-size:21px;
+    }
+
+    .data-vendas{
+        display:none;
+    }
+
+    .conteudo-vendas{
+        padding:15px;
+    }
+
+    .resumo-vendas{
+        grid-template-columns:1fr;
+        gap:10px;
+    }
+
+    .caixa-vendas{
+        overflow-x:auto;
+    }
+
+    .tabela{
+        min-width:600px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <main class="tela">
+<!-- =========================
+     TELA PRINCIPAL
+========================= -->
 
-        <!-- DAV COMO MARCA D'ÁGUA -->
-        <div class="dav-fundo">
-            DAV
+<main class="tela" id="telaInicial">
+
+    <!-- DAV APAGADO NO FUNDO -->
+    <div class="dav-fundo">DAV</div>
+
+    <!-- TRÊS PONTINHOS -->
+    <button
+        class="botao-menu"
+        id="botaoMenu"
+        aria-label="Abrir menu"
+    >
+        ⋮
+    </button>
+
+    <!-- MENU -->
+    <div class="menu" id="menu">
+
+        <div class="menu-titulo">
+            Menu do caixa
         </div>
 
-        <!-- CONTEÚDO CENTRAL -->
-        <div class="conteudo">
+        <button
+            class="menu-item"
+            id="botaoVendas"
+        >
+            📋 Vendas do dia
+        </button>
 
-            <div class="caixa-livre">
-                CAIXA LIVRE
-            </div>
+    </div>
 
-            <div class="supermercado">
-                Supermercado Val Bença
+    <!-- CENTRO -->
+    <div class="conteudo">
+
+        <div class="caixa-livre">
+            CAIXA LIVRE
+        </div>
+
+        <div class="supermercado">
+            Supermercado Val Bença
+        </div>
+
+        <div
+            class="horario"
+            id="horario"
+        >
+            00:00:00
+        </div>
+
+        <div class="linha"></div>
+
+    </div>
+
+    <!-- GT DELIVERY -->
+    <div class="gt-delivery">
+        GT Delivery
+    </div>
+
+</main>
+
+
+<!-- =========================
+     VENDAS DO DIA
+========================= -->
+
+<section
+    class="tela-vendas"
+    id="telaVendas"
+>
+
+    <header class="cabecalho-vendas">
+
+        <div>
+
+            <div class="titulo-vendas">
+                Vendas do dia
             </div>
 
             <div
-                class="horario"
-                id="horario"
+                class="data-vendas"
+                id="dataVendas"
             >
-                00:00:00
             </div>
 
-            <div class="linha"></div>
+        </div>
+
+        <button
+            class="botao-voltar"
+            id="botaoVoltar"
+        >
+            Voltar
+        </button>
+
+    </header>
+
+
+    <div class="conteudo-vendas">
+
+        <div class="resumo-vendas">
+
+            <div class="cartao-resumo">
+
+                <span>
+                    Total de vendas
+                </span>
+
+                <strong id="totalVendas">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="cartao-resumo">
+
+                <span>
+                    Quantidade de itens
+                </span>
+
+                <strong id="totalItens">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="cartao-resumo">
+
+                <span>
+                    Total vendido
+                </span>
+
+                <strong id="valorTotal">
+                    R$ 0,00
+                </strong>
+
+            </div>
 
         </div>
 
-        <!-- GT DELIVERY -->
-        <div class="gt-delivery">
-            GT Delivery
+
+        <div class="caixa-vendas">
+
+            <div class="titulo-tabela">
+                Histórico das vendas
+            </div>
+
+            <table class="tabela">
+
+                <thead>
+
+                    <tr>
+                        <th>Venda</th>
+                        <th>Horário</th>
+                        <th>Itens</th>
+                        <th>Pagamento</th>
+                        <th>Total</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="listaVendas">
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="nenhuma-venda">
+
+                                <strong>
+                                    Nenhuma venda registrada
+                                </strong>
+
+                                As vendas realizadas aparecerão aqui.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
         </div>
 
-    </main>
+    </div>
 
-    <script>
-        function atualizarHorario() {
+</section>
 
-            const agora = new Date();
 
-            const horas = String(
-                agora.getHours()
-            ).padStart(2, "0");
+<script>
 
-            const minutos = String(
-                agora.getMinutes()
-            ).padStart(2, "0");
+/* =========================
+   RELÓGIO
+========================= */
 
-            const segundos = String(
-                agora.getSeconds()
-            ).padStart(2, "0");
+function atualizarHorario(){
 
-            document.getElementById("horario").textContent =
-                horas + ":" +
-                minutos + ":" +
-                segundos;
-        }
+    const agora = new Date();
 
-        atualizarHorario();
+    const horas =
+        String(agora.getHours()).padStart(2,"0");
 
-        setInterval(
-            atualizarHorario,
-            1000
+    const minutos =
+        String(agora.getMinutes()).padStart(2,"0");
+
+    const segundos =
+        String(agora.getSeconds()).padStart(2,"0");
+
+    document.getElementById("horario").textContent =
+        horas + ":" +
+        minutos + ":" +
+        segundos;
+}
+
+atualizarHorario();
+
+setInterval(atualizarHorario,1000);
+
+
+/* =========================
+   DATA
+========================= */
+
+function atualizarData(){
+
+    const agora = new Date();
+
+    const data =
+        agora.toLocaleDateString(
+            "pt-BR",
+            {
+                weekday:"long",
+                day:"2-digit",
+                month:"2-digit",
+                year:"numeric"
+            }
         );
-    </script>
+
+    document.getElementById("dataVendas").textContent =
+        data;
+}
+
+atualizarData();
+
+
+/* =========================
+   MENU
+========================= */
+
+const botaoMenu =
+    document.getElementById("botaoMenu");
+
+const menu =
+    document.getElementById("menu");
+
+botaoMenu.addEventListener(
+    "click",
+    function(event){
+
+        event.stopPropagation();
+
+        menu.classList.toggle("aberto");
+    }
+);
+
+
+/* =========================
+   FECHAR MENU
+========================= */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            !menu.contains(event.target) &&
+            event.target !== botaoMenu
+        ){
+
+            menu.classList.remove("aberto");
+
+        }
+    }
+);
+
+
+/* =========================
+   ABRIR VENDAS
+========================= */
+
+document
+.getElementById("botaoVendas")
+.addEventListener(
+    "click",
+    function(){
+
+        menu.classList.remove("aberto");
+
+        document
+        .getElementById("telaVendas")
+        .classList.add("aberta");
+
+    }
+);
+
+
+/* =========================
+   VOLTAR
+========================= */
+
+document
+.getElementById("botaoVoltar")
+.addEventListener(
+    "click",
+    function(){
+
+        document
+        .getElementById("telaVendas")
+        .classList.remove("aberta");
+
+    }
+);
+
+</script>
 
 </body>
 </html>
