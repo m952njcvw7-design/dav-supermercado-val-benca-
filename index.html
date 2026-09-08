@@ -1,1540 +1,285 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Caixa Livre - Supermercado Val Bença</title>
+    <title>DAV - Caixa Livre</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
 
-/* =========================
-   CONFIGURAÇÃO GERAL
-========================= */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            overflow: hidden;
+        }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        /* TELA PRINCIPAL */
+        .tela {
+            width: 100vw;
+            height: 100vh;
 
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
-}
+            position: relative;
 
-/* =========================
-   TELA INICIAL
-========================= */
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-#telaInicial {
-    width: 100vw;
-    height: 100vh;
+            background: #ffffff;
 
-    position: relative;
+            overflow: hidden;
+        }
 
-    display: flex;
-    flex-direction: column;
+        /* =========================
+           DAV - MARCA D'ÁGUA
+        ========================= */
 
-    align-items: center;
-    justify-content: center;
+        .dav-fundo {
+            position: absolute;
 
-    background: #ffffff;
+            left: 50%;
+            top: 50%;
 
-    overflow: hidden;
-}
+            transform: translate(-50%, -50%);
 
-/* =========================
-   DAV - MARCA D'ÁGUA
-========================= */
+            font-size: clamp(260px, 48vw, 700px);
 
-.marca-dav {
-    position: absolute;
+            font-weight: 900;
 
-    left: 50%;
-    top: 50%;
+            color: #ff6600;
 
-    transform: translate(-50%, -50%);
+            opacity: 0.035;
 
-    font-size: clamp(
-        220px,
-        45vw,
-        650px
-    );
+            letter-spacing: 20px;
 
-    font-weight: 900;
+            white-space: nowrap;
 
-    color: #ff6600;
+            user-select: none;
 
-    opacity: 0.035;
+            pointer-events: none;
 
-    letter-spacing: 15px;
+            z-index: 1;
+        }
 
-    white-space: nowrap;
+        /* =========================
+           CONTEÚDO
+        ========================= */
 
-    user-select: none;
+        .conteudo {
+            position: relative;
 
-    pointer-events: none;
+            z-index: 2;
 
-    z-index: 0;
-}
+            text-align: center;
 
-/* =========================
-   CONTEÚDO CENTRAL
-========================= */
+            display: flex;
 
-.conteudo-central {
-    position: relative;
+            flex-direction: column;
 
-    z-index: 2;
+            align-items: center;
+        }
 
-    text-align: center;
-}
+        /* CAIXA LIVRE */
 
-/* =========================
-   CAIXA LIVRE
-========================= */
+        .caixa-livre {
+            color: #ff6600;
 
-.titulo-caixa {
+            font-size: clamp(58px, 10vw, 150px);
 
-    color: #ff6600;
+            font-weight: 900;
 
-    font-size: clamp(
-        65px,
-        11vw,
-        160px
-    );
+            letter-spacing: 5px;
 
-    font-weight: 900;
+            line-height: 1;
 
-    letter-spacing: 5px;
+            text-shadow:
+                0 3px 10px rgba(255, 102, 0, 0.10);
+        }
 
-    line-height: 1;
+        /* SUPERMERCADO */
 
-    text-shadow:
-        0 3px 10px rgba(255,102,0,0.08);
-}
+        .supermercado {
+            margin-top: 20px;
 
-/* =========================
-   SUPERMERCADO
-========================= */
+            color: #0756a6;
 
-.nome-supermercado {
+            font-size: clamp(22px, 3vw, 42px);
 
-    margin-top: 18px;
+            font-weight: 800;
 
-    color: #0756a6;
+            letter-spacing: 1px;
+        }
 
-    font-size: clamp(
-        22px,
-        3vw,
-        42px
-    );
+        /* HORÁRIO */
 
-    font-weight: 800;
+        .horario {
+            margin-top: 12px;
 
-    letter-spacing: 1px;
-}
+            color: #555555;
 
-/* =========================
-   HORÁRIO
-========================= */
+            font-size: clamp(20px, 2.8vw, 32px);
 
-.horario {
+            font-weight: 600;
 
-    margin-top: 12px;
+            letter-spacing: 2px;
+        }
 
-    color: #555555;
+        /* LINHA */
 
-    font-size: clamp(
-        18px,
-        2.5vw,
-        30px
-    );
+        .linha {
+            width: 130px;
 
-    font-weight: 600;
+            height: 5px;
 
-    letter-spacing: 2px;
-}
+            margin-top: 22px;
 
-/* =========================
-   LINHA LARANJA
-========================= */
+            background: #ff6600;
 
-.linha-laranja {
+            border-radius: 20px;
+        }
 
-    width: 130px;
+        /* =========================
+           GT DELIVERY
+        ========================= */
 
-    height: 5px;
+        .gt-delivery {
+            position: absolute;
 
-    margin: 22px auto 0;
+            right: 25px;
+            bottom: 20px;
 
-    background: #ff6600;
+            color: #ff6600;
 
-    border-radius: 20px;
+            font-size: 14px;
 
-    opacity: 0.9;
-}
+            font-weight: 800;
 
-/* =========================
-   GT DELIVERY
-========================= */
+            letter-spacing: 1px;
 
-.gt-delivery {
+            opacity: 0.65;
 
-    position: absolute;
+            z-index: 5;
+        }
 
-    right: 25px;
+        /* =========================
+           RESPONSIVO
+        ========================= */
 
-    bottom: 20px;
+        @media (max-width: 700px) {
 
-    z-index: 5;
+            .caixa-livre {
+                font-size: 48px;
+                letter-spacing: 2px;
+            }
 
-    color: #ff6600;
+            .supermercado {
+                font-size: 21px;
+                margin-top: 15px;
+            }
 
-    font-size: 14px;
+            .horario {
+                font-size: 18px;
+                margin-top: 10px;
+            }
 
-    font-weight: 800;
+            .dav-fundo {
+                font-size: 220px;
+                opacity: 0.035;
+            }
 
-    letter-spacing: 1px;
+            .linha {
+                width: 100px;
+                height: 4px;
+            }
 
-    opacity: 0.65;
-}
-
-/* =========================
-   LEITOR INVISÍVEL
-========================= */
-
-#scannerInput {
-
-    position: fixed;
-
-    left: -9999px;
-
-    top: -9999px;
-
-    width: 1px;
-
-    height: 1px;
-
-    opacity: 0;
-
-    border: 0;
-
-    outline: none;
-}
-
-
-/* =====================================================
-   TELA DA VENDA
-===================================================== */
-
-#telaVenda {
-
-    display: none;
-
-    width: 100vw;
-
-    height: 100vh;
-
-    padding: 25px;
-
-    background: #101010;
-
-    color: #ffffff;
-
-    overflow-y: auto;
-}
-
-/* Cabeçalho */
-
-.cabecalho-venda {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding-bottom: 20px;
-
-    border-bottom: 1px solid #292929;
-
-    margin-bottom: 25px;
-}
-
-.cabecalho-venda h1 {
-
-    color: #ff6600;
-
-    font-size: 38px;
-
-    font-weight: 900;
-}
-
-.supermercado-venda {
-
-    color: #4f8fd1;
-
-    font-size: 14px;
-
-    font-weight: bold;
-
-    margin-top: 5px;
-}
-
-.gt-venda {
-
-    color: #ff6600;
-
-    font-weight: 800;
-
-    font-size: 14px;
-}
-
-/* =========================
-   TABELA
-========================= */
-
-#listaProdutos {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-    background: #171717;
-}
-
-#listaProdutos th {
-
-    text-align: left;
-
-    padding: 14px;
-
-    background: #ff6600;
-
-    color: #ffffff;
-
-    font-size: 15px;
-}
-
-#listaProdutos td {
-
-    padding: 15px 14px;
-
-    border-bottom: 1px solid #292929;
-
-    font-size: 18px;
-
-    color: #eeeeee;
-}
-
-/* =========================
-   TOTAL
-========================= */
-
-.total-area {
-
-    margin-top: 28px;
-
-    text-align: right;
-}
-
-.total-label {
-
-    color: #999999;
-
-    font-size: 16px;
-
-    font-weight: bold;
-}
-
-.total {
-
-    color: #ff6600;
-
-    font-size: 58px;
-
-    font-weight: 900;
-
-    margin-top: 5px;
-}
-
-/* =========================
-   BOTÕES
-========================= */
-
-.botoes {
-
-    display: flex;
-
-    gap: 12px;
-
-    justify-content: flex-end;
-
-    margin-top: 25px;
-}
-
-button {
-
-    border: none;
-
-    padding: 15px 25px;
-
-    border-radius: 8px;
-
-    font-size: 16px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-}
-
-.cancelar {
-
-    background: #303030;
-
-    color: #ffffff;
-}
-
-.finalizar {
-
-    background: #ff6600;
-
-    color: #ffffff;
-}
-
-/* =========================
-   MENSAGEM
-========================= */
-
-#mensagem {
-
-    position: fixed;
-
-    left: 50%;
-
-    bottom: 35px;
-
-    transform: translateX(-50%);
-
-    background: #ff6600;
-
-    color: #ffffff;
-
-    padding: 13px 22px;
-
-    border-radius: 8px;
-
-    display: none;
-
-    font-weight: bold;
-
-    z-index: 50;
-}
-
-/* =========================
-   PAGAMENTO
-========================= */
-
-#modalPagamento,
-#modalCadastro {
-
-    display: none;
-
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0,0,0,0.75);
-
-    align-items: center;
-
-    justify-content: center;
-
-    z-index: 100;
-}
-
-.modal,
-.cadastro {
-
-    background: #181818;
-
-    color: #ffffff;
-
-    width: min(450px, 92%);
-
-    padding: 30px;
-
-    border-radius: 15px;
-
-    border: 1px solid #333333;
-}
-
-.modal h2,
-.cadastro h2 {
-
-    margin-bottom: 20px;
-
-    font-size: 28px;
-}
-
-.pagamento {
-
-    width: 100%;
-
-    margin-bottom: 10px;
-
-    background: #ff6600;
-
-    color: #ffffff;
-}
-
-.fechar,
-.fecharCadastro {
-
-    width: 100%;
-
-    background: #303030;
-
-    color: #ffffff;
-
-    margin-top: 10px;
-}
-
-/* =========================
-   CADASTRO
-========================= */
-
-.cadastro input {
-
-    width: 100%;
-
-    padding: 13px;
-
-    margin-bottom: 10px;
-
-    border: 1px solid #444444;
-
-    background: #0d0d0d;
-
-    color: #ffffff;
-
-    border-radius: 7px;
-
-    font-size: 16px;
-}
-
-.salvar {
-
-    width: 100%;
-
-    background: #ff6600;
-
-    color: #ffffff;
-}
-
-/* =========================
-   CELULAR
-========================= */
-
-@media (max-width: 700px) {
-
-    .titulo-caixa {
-
-        font-size: 50px;
-
-        letter-spacing: 2px;
-    }
-
-    .nome-supermercado {
-
-        font-size: 21px;
-
-        margin-top: 15px;
-    }
-
-    .horario {
-
-        font-size: 18px;
-
-        margin-top: 10px;
-    }
-
-    .marca-dav {
-
-        font-size: 220px;
-
-        opacity: 0.035;
-    }
-
-    .gt-delivery {
-
-        right: 15px;
-
-        bottom: 15px;
-
-        font-size: 11px;
-    }
-
-    #telaVenda {
-
-        padding: 15px;
-    }
-
-    .cabecalho-venda h1 {
-
-        font-size: 28px;
-    }
-
-    #listaProdutos th,
-    #listaProdutos td {
-
-        padding: 10px 7px;
-
-        font-size: 14px;
-    }
-
-    .total {
-
-        font-size: 45px;
-    }
-
-    .botoes {
-
-        flex-direction: column;
-    }
-
-    button {
-
-        width: 100%;
-    }
-}
-
-</style>
+            .gt-delivery {
+                right: 15px;
+                bottom: 15px;
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
+    <main class="tela">
 
-<!-- ==================================================
-     TELA INICIAL
-================================================== -->
-
-<div id="telaInicial">
-
-    <!-- DAV COMO MARCA D'ÁGUA -->
-
-    <div class="marca-dav">
-        DAV
-    </div>
-
-
-    <!-- CONTEÚDO -->
-
-    <div class="conteudo-central">
-
-        <div class="titulo-caixa">
-            CAIXA LIVRE
+        <!-- DAV COMO MARCA D'ÁGUA -->
+        <div class="dav-fundo">
+            DAV
         </div>
 
-        <div class="nome-supermercado">
-            Supermercado Val Bença
-        </div>
+        <!-- CONTEÚDO CENTRAL -->
+        <div class="conteudo">
 
-        <div
-            class="horario"
-            id="horario"
-        >
-            00:00:00
-        </div>
-
-        <div class="linha-laranja"></div>
-
-    </div>
-
-
-    <!-- GT DELIVERY -->
-
-    <div class="gt-delivery">
-        GT Delivery
-    </div>
-
-</div>
-
-
-<!-- ==================================================
-     LEITOR DE CÓDIGO DE BARRAS
-================================================== -->
-
-<input
-    id="scannerInput"
-    type="text"
-    autocomplete="off"
-    autofocus
->
-
-
-<!-- ==================================================
-     TELA DE VENDA
-================================================== -->
-
-<div id="telaVenda">
-
-    <div class="cabecalho-venda">
-
-        <div>
-
-            <h1>
+            <div class="caixa-livre">
                 CAIXA LIVRE
-            </h1>
+            </div>
 
-            <div class="supermercado-venda">
+            <div class="supermercado">
                 Supermercado Val Bença
             </div>
 
+            <div
+                class="horario"
+                id="horario"
+            >
+                00:00:00
+            </div>
+
+            <div class="linha"></div>
+
         </div>
 
-        <div class="gt-venda">
+        <!-- GT DELIVERY -->
+        <div class="gt-delivery">
             GT Delivery
         </div>
 
-    </div>
+    </main>
 
+    <script>
+        function atualizarHorario() {
 
-    <table id="listaProdutos">
+            const agora = new Date();
 
-        <thead>
+            const horas = String(
+                agora.getHours()
+            ).padStart(2, "0");
 
-            <tr>
+            const minutos = String(
+                agora.getMinutes()
+            ).padStart(2, "0");
 
-                <th>
-                    Produto
-                </th>
+            const segundos = String(
+                agora.getSeconds()
+            ).padStart(2, "0");
 
-                <th>
-                    Qtd.
-                </th>
-
-                <th>
-                    Preço
-                </th>
-
-                <th>
-                    Total
-                </th>
-
-            </tr>
-
-        </thead>
-
-        <tbody id="produtosBody"></tbody>
-
-    </table>
-
-
-    <div class="total-area">
-
-        <div class="total-label">
-            TOTAL DA VENDA
-        </div>
-
-        <div
-            class="total"
-            id="totalVenda"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-    <div class="botoes">
-
-        <button
-            class="cancelar"
-            onclick="cancelarVenda()"
-        >
-            CANCELAR
-        </button>
-
-        <button
-            class="finalizar"
-            onclick="abrirPagamento()"
-        >
-            FINALIZAR VENDA
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- ==================================================
-     MENSAGEM
-================================================== -->
-
-<div id="mensagem"></div>
-
-
-<!-- ==================================================
-     PAGAMENTO
-================================================== -->
-
-<div id="modalPagamento">
-
-    <div class="modal">
-
-        <h2>
-            Forma de pagamento
-        </h2>
-
-        <button
-            class="pagamento"
-            onclick="finalizarVenda('Dinheiro')"
-        >
-            DINHEIRO
-        </button>
-
-        <button
-            class="pagamento"
-            onclick="finalizarVenda('Pix')"
-        >
-            PIX
-        </button>
-
-        <button
-            class="pagamento"
-            onclick="finalizarVenda('Débito')"
-        >
-            CARTÃO DE DÉBITO
-        </button>
-
-        <button
-            class="pagamento"
-            onclick="finalizarVenda('Crédito')"
-        >
-            CARTÃO DE CRÉDITO
-        </button>
-
-        <button
-            class="fechar"
-            onclick="fecharPagamento()"
-        >
-            VOLTAR
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- ==================================================
-     CADASTRO ESCONDIDO
-================================================== -->
-
-<div id="modalCadastro">
-
-    <div class="cadastro">
-
-        <h2>
-            Cadastrar produto
-        </h2>
-
-        <input
-            id="cadCodigo"
-            placeholder="Código de barras"
-        >
-
-        <input
-            id="cadNome"
-            placeholder="Nome do produto"
-        >
-
-        <input
-            id="cadPreco"
-            type="number"
-            step="0.01"
-            placeholder="Preço"
-        >
-
-        <input
-            id="cadEstoque"
-            type="number"
-            placeholder="Estoque"
-        >
-
-        <button
-            class="salvar"
-            onclick="cadastrarProduto()"
-        >
-            SALVAR PRODUTO
-        </button>
-
-        <button
-            class="fecharCadastro"
-            onclick="fecharCadastro()"
-        >
-            FECHAR
-        </button>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* ==================================================
-   SUPABASE
-================================================== */
-
-const SUPABASE_URL =
-    "https://cgdvehummqfttsyfebfo.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_rzYfEMq3RKJwlVPOmMQaUA_AAxWN9nr";
-
-const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-
-/* ==================================================
-   VARIÁVEIS
-================================================== */
-
-let venda = [];
-
-const scanner =
-    document.getElementById(
-        "scannerInput"
-    );
-
-
-/* ==================================================
-   RELÓGIO
-================================================== */
-
-function atualizarHorario() {
-
-    const agora =
-        new Date();
-
-    const horas =
-        String(
-            agora.getHours()
-        ).padStart(2, "0");
-
-    const minutos =
-        String(
-            agora.getMinutes()
-        ).padStart(2, "0");
-
-    const segundos =
-        String(
-            agora.getSeconds()
-        ).padStart(2, "0");
-
-    document.getElementById(
-        "horario"
-    ).textContent =
-        horas + ":" +
-        minutos + ":" +
-        segundos;
-}
-
-atualizarHorario();
-
-setInterval(
-    atualizarHorario,
-    1000
-);
-
-
-/* ==================================================
-   FOCO NO LEITOR
-================================================== */
-
-function focarScanner() {
-
-    scanner.focus();
-}
-
-window.addEventListener(
-    "load",
-    focarScanner
-);
-
-document.addEventListener(
-    "click",
-    function() {
-
-        focarScanner();
-
-    }
-);
-
-
-/* ==================================================
-   LEITOR DE CÓDIGO
-================================================== */
-
-scanner.addEventListener(
-    "keydown",
-    async function(event) {
-
-        if (
-            event.key !== "Enter"
-        ) {
-            return;
+            document.getElementById("horario").textContent =
+                horas + ":" +
+                minutos + ":" +
+                segundos;
         }
 
-        const codigo =
-            scanner.value.trim();
+        atualizarHorario();
 
-        scanner.value = "";
-
-        if (!codigo) {
-
-            focarScanner();
-
-            return;
-        }
-
-        await procurarProduto(
-            codigo
+        setInterval(
+            atualizarHorario,
+            1000
         );
-
-        focarScanner();
-
-    }
-);
-
-
-/* ==================================================
-   PESQUISAR PRODUTO
-================================================== */
-
-async function procurarProduto(
-    codigo
-) {
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from("dav_produtos")
-        .select("*")
-        .eq(
-            "codigo_barras",
-            codigo
-        )
-        .eq(
-            "ativo",
-            true
-        )
-        .maybeSingle();
-
-
-    if (error) {
-
-        console.error(error);
-
-        mostrarMensagem(
-            "Erro ao consultar produto."
-        );
-
-        return;
-    }
-
-
-    if (!data) {
-
-        mostrarMensagem(
-            "Produto não cadastrado."
-        );
-
-        return;
-    }
-
-
-    adicionarProduto(
-        data
-    );
-}
-
-
-/* ==================================================
-   ADICIONAR PRODUTO
-================================================== */
-
-function adicionarProduto(
-    produto
-) {
-
-    const existente =
-        venda.find(
-            item =>
-                item.id ===
-                produto.id
-        );
-
-
-    if (existente) {
-
-        existente.quantidade++;
-
-    } else {
-
-        venda.push({
-
-            ...produto,
-
-            quantidade: 1
-
-        });
-
-    }
-
-
-    mostrarVenda();
-}
-
-
-/* ==================================================
-   MOSTRAR VENDA
-================================================== */
-
-function mostrarVenda() {
-
-    document.getElementById(
-        "telaInicial"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "telaVenda"
-    ).style.display =
-        "block";
-
-
-    const body =
-        document.getElementById(
-            "produtosBody"
-        );
-
-
-    body.innerHTML = "";
-
-
-    let total = 0;
-
-
-    venda.forEach(
-        item => {
-
-            const subtotal =
-                Number(
-                    item.preco
-                ) *
-                item.quantidade;
-
-
-            total += subtotal;
-
-
-            const tr =
-                document.createElement(
-                    "tr"
-                );
-
-
-            tr.innerHTML = `
-
-                <td>
-                    ${item.nome}
-                </td>
-
-                <td>
-                    ${item.quantidade}
-                </td>
-
-                <td>
-                    ${formatarMoeda(
-                        item.preco
-                    )}
-                </td>
-
-                <td>
-                    ${formatarMoeda(
-                        subtotal
-                    )}
-                </td>
-
-            `;
-
-
-            body.appendChild(
-                tr
-            );
-
-        }
-    );
-
-
-    document.getElementById(
-        "totalVenda"
-    ).textContent =
-        formatarMoeda(
-            total
-        );
-}
-
-
-/* ==================================================
-   FORMATAR DINHEIRO
-================================================== */
-
-function formatarMoeda(
-    valor
-) {
-
-    return Number(
-        valor
-    ).toLocaleString(
-        "pt-BR",
-        {
-            style: "currency",
-            currency: "BRL"
-        }
-    );
-}
-
-
-/* ==================================================
-   CANCELAR VENDA
-================================================== */
-
-function cancelarVenda() {
-
-    if (!venda.length) {
-
-        voltarCaixa();
-
-        return;
-    }
-
-
-    if (
-        !confirm(
-            "Cancelar esta venda?"
-        )
-    ) {
-
-        return;
-    }
-
-
-    voltarCaixa();
-}
-
-
-/* ==================================================
-   VOLTAR PARA CAIXA LIVRE
-================================================== */
-
-function voltarCaixa() {
-
-    venda = [];
-
-
-    document.getElementById(
-        "telaVenda"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "telaInicial"
-    ).style.display =
-        "flex";
-
-
-    focarScanner();
-}
-
-
-/* ==================================================
-   PAGAMENTO
-================================================== */
-
-function abrirPagamento() {
-
-    if (!venda.length) {
-
-        return;
-    }
-
-
-    document.getElementById(
-        "modalPagamento"
-    ).style.display =
-        "flex";
-}
-
-
-function fecharPagamento() {
-
-    document.getElementById(
-        "modalPagamento"
-    ).style.display =
-        "none";
-
-
-    focarScanner();
-}
-
-
-/* ==================================================
-   FINALIZAR VENDA
-================================================== */
-
-async function finalizarVenda(
-    formaPagamento
-) {
-
-    if (!venda.length) {
-
-        return;
-    }
-
-
-    mostrarMensagem(
-        "Venda finalizada • " +
-        formaPagamento
-    );
-
-
-    document.getElementById(
-        "modalPagamento"
-    ).style.display =
-        "none";
-
-
-    setTimeout(
-        function() {
-
-            voltarCaixa();
-
-        },
-        1200
-    );
-}
-
-
-/* ==================================================
-   MENSAGEM
-================================================== */
-
-function mostrarMensagem(
-    texto
-) {
-
-    const mensagem =
-        document.getElementById(
-            "mensagem"
-        );
-
-
-    mensagem.textContent =
-        texto;
-
-
-    mensagem.style.display =
-        "block";
-
-
-    setTimeout(
-        function() {
-
-            mensagem.style.display =
-                "none";
-
-        },
-        2200
-    );
-}
-
-
-/* ==================================================
-   CADASTRO ESCONDIDO
-   F2 NO COMPUTADOR
-================================================== */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key === "F2"
-        ) {
-
-            event.preventDefault();
-
-            abrirCadastro();
-
-        }
-
-    }
-);
-
-
-function abrirCadastro() {
-
-    document.getElementById(
-        "modalCadastro"
-    ).style.display =
-        "flex";
-}
-
-
-function fecharCadastro() {
-
-    document.getElementById(
-        "modalCadastro"
-    ).style.display =
-        "none";
-
-
-    focarScanner();
-}
-
-
-/* ==================================================
-   CADASTRAR PRODUTO
-================================================== */
-
-async function cadastrarProduto() {
-
-    const codigo =
-        document.getElementById(
-            "cadCodigo"
-        ).value.trim();
-
-
-    const nome =
-        document.getElementById(
-            "cadNome"
-        ).value.trim();
-
-
-    const preco =
-        Number(
-            document.getElementById(
-                "cadPreco"
-            ).value
-        );
-
-
-    const estoque =
-        Number(
-            document.getElementById(
-                "cadEstoque"
-            ).value
-        );
-
-
-    if (
-        !codigo ||
-        !nome ||
-        !preco
-    ) {
-
-        alert(
-            "Preencha código, nome e preço."
-        );
-
-        return;
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("dav_produtos")
-        .insert({
-
-            codigo_barras:
-                codigo,
-
-            nome:
-                nome,
-
-            preco:
-                preco,
-
-            estoque:
-                estoque,
-
-            ativo:
-                true
-
-        });
-
-
-    if (error) {
-
-        console.error(error);
-
-        alert(
-            "Não foi possível cadastrar."
-        );
-
-        return;
-    }
-
-
-    alert(
-        "Produto cadastrado com sucesso!"
-    );
-
-
-    document.getElementById(
-        "cadCodigo"
-    ).value = "";
-
-
-    document.getElementById(
-        "cadNome"
-    ).value = "";
-
-
-    document.getElementById(
-        "cadPreco"
-    ).value = "";
-
-
-    document.getElementById(
-        "cadEstoque"
-    ).value = "";
-
-
-    fecharCadastro();
-}
-
-</script>
+    </script>
 
 </body>
 </html>
