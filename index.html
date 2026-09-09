@@ -1,1268 +1,1640 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f3f4f2">
-  <title>DAV — Supermercado Val Bença</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #eef0ed;
-      color: #202522;
-      min-height: 100vh;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    /* TOPO */
-    .topbar {
-      height: 76px;
-      background: #f7f8f5;
-      border-bottom: 1px solid #dfe3df;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
-      background: #e9ece8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-    }
-
-    .brand-text h1 {
-      font-size: 21px;
-      font-weight: 800;
-      color: #1d2721;
-    }
-
-    .brand-text span {
-      font-size: 12px;
-      color: #777e79;
-      letter-spacing: .4px;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .gt-logo {
-      font-size: 12px;
-      color: #8b918d;
-      font-weight: bold;
-      letter-spacing: .7px;
-    }
-
-    .menu-button {
-      border: 0;
-      background: transparent;
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 27px;
-      color: #303733;
-    }
-
-    .menu-button:hover {
-      background: #e8ebe7;
-    }
-
-    /* MENU */
-    .menu {
-      display: none;
-      position: absolute;
-      right: 20px;
-      top: 64px;
-      width: 235px;
-      background: white;
-      border: 1px solid #dfe3df;
-      border-radius: 13px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.12);
-      overflow: hidden;
-    }
-
-    .menu.open {
-      display: block;
-    }
-
-    .menu button {
-      width: 100%;
-      padding: 15px 17px;
-      text-align: left;
-      border: 0;
-      background: white;
-      cursor: pointer;
-      color: #252b27;
-    }
-
-    .menu button:hover {
-      background: #f0f2ef;
-    }
-
-    /* CONTEÚDO */
-    .container {
-      max-width: 1450px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-
-    .status-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #606862;
-      font-size: 13px;
-    }
-
-    .online {
-      width: 9px;
-      height: 9px;
-      background: #4d9b63;
-      border-radius: 50%;
-    }
-
-    .operator {
-      font-size: 13px;
-      color: #777e79;
-    }
-
-    /* LEITOR */
-    .scanner-card {
-      background: #ffffff;
-      border: 1px solid #dde2dd;
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.035);
-    }
-
-    .scanner-title {
-      font-size: 13px;
-      font-weight: bold;
-      color: #5e665f;
-      margin-bottom: 10px;
-    }
-
-    .scanner {
-      display: flex;
-      gap: 10px;
-    }
-
-    .scanner input {
-      flex: 1;
-      height: 52px;
-      border: 2px solid #d8ddd8;
-      border-radius: 11px;
-      padding: 0 16px;
-      outline: none;
-      font-size: 17px;
-      background: #fbfcfb;
-    }
-
-    .scanner input:focus {
-      border-color: #7e8880;
-    }
-
-    .scan-button {
-      width: 145px;
-      border: 0;
-      border-radius: 11px;
-      background: #252b27;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .scan-button:hover {
-      background: #171b18;
-    }
-
-    /* PAINEL PRINCIPAL */
-    .grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .products-card {
-      background: #fff;
-      border: 1px solid #dde2dd;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,.035);
-    }
-
-    .card-header {
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      border-bottom: 1px solid #e5e8e5;
-    }
-
-    .card-header h2 {
-      font-size: 17px;
-    }
-
-    .sale-number {
-      font-size: 12px;
-      color: #818781;
-    }
-
-    .table-head,
-    .product-row {
-      display: grid;
-      grid-template-columns: 1fr 90px 130px 130px 55px;
-      align-items: center;
-      gap: 10px;
-      padding: 0 20px;
-    }
-
-    .table-head {
-      min-height: 43px;
-      background: #f5f6f4;
-      color: #7a817c;
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .product-row {
-      min-height: 68px;
-      border-bottom: 1px solid #edf0ed;
-      font-size: 14px;
-    }
-
-    .product-row:last-child {
-      border-bottom: 0;
-    }
-
-    .product-name {
-      font-weight: 600;
-    }
-
-    .product-code {
-      display: block;
-      margin-top: 4px;
-      font-size: 11px;
-      color: #949a95;
-      font-weight: normal;
-    }
-
-    .qty-control {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .qty-control button {
-      width: 25px;
-      height: 25px;
-      border: 1px solid #d5dad5;
-      background: #f6f7f5;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .remove {
-      width: 32px;
-      height: 32px;
-      border: 0;
-      border-radius: 8px;
-      background: #f2f3f1;
-      cursor: pointer;
-      color: #737a75;
-    }
-
-    .remove:hover {
-      background: #e7e9e6;
-    }
-
-    .empty {
-      min-height: 270px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #909791;
-      padding: 30px;
-    }
-
-    .empty-icon {
-      font-size: 40px;
-      margin-bottom: 10px;
-      opacity: .65;
-    }
-
-    .empty p {
-      font-size: 13px;
-    }
-
-    /* RESUMO */
-    .summary {
-      background: white;
-      border: 1px solid #dde2dd;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,.035);
-      position: sticky;
-      top: 100px;
-    }
-
-    .summary-header {
-      padding: 18px 20px;
-      border-bottom: 1px solid #e5e8e5;
-      font-weight: bold;
-    }
-
-    .summary-content {
-      padding: 20px;
-    }
-
-    .line {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 13px;
-      font-size: 14px;
-      color: #656d67;
-    }
-
-    .line strong {
-      color: #252b27;
-    }
-
-    .total-box {
-      margin: 20px 0;
-      padding: 18px;
-      border-radius: 12px;
-      background: #f1f3f0;
-    }
-
-    .total-label {
-      color: #737a75;
-      font-size: 12px;
-      margin-bottom: 5px;
-    }
-
-    .total-value {
-      font-size: 31px;
-      font-weight: 800;
-      color: #1d2721;
-    }
-
-    .payment-title {
-      font-size: 12px;
-      color: #747b76;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .payment-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .payment {
-      height: 47px;
-      border: 1px solid #d7dcd7;
-      background: #fafbfa;
-      border-radius: 9px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #363d38;
-    }
-
-    .payment:hover,
-    .payment.active {
-      background: #e8ebe7;
-      border-color: #9ca49d;
-    }
-
-    .finish {
-      width: 100%;
-      height: 55px;
-      border: 0;
-      border-radius: 11px;
-      background: #252b27;
-      color: white;
-      margin-top: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    .finish:hover {
-      background: #171b18;
-    }
-
-    .finish:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-    }
-
-    .keyboard-hint {
-      text-align: center;
-      color: #999f9a;
-      font-size: 10px;
-      margin-top: 12px;
-    }
-
-    /* MODAL */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(20,25,22,.42);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal.open {
-      display: flex;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 600px;
-      background: white;
-      border-radius: 17px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,.22);
-    }
-
-    .modal-header {
-      padding: 19px 22px;
-      border-bottom: 1px solid #e4e7e4;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-header h3 {
-      font-size: 18px;
-    }
-
-    .close {
-      border: 0;
-      background: transparent;
-      font-size: 25px;
-      cursor: pointer;
-    }
-
-    .sales-list {
-      max-height: 420px;
-      overflow-y: auto;
-    }
-
-    .sale-item {
-      padding: 16px 22px;
-      border-bottom: 1px solid #edf0ed;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .sale-item small {
-      display: block;
-      color: #888f89;
-      margin-top: 4px;
-    }
-
-    .sale-price {
-      font-weight: bold;
-    }
-
-    /* RESPONSIVO */
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .summary {
-        position: static;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .topbar {
-        padding: 0 14px;
-      }
-
-      .container {
-        padding: 14px;
-      }
-
-      .gt-logo {
-        display: none;
-      }
-
-      .table-head {
-        display: none;
-      }
-
-      .product-row {
-        grid-template-columns: 1fr auto;
-        padding: 14px;
-        gap: 7px;
-      }
-
-      .product-row > div:nth-child(2),
-      .product-row > div:nth-child(3),
-      .product-row > div:nth-child(4) {
-        font-size: 12px;
-      }
-
-      .remove {
-        grid-column: 2;
-        grid-row: 1;
-      }
-
-      .scanner {
-        flex-direction: column;
-      }
-
-      .scan-button {
-        width: 100%;
-        height: 48px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAV - Supermercado Val Bença</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f2ef;
+    color:#202522;
+    min-height:100vh;
+}
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.header{
+    height:72px;
+    background:#ffffff;
+    border-bottom:1px solid #dedfdb;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 24px;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:44px;
+    height:44px;
+    border-radius:10px;
+    background:#eeeeeb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.nome-loja{
+    font-size:20px;
+    font-weight:800;
+}
+
+.subtitulo{
+    font-size:11px;
+    color:#888d89;
+    margin-top:3px;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.gt{
+    font-size:11px;
+    font-weight:bold;
+    color:#8a908b;
+    letter-spacing:1px;
+}
+
+.menu-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    background:transparent;
+    border-radius:9px;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.menu-btn:hover{
+    background:#eeeeeb;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.menu{
+    display:none;
+    position:absolute;
+    right:20px;
+    top:62px;
+    width:240px;
+    background:#fff;
+    border:1px solid #dedfdb;
+    border-radius:12px;
+    box-shadow:0 12px 35px rgba(0,0,0,.14);
+    z-index:50;
+    overflow:hidden;
+}
+
+.menu.aberto{
+    display:block;
+}
+
+.menu-item{
+    width:100%;
+    border:none;
+    background:white;
+    padding:15px 18px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.menu-item:hover{
+    background:#f2f3f0;
+}
+
+/* =========================
+   CONTEÚDO
+========================= */
+
+.container{
+    max-width:1450px;
+    margin:auto;
+    padding:22px;
+}
+
+.status{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.status-left{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#707771;
+    font-size:12px;
+}
+
+.online{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#4e9c64;
+}
+
+.caixa{
+    font-size:12px;
+    color:#777d78;
+}
+
+/* =========================
+   LEITOR
+========================= */
+
+.leitor-card{
+    background:#fff;
+    border:1px solid #dedfdb;
+    border-radius:14px;
+    padding:17px;
+    margin-bottom:18px;
+}
+
+.leitor-titulo{
+    font-size:12px;
+    font-weight:bold;
+    color:#666d67;
+    margin-bottom:9px;
+}
+
+.leitor{
+    display:flex;
+    gap:9px;
+}
+
+.leitor input{
+    flex:1;
+    height:52px;
+    border:2px solid #d9ddd8;
+    border-radius:9px;
+    outline:none;
+    padding:0 15px;
+    font-size:16px;
+    background:#fafbfa;
+}
+
+.leitor input:focus{
+    border-color:#929a93;
+}
+
+.btn-adicionar{
+    width:135px;
+    border:none;
+    border-radius:9px;
+    background:#242a26;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-adicionar:hover{
+    background:#111511;
+}
+
+/* =========================
+   ÁREA PRINCIPAL
+========================= */
+
+.main{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 350px;
+    gap:18px;
+}
+
+/* =========================
+   LISTA DE PRODUTOS
+========================= */
+
+.produtos{
+    background:#fff;
+    border:1px solid #dedfdb;
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.produtos-header{
+    height:61px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
+    border-bottom:1px solid #e5e6e3;
+}
+
+.produtos-header h2{
+    font-size:16px;
+}
+
+.venda{
+    color:#858b86;
+    font-size:11px;
+}
+
+.tabela-header{
+    display:grid;
+    grid-template-columns:1fr 100px 120px 125px 45px;
+    padding:0 20px;
+    min-height:42px;
+    align-items:center;
+    background:#f5f6f4;
+    color:#7d847e;
+    font-size:10px;
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+.produto{
+    display:grid;
+    grid-template-columns:1fr 100px 120px 125px 45px;
+    padding:13px 20px;
+    min-height:70px;
+    align-items:center;
+    border-bottom:1px solid #edf0ed;
+    font-size:13px;
+}
+
+.produto:last-child{
+    border-bottom:none;
+}
+
+.nome-produto{
+    font-weight:bold;
+}
+
+.codigo{
+    display:block;
+    color:#999f9a;
+    font-size:10px;
+    font-weight:normal;
+    margin-top:4px;
+}
+
+.quantidade{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.quantidade button{
+    width:24px;
+    height:24px;
+    border:1px solid #d5dad5;
+    background:#f5f6f4;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.excluir{
+    width:30px;
+    height:30px;
+    border:none;
+    border-radius:7px;
+    background:#f0f1ef;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.excluir:hover{
+    background:#e5e7e4;
+}
+
+.vazio{
+    min-height:290px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:#929893;
+}
+
+.vazio-icon{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.vazio p{
+    font-size:12px;
+    line-height:1.6;
+}
+
+/* =========================
+   RESUMO
+========================= */
+
+.resumo{
+    background:#fff;
+    border:1px solid #dedfdb;
+    border-radius:14px;
+    overflow:hidden;
+    position:sticky;
+    top:20px;
+}
+
+.resumo-titulo{
+    padding:18px 20px;
+    font-weight:bold;
+    font-size:15px;
+    border-bottom:1px solid #e5e6e3;
+}
+
+.resumo-conteudo{
+    padding:20px;
+}
+
+.linha{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:13px;
+    font-size:13px;
+    color:#707771;
+}
+
+.linha strong{
+    color:#292f2b;
+}
+
+.total{
+    margin:18px 0;
+    padding:17px;
+    border-radius:11px;
+    background:#f0f2ef;
+}
+
+.total-label{
+    color:#767d77;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.total-valor{
+    font-size:30px;
+    font-weight:800;
+    margin-top:5px;
+}
+
+.pagamento-titulo{
+    font-size:11px;
+    font-weight:bold;
+    color:#777e78;
+    margin-bottom:9px;
+}
+
+.pagamentos{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.pagamento{
+    height:45px;
+    border:1px solid #d7dcd7;
+    border-radius:8px;
+    background:#fafbfa;
+    cursor:pointer;
+    font-weight:bold;
+    color:#3a413c;
+}
+
+.pagamento:hover,
+.pagamento.selecionado{
+    background:#e7eae7;
+    border-color:#9ca49d;
+}
+
+.finalizar{
+    width:100%;
+    height:53px;
+    border:none;
+    border-radius:9px;
+    background:#242a26;
+    color:white;
+    font-weight:bold;
+    margin-top:14px;
+    cursor:pointer;
+}
+
+.finalizar:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+}
+
+.atalho{
+    text-align:center;
+    font-size:9px;
+    color:#9ca19d;
+    margin-top:10px;
+}
+
+/* =========================
+   MODAL VENDAS
+========================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(20,24,21,.45);
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+}
+
+.modal.aberto{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:600px;
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.modal-header{
+    padding:18px 21px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #e3e5e2;
+}
+
+.modal-header h3{
+    font-size:17px;
+}
+
+.fechar{
+    border:none;
+    background:transparent;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.lista-vendas{
+    max-height:420px;
+    overflow:auto;
+}
+
+.venda-item{
+    display:flex;
+    justify-content:space-between;
+    padding:16px 21px;
+    border-bottom:1px solid #edf0ed;
+}
+
+.venda-item small{
+    display:block;
+    margin-top:5px;
+    color:#858c86;
+}
+
+.venda-valor{
+    font-weight:bold;
+}
+
+/* =========================
+   CELULAR
+========================= */
+
+@media(max-width:900px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .resumo{
+        position:static;
+    }
+}
+
+@media(max-width:650px){
+
+    .header{
+        padding:0 13px;
+    }
+
+    .nome-loja{
+        font-size:16px;
+    }
+
+    .gt{
+        display:none;
+    }
+
+    .container{
+        padding:13px;
+    }
+
+    .leitor{
+        flex-direction:column;
+    }
+
+    .btn-adicionar{
+        width:100%;
+        height:48px;
+    }
+
+    .tabela-header{
+        display:none;
+    }
+
+    .produto{
+        grid-template-columns:1fr auto;
+        gap:8px;
+        padding:14px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- TOPO -->
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-icon">🛒</div>
+<!-- =========================
+     CABEÇALHO
+========================= -->
 
-      <div class="brand-text">
-        <h1>Supermercado Val Bença</h1>
-        <span>DAV • Frente de Caixa</span>
-      </div>
-    </div>
+<header class="header">
 
-    <div class="top-actions">
-      <div class="gt-logo">GT DELIVERY</div>
+    <div class="logo-area">
 
-      <button class="menu-button" onclick="toggleMenu()" aria-label="Menu">
-        ⋮
-      </button>
-
-      <div class="menu" id="menu">
-        <button onclick="showSales()">📋 Vendas do dia</button>
-        <button onclick="newSale()">🛒 Nova venda</button>
-        <button onclick="showProducts()">📦 Produtos cadastrados</button>
-        <button onclick="showInfo()">ℹ️ Informações do sistema</button>
-      </div>
-    </div>
-  </header>
-
-
-  <main class="container">
-
-    <!-- STATUS -->
-    <div class="status">
-      <div class="status-left">
-        <span class="online"></span>
-        Sistema conectado
-      </div>
-
-      <div class="operator">
-        Operador: <strong>Caixa 01</strong>
-      </div>
-    </div>
-
-
-    <!-- LEITOR -->
-    <section class="scanner-card">
-      <div class="scanner-title">
-        LEITOR / CÓDIGO DE BARRAS
-      </div>
-
-      <div class="scanner">
-        <input
-          id="barcode"
-          type="text"
-          placeholder="Passe o produto no leitor ou digite o código..."
-          autocomplete="off"
-          autofocus
-        >
-
-        <button class="scan-button" onclick="scanProduct()">
-          + Adicionar
-        </button>
-      </div>
-    </section>
-
-
-    <!-- PRINCIPAL -->
-    <section class="grid">
-
-      <!-- PRODUTOS -->
-      <div class="products-card">
-
-        <div class="card-header">
-          <h2>Produtos da venda</h2>
-          <span class="sale-number" id="saleNumber">
-            Venda #0001
-          </span>
+        <div class="logo">
+            🛒
         </div>
 
-        <div class="table-head">
-          <div>Produto</div>
-          <div>Qtd.</div>
-          <div>Preço</div>
-          <div>Subtotal</div>
-          <div></div>
-        </div>
-
-        <div id="productsList">
-
-          <div class="empty" id="emptyState">
-            <div>
-              <div class="empty-icon">🛒</div>
-              <p>
-                Nenhum produto adicionado.<br>
-                Passe o primeiro produto no leitor.
-              </p>
+        <div>
+            <div class="nome-loja">
+                Supermercado Val Bença
             </div>
-          </div>
+
+            <div class="subtitulo">
+                DAV • Frente de Caixa
+            </div>
+        </div>
+
+    </div>
+
+    <div class="header-right">
+
+        <div class="gt">
+            GT DELIVERY
+        </div>
+
+        <button class="menu-btn" onclick="abrirMenu()">
+            ⋮
+        </button>
+
+        <div class="menu" id="menu">
+
+            <button class="menu-item" onclick="abrirVendas()">
+                📋 Vendas do dia
+            </button>
+
+            <button class="menu-item" onclick="novaVenda()">
+                🛒 Nova venda
+            </button>
+
+            <button class="menu-item" onclick="produtosCadastrados()">
+                📦 Produtos cadastrados
+            </button>
+
+            <button class="menu-item" onclick="informacoes()">
+                ℹ️ Informações
+            </button>
 
         </div>
 
-      </div>
+    </div>
+
+</header>
 
 
-      <!-- RESUMO -->
-      <aside class="summary">
+<main class="container">
 
-        <div class="summary-header">
-          Resumo da venda
+    <div class="status">
+
+        <div class="status-left">
+            <span class="online"></span>
+            Sistema conectado
         </div>
 
-        <div class="summary-content">
+        <div class="caixa">
+            Operador: <strong>Caixa 01</strong>
+        </div>
 
-          <div class="line">
-            <span>Itens</span>
-            <strong id="itemCount">0</strong>
-          </div>
+    </div>
 
-          <div class="line">
-            <span>Subtotal</span>
-            <strong id="subtotal">R$ 0,00</strong>
-          </div>
 
-          <div class="line">
-            <span>Desconto</span>
-            <strong id="discount">R$ 0,00</strong>
-          </div>
+    <!-- =========================
+         LEITOR
+    ========================= -->
 
-          <div class="total-box">
-            <div class="total-label">TOTAL A PAGAR</div>
-            <div class="total-value" id="total">R$ 0,00</div>
-          </div>
+    <section class="leitor-card">
 
-          <div class="payment-title">
-            FORMA DE PAGAMENTO
-          </div>
+        <div class="leitor-titulo">
+            LEITOR DE CÓDIGO DE BARRAS
+        </div>
 
-          <div class="payment-grid">
-            <button class="payment" onclick="selectPayment(this, 'Dinheiro')">
-              💵 Dinheiro
+        <div class="leitor">
+
+            <input
+                id="codigo"
+                type="text"
+                autocomplete="off"
+                placeholder="Passe o produto no leitor ou digite o código..."
+            >
+
+            <button
+                class="btn-adicionar"
+                onclick="adicionarProduto()"
+            >
+                + Adicionar
             </button>
-
-            <button class="payment" onclick="selectPayment(this, 'PIX')">
-              ▣ PIX
-            </button>
-
-            <button class="payment" onclick="selectPayment(this, 'Cartão')">
-              💳 Cartão
-            </button>
-
-            <button class="payment" onclick="selectPayment(this, 'Débito')">
-              💳 Débito
-            </button>
-          </div>
-
-          <button
-            class="finish"
-            id="finishButton"
-            onclick="finishSale()"
-            disabled
-          >
-            FINALIZAR VENDA
-          </button>
-
-          <div class="keyboard-hint">
-            Enter = adicionar produto
-          </div>
 
         </div>
-      </aside>
 
     </section>
 
-  </main>
+
+    <!-- =========================
+         PRINCIPAL
+    ========================= -->
+
+    <section class="main">
+
+        <div class="produtos">
+
+            <div class="produtos-header">
+
+                <h2>
+                    Produtos da venda
+                </h2>
+
+                <span
+                    class="venda"
+                    id="numeroVenda"
+                >
+                    Venda #0001
+                </span>
+
+            </div>
 
 
-  <!-- MODAL DE VENDAS -->
-  <div class="modal" id="salesModal">
+            <div class="tabela-header">
+
+                <div>Produto</div>
+                <div>Qtd.</div>
+                <div>Preço</div>
+                <div>Subtotal</div>
+                <div></div>
+
+            </div>
+
+
+            <div id="listaProdutos">
+
+                <div class="vazio">
+
+                    <div>
+
+                        <div class="vazio-icon">
+                            🛒
+                        </div>
+
+                        <p>
+                            Nenhum produto adicionado.<br>
+                            Passe o produto no leitor.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RESUMO
+        ========================= -->
+
+        <aside class="resumo">
+
+            <div class="resumo-titulo">
+                Resumo da venda
+            </div>
+
+            <div class="resumo-conteudo">
+
+                <div class="linha">
+                    <span>Itens</span>
+                    <strong id="quantidadeItens">0</strong>
+                </div>
+
+                <div class="linha">
+                    <span>Subtotal</span>
+                    <strong id="subtotal">
+                        R$ 0,00
+                    </strong>
+                </div>
+
+                <div class="linha">
+                    <span>Desconto</span>
+                    <strong>
+                        R$ 0,00
+                    </strong>
+                </div>
+
+
+                <div class="total">
+
+                    <div class="total-label">
+                        TOTAL A PAGAR
+                    </div>
+
+                    <div
+                        class="total-valor"
+                        id="total"
+                    >
+                        R$ 0,00
+                    </div>
+
+                </div>
+
+
+                <div class="pagamento-titulo">
+                    FORMA DE PAGAMENTO
+                </div>
+
+
+                <div class="pagamentos">
+
+                    <button
+                        class="pagamento"
+                        onclick="selecionarPagamento(this,'Dinheiro')"
+                    >
+                        💵 Dinheiro
+                    </button>
+
+                    <button
+                        class="pagamento"
+                        onclick="selecionarPagamento(this,'PIX')"
+                    >
+                        ▣ PIX
+                    </button>
+
+                    <button
+                        class="pagamento"
+                        onclick="selecionarPagamento(this,'Cartão')"
+                    >
+                        💳 Cartão
+                    </button>
+
+                    <button
+                        class="pagamento"
+                        onclick="selecionarPagamento(this,'Débito')"
+                    >
+                        💳 Débito
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="finalizar"
+                    id="finalizar"
+                    onclick="finalizarVenda()"
+                    disabled
+                >
+                    FINALIZAR VENDA
+                </button>
+
+
+                <div class="atalho">
+                    Pressione ENTER para adicionar o produto
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     MODAL VENDAS
+========================= -->
+
+<div class="modal" id="modalVendas">
 
     <div class="modal-box">
 
-      <div class="modal-header">
-        <h3>Vendas do dia</h3>
-        <button class="close" onclick="closeModal()">×</button>
-      </div>
+        <div class="modal-header">
 
-      <div class="sales-list" id="salesList">
-        <div class="empty">
-          <div>
-            <div class="empty-icon">📋</div>
-            <p>Nenhuma venda finalizada ainda.</p>
-          </div>
+            <h3>
+                Vendas do dia
+            </h3>
+
+            <button
+                class="fechar"
+                onclick="fecharVendas()"
+            >
+                ×
+            </button>
+
         </div>
-      </div>
+
+        <div
+            class="lista-vendas"
+            id="listaVendas"
+        >
+
+            <div class="vazio">
+                <div>
+                    <div class="vazio-icon">📋</div>
+                    <p>
+                        Nenhuma venda finalizada.
+                    </p>
+                </div>
+            </div>
+
+        </div>
 
     </div>
 
-  </div>
+</div>
 
 
-  <script>
-    /* =========================
-       DADOS
-    ========================= */
+<script>
 
-    const productsDatabase = {
-      "7891000100103": {
-        name: "Arroz Branco 5kg",
-        price: 27.90
-      },
+/* =========================
+   BANCO DE PRODUTOS DE TESTE
+========================= */
 
-      "7891000100202": {
-        name: "Feijão Carioca 1kg",
-        price: 8.49
-      },
+const produtosBanco = {
 
-      "7891000100301": {
-        name: "Açúcar Cristal 1kg",
-        price: 4.99
-      },
+    "7891000100103":{
+        nome:"Arroz Branco 5kg",
+        preco:27.90
+    },
 
-      "7891000100400": {
-        name: "Café 500g",
-        price: 16.90
-      },
+    "7891000100202":{
+        nome:"Feijão Carioca 1kg",
+        preco:8.49
+    },
 
-      "7891000100509": {
-        name: "Leite Integral 1L",
-        price: 5.49
-      }
-    };
+    "7891000100301":{
+        nome:"Açúcar Cristal 1kg",
+        preco:4.99
+    },
 
+    "7891000100400":{
+        nome:"Café 500g",
+        preco:16.90
+    },
 
-    let cart = [];
-    let selectedPayment = "";
-    let saleNumber = 1;
-    let sales = [];
-
-
-    /* =========================
-       FORMATAÇÃO
-    ========================= */
-
-    function money(value) {
-      return value.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-      });
+    "7891000100509":{
+        nome:"Leite Integral 1L",
+        preco:5.49
     }
 
-
-    /* =========================
-       MENU
-    ========================= */
-
-    function toggleMenu() {
-      document.getElementById("menu").classList.toggle("open");
-    }
+};
 
 
-    document.addEventListener("click", function(event) {
-      const menu = document.getElementById("menu");
-      const button = document.querySelector(".menu-button");
+/* =========================
+   VARIÁVEIS
+========================= */
 
-      if (
-        !menu.contains(event.target) &&
-        !button.contains(event.target)
-      ) {
-        menu.classList.remove("open");
-      }
-    });
+let carrinho = [];
+
+let pagamentoSelecionado = "";
+
+let numeroVenda = 1;
+
+let vendas = [];
 
 
-    /* =========================
-       LEITOR
-    ========================= */
+/* =========================
+   FORMATA DINHEIRO
+========================= */
 
-    document.getElementById("barcode").addEventListener("keydown", function(event) {
+function dinheiro(valor){
 
-      if (event.key === "Enter") {
+    return valor.toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
+
+}
+
+
+/* =========================
+   LEITOR
+========================= */
+
+document
+.getElementById("codigo")
+.addEventListener("keydown",function(event){
+
+    if(event.key === "Enter"){
+
         event.preventDefault();
-        scanProduct();
-      }
 
-    });
+        adicionarProduto();
+
+    }
+
+});
 
 
-    function scanProduct() {
+/* =========================
+   ADICIONAR PRODUTO
+========================= */
 
-      const input = document.getElementById("barcode");
-      const code = input.value.trim();
+function adicionarProduto(){
 
-      if (!code) {
-        input.focus();
+    const campo =
+        document.getElementById("codigo");
+
+    const codigo =
+        campo.value.trim();
+
+    if(!codigo){
+
+        campo.focus();
+
         return;
-      }
 
-      let product = productsDatabase[code];
+    }
 
-      /*
-        Se o código não estiver cadastrado,
-        cria um produto temporário para teste.
-      */
 
-      if (!product) {
+    let produto =
+        produtosBanco[codigo];
 
-        product = {
-          name: "Produto " + code,
-          price: 10.00
+
+    /*
+       Se o código ainda não estiver
+       cadastrado, cria um produto
+       de teste.
+    */
+
+    if(!produto){
+
+        produto = {
+
+            nome:"Produto " + codigo,
+
+            preco:10.00
+
         };
 
-      }
-
-      addProduct(code, product);
-
-      input.value = "";
-      input.focus();
     }
 
 
-    /* =========================
-       ADICIONAR PRODUTO
-    ========================= */
+    const existente =
+        carrinho.find(
+            item => item.codigo === codigo
+        );
 
-    function addProduct(code, product) {
 
-      const existing = cart.find(item => item.code === code);
+    if(existente){
 
-      if (existing) {
-        existing.qty++;
-      } else {
+        existente.quantidade++;
 
-        cart.push({
-          code: code,
-          name: product.name,
-          price: product.price,
-          qty: 1
-        });
+    }else{
 
-      }
+        carrinho.push({
 
-      renderCart();
-    }
+            codigo:codigo,
 
+            nome:produto.nome,
 
-    /* =========================
-       RENDERIZA CARRINHO
-    ========================= */
+            preco:produto.preco,
 
-    function renderCart() {
-
-      const list = document.getElementById("productsList");
-      const empty = document.getElementById("emptyState");
-
-      if (cart.length === 0) {
-
-        list.innerHTML = `
-          <div class="empty" id="emptyState">
-            <div>
-              <div class="empty-icon">🛒</div>
-              <p>
-                Nenhum produto adicionado.<br>
-                Passe o primeiro produto no leitor.
-              </p>
-            </div>
-          </div>
-        `;
-
-        updateSummary();
-        return;
-      }
-
-
-      list.innerHTML = "";
-
-
-      cart.forEach((item, index) => {
-
-        const row = document.createElement("div");
-
-        row.className = "product-row";
-
-        row.innerHTML = `
-          <div class="product-name">
-            ${item.name}
-            <span class="product-code">${item.code}</span>
-          </div>
-
-          <div class="qty-control">
-            <button onclick="changeQty(${index}, -1)">−</button>
-            <strong>${item.qty}</strong>
-            <button onclick="changeQty(${index}, 1)">+</button>
-          </div>
-
-          <div>${money(item.price)}</div>
-
-          <div>
-            <strong>${money(item.price * item.qty)}</strong>
-          </div>
-
-          <button class="remove" onclick="removeProduct(${index})">
-            ×
-          </button>
-        `;
-
-        list.appendChild(row);
-
-      });
-
-
-      updateSummary();
-    }
-
-
-    /* =========================
-       QUANTIDADE
-    ========================= */
-
-    function changeQty(index, amount) {
-
-      cart[index].qty += amount;
-
-      if (cart[index].qty <= 0) {
-        cart.splice(index, 1);
-      }
-
-      renderCart();
-    }
-
-
-    /* =========================
-       REMOVER
-    ========================= */
-
-    function removeProduct(index) {
-
-      cart.splice(index, 1);
-
-      renderCart();
-    }
-
-
-    /* =========================
-       RESUMO
-    ========================= */
-
-    function updateSummary() {
-
-      let itemCount = 0;
-      let subtotal = 0;
-
-      cart.forEach(item => {
-
-        itemCount += item.qty;
-
-        subtotal += item.price * item.qty;
-
-      });
-
-
-      document.getElementById("itemCount").textContent = itemCount;
-
-      document.getElementById("subtotal").textContent = money(subtotal);
-
-      document.getElementById("total").textContent = money(subtotal);
-
-      document.getElementById("finishButton").disabled =
-        cart.length === 0 || selectedPayment === "";
-    }
-
-
-    /* =========================
-       PAGAMENTO
-    ========================= */
-
-    function selectPayment(button, payment) {
-
-      document
-        .querySelectorAll(".payment")
-        .forEach(btn => btn.classList.remove("active"));
-
-      button.classList.add("active");
-
-      selectedPayment = payment;
-
-      updateSummary();
-    }
-
-
-    /* =========================
-       FINALIZAR VENDA
-    ========================= */
-
-    function finishSale() {
-
-      if (cart.length === 0) {
-        alert("Adicione produtos antes de finalizar.");
-        return;
-      }
-
-      if (!selectedPayment) {
-        alert("Selecione uma forma de pagamento.");
-        return;
-      }
-
-
-      let total = cart.reduce(
-        (sum, item) => sum + item.price * item.qty,
-        0
-      );
-
-
-      sales.push({
-        number: saleNumber,
-        time: new Date().toLocaleTimeString("pt-BR", {
-          hour: "2-digit",
-          minute: "2-digit"
-        }),
-        total: total,
-        payment: selectedPayment,
-        items: cart.reduce(
-          (sum, item) => sum + item.qty,
-          0
-        )
-      });
-
-
-      alert(
-        "Venda finalizada com sucesso!\n\n" +
-        "Total: " + money(total) + "\n" +
-        "Pagamento: " + selectedPayment
-      );
-
-
-      saleNumber++;
-
-      document.getElementById("saleNumber").textContent =
-        "Venda #" + String(saleNumber).padStart(4, "0");
-
-
-      cart = [];
-      selectedPayment = "";
-
-      document
-        .querySelectorAll(".payment")
-        .forEach(btn => btn.classList.remove("active"));
-
-      renderCart();
-
-      document.getElementById("barcode").focus();
-    }
-
-
-    /* =========================
-       NOVA VENDA
-    ========================= */
-
-    function newSale() {
-
-      cart = [];
-      selectedPayment = "";
-
-      document
-        .querySelectorAll(".payment")
-        .forEach(btn => btn.classList.remove("active"));
-
-      renderCart();
-
-      document.getElementById("barcode").focus();
-
-      toggleMenu();
-    }
-
-
-    /* =========================
-       VENDAS DO DIA
-    ========================= */
-
-    function showSales() {
-
-      toggleMenu();
-
-      const list = document.getElementById("salesList");
-
-      if (sales.length === 0) {
-
-        list.innerHTML = `
-          <div class="empty">
-            <div>
-              <div class="empty-icon">📋</div>
-              <p>Nenhuma venda finalizada ainda.</p>
-            </div>
-          </div>
-        `;
-
-      } else {
-
-        list.innerHTML = "";
-
-        [...sales].reverse().forEach(sale => {
-
-          const item = document.createElement("div");
-
-          item.className = "sale-item";
-
-          item.innerHTML = `
-            <div>
-              <strong>Venda #${String(sale.number).padStart(4, "0")}</strong>
-              <small>
-                ${sale.time} • ${sale.items} item(ns) • ${sale.payment}
-              </small>
-            </div>
-
-            <div class="sale-price">
-              ${money(sale.total)}
-            </div>
-          `;
-
-          list.appendChild(item);
+            quantidade:1
 
         });
 
-      }
-
-      document.getElementById("salesModal").classList.add("open");
     }
 
 
-    function closeModal() {
-      document.getElementById("salesModal").classList.remove("open");
+    campo.value = "";
+
+    campo.focus();
+
+    renderizar();
+
+}
+
+
+/* =========================
+   RENDERIZAR
+========================= */
+
+function renderizar(){
+
+    const lista =
+        document.getElementById("listaProdutos");
+
+
+    if(carrinho.length === 0){
+
+        lista.innerHTML = `
+
+            <div class="vazio">
+
+                <div>
+
+                    <div class="vazio-icon">
+                        🛒
+                    </div>
+
+                    <p>
+                        Nenhum produto adicionado.<br>
+                        Passe o produto no leitor.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+        atualizarResumo();
+
+        return;
+
     }
 
 
-    /* =========================
-       PRODUTOS
-    ========================= */
+    lista.innerHTML = "";
 
-    function showProducts() {
 
-      toggleMenu();
+    carrinho.forEach(
+        (produto,index)=>{
 
-      const total = Object.keys(productsDatabase).length;
+            const linha =
+                document.createElement("div");
 
-      alert(
-        "Produtos cadastrados: " + total +
-        "\n\n" +
-        "Nesta versão, os produtos de teste estão cadastrados diretamente no sistema."
-      );
+            linha.className =
+                "produto";
+
+
+            linha.innerHTML = `
+
+                <div class="nome-produto">
+
+                    ${produto.nome}
+
+                    <span class="codigo">
+                        ${produto.codigo}
+                    </span>
+
+                </div>
+
+
+                <div class="quantidade">
+
+                    <button
+                        onclick="alterarQuantidade(${index},-1)"
+                    >
+                        −
+                    </button>
+
+                    <strong>
+                        ${produto.quantidade}
+                    </strong>
+
+                    <button
+                        onclick="alterarQuantidade(${index},1)"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+
+                <div>
+                    ${dinheiro(produto.preco)}
+                </div>
+
+
+                <div>
+                    <strong>
+                        ${dinheiro(
+                            produto.preco *
+                            produto.quantidade
+                        )}
+                    </strong>
+                </div>
+
+
+                <button
+                    class="excluir"
+                    onclick="removerProduto(${index})"
+                >
+                    ×
+                </button>
+
+            `;
+
+
+            lista.appendChild(linha);
+
+        }
+    );
+
+
+    atualizarResumo();
+
+}
+
+
+/* =========================
+   QUANTIDADE
+========================= */
+
+function alterarQuantidade(index,valor){
+
+    carrinho[index].quantidade += valor;
+
+
+    if(carrinho[index].quantidade <= 0){
+
+        carrinho.splice(index,1);
+
     }
 
 
-    /* =========================
-       INFORMAÇÕES
-    ========================= */
+    renderizar();
 
-    function showInfo() {
-
-      toggleMenu();
-
-      alert(
-        "DAV — Supermercado Val Bença\n\n" +
-        "Sistema de Frente de Caixa\n" +
-        "GT Delivery\n\n" +
-        "Versão inicial"
-      );
-    }
+}
 
 
-    /* =========================
-       FECHAR MODAL CLICANDO FORA
-    ========================= */
+/* =========================
+   REMOVER
+========================= */
+
+function removerProduto(index){
+
+    carrinho.splice(index,1);
+
+    renderizar();
+
+}
+
+
+/* =========================
+   RESUMO
+========================= */
+
+function atualizarResumo(){
+
+    let quantidade = 0;
+
+    let subtotal = 0;
+
+
+    carrinho.forEach(produto=>{
+
+        quantidade += produto.quantidade;
+
+        subtotal +=
+            produto.preco *
+            produto.quantidade;
+
+    });
+
 
     document
-      .getElementById("salesModal")
-      .addEventListener("click", function(event) {
+    .getElementById("quantidadeItens")
+    .textContent = quantidade;
 
-        if (event.target === this) {
-          closeModal();
+
+    document
+    .getElementById("subtotal")
+    .textContent = dinheiro(subtotal);
+
+
+    document
+    .getElementById("total")
+    .textContent = dinheiro(subtotal);
+
+
+    document
+    .getElementById("finalizar")
+    .disabled =
+        carrinho.length === 0 ||
+        pagamentoSelecionado === "";
+
+}
+
+
+/* =========================
+   PAGAMENTO
+========================= */
+
+function selecionarPagamento(botao,pagamento){
+
+    document
+    .querySelectorAll(".pagamento")
+    .forEach(
+        b=>b.classList.remove("selecionado")
+    );
+
+
+    botao.classList.add("selecionado");
+
+
+    pagamentoSelecionado =
+        pagamento;
+
+
+    atualizarResumo();
+
+}
+
+
+/* =========================
+   FINALIZAR VENDA
+========================= */
+
+function finalizarVenda(){
+
+    if(carrinho.length === 0){
+
+        alert(
+            "Adicione produtos antes de finalizar."
+        );
+
+        return;
+
+    }
+
+
+    if(!pagamentoSelecionado){
+
+        alert(
+            "Escolha a forma de pagamento."
+        );
+
+        return;
+
+    }
+
+
+    const total =
+        carrinho.reduce(
+            (soma,produto)=>
+                soma +
+                produto.preco *
+                produto.quantidade,
+            0
+        );
+
+
+    const itens =
+        carrinho.reduce(
+            (soma,produto)=>
+                soma +
+                produto.quantidade,
+            0
+        );
+
+
+    vendas.push({
+
+        numero:numeroVenda,
+
+        hora:new Date()
+        .toLocaleTimeString(
+            "pt-BR",
+            {
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        ),
+
+        total:total,
+
+        itens:itens,
+
+        pagamento:pagamentoSelecionado
+
+    });
+
+
+    alert(
+        "Venda finalizada!\n\n" +
+        "Total: " + dinheiro(total) +
+        "\nPagamento: " +
+        pagamentoSelecionado
+    );
+
+
+    numeroVenda++;
+
+
+    document
+    .getElementById("numeroVenda")
+    .textContent =
+        "Venda #" +
+        String(numeroVenda)
+        .padStart(4,"0");
+
+
+    carrinho = [];
+
+    pagamentoSelecionado = "";
+
+
+    document
+    .querySelectorAll(".pagamento")
+    .forEach(
+        b=>b.classList.remove("selecionado")
+    );
+
+
+    renderizar();
+
+
+    document
+    .getElementById("codigo")
+    .focus();
+
+}
+
+
+/* =========================
+   NOVA VENDA
+========================= */
+
+function novaVenda(){
+
+    document
+    .getElementById("menu")
+    .classList.remove("aberto");
+
+
+    carrinho = [];
+
+    pagamentoSelecionado = "";
+
+
+    document
+    .querySelectorAll(".pagamento")
+    .forEach(
+        b=>b.classList.remove("selecionado")
+    );
+
+
+    renderizar();
+
+
+    document
+    .getElementById("codigo")
+    .focus();
+
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+function abrirMenu(){
+
+    document
+    .getElementById("menu")
+    .classList.toggle("aberto");
+
+}
+
+
+/* =========================
+   VENDAS
+========================= */
+
+function abrirVendas(){
+
+    document
+    .getElementById("menu")
+    .classList.remove("aberto");
+
+
+    const lista =
+        document.getElementById("listaVendas");
+
+
+    if(vendas.length === 0){
+
+        lista.innerHTML = `
+
+            <div class="vazio">
+
+                <div>
+
+                    <div class="vazio-icon">
+                        📋
+                    </div>
+
+                    <p>
+                        Nenhuma venda finalizada.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }else{
+
+        lista.innerHTML = "";
+
+
+        [...vendas]
+        .reverse()
+        .forEach(venda=>{
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "venda-item";
+
+
+            item.innerHTML = `
+
+                <div>
+
+                    <strong>
+                        Venda #${String(venda.numero).padStart(4,"0")}
+                    </strong>
+
+                    <small>
+                        ${venda.hora}
+                        • ${venda.itens} item(ns)
+                        • ${venda.pagamento}
+                    </small>
+
+                </div>
+
+                <div class="venda-valor">
+                    ${dinheiro(venda.total)}
+                </div>
+
+            `;
+
+
+            lista.appendChild(item);
+
+        });
+
+    }
+
+
+    document
+    .getElementById("modalVendas")
+    .classList.add("aberto");
+
+}
+
+
+function fecharVendas(){
+
+    document
+    .getElementById("modalVendas")
+    .classList.remove("aberto");
+
+}
+
+
+/* =========================
+   PRODUTOS CADASTRADOS
+========================= */
+
+function produtosCadastrados(){
+
+    document
+    .getElementById("menu")
+    .classList.remove("aberto");
+
+
+    alert(
+        "Produtos cadastrados no teste: " +
+        Object.keys(produtosBanco).length
+    );
+
+}
+
+
+/* =========================
+   INFORMAÇÕES
+========================= */
+
+function informacoes(){
+
+    document
+    .getElementById("menu")
+    .classList.remove("aberto");
+
+
+    alert(
+        "DAV - Supermercado Val Bença\n\n" +
+        "Frente de Caixa\n" +
+        "GT Delivery"
+    );
+
+}
+
+
+/* =========================
+   FECHAR MENU AO CLICAR FORA
+========================= */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const menu =
+            document.getElementById("menu");
+
+        const botao =
+            document.querySelector(".menu-btn");
+
+
+        if(
+            !menu.contains(event.target) &&
+            !botao.contains(event.target)
+        ){
+
+            menu.classList.remove("aberto");
+
         }
 
-      });
+    }
+);
 
 
-    /* =========================
-       INICIALIZAÇÃO
-    ========================= */
+/* =========================
+   FECHAR MODAL
+========================= */
 
-    document.getElementById("saleNumber").textContent =
-      "Venda #" + String(saleNumber).padStart(4, "0");
+document
+.getElementById("modalVendas")
+.addEventListener(
+    "click",
+    function(event){
 
-    document.getElementById("barcode").focus();
+        if(event.target === this){
 
-  </script>
+            fecharVendas();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   INÍCIO
+========================= */
+
+document
+.getElementById("codigo")
+.focus();
+
+</script>
 
 </body>
 </html>
