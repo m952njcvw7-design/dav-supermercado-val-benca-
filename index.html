@@ -6,420 +6,582 @@
 <title>DAV - Supermercado Val Bença</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+:root{
+    --azul:#0755a5;
+    --azul-escuro:#063d79;
+    --azul-claro:#0b67c7;
+    --amarelo:#ffd21c;
+    --branco:#ffffff;
+    --gelo:#f1f4f8;
+    --cinza:#dce3eb;
+    --texto:#172536;
+    --preto:#15191e;
+    --verde:#18a558;
+    --vermelho:#d93636;
 }
 
-body {
-    background: #f4f5f7;
-    color: #172033;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-/* TOPO */
-.topo {
-    height: 82px;
-    background: #0756a8;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    box-shadow: 0 3px 10px rgba(0,0,0,.15);
+body{
+    min-height:100vh;
+    background:var(--gelo);
+    color:var(--texto);
 }
 
-.logo-area {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+/* ================= TOPO ================= */
+
+.topo{
+    height:82px;
+    background:var(--azul);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 24px;
+    color:white;
+    box-shadow:0 3px 12px rgba(0,0,0,.20);
 }
 
-.logo {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background: #ffd21c;
-    color: #0756a8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    font-weight: bold;
+.marca{
+    display:flex;
+    align-items:center;
+    gap:13px;
 }
 
-.nome {
-    font-size: 23px;
-    font-weight: 800;
+.logo{
+    width:52px;
+    height:52px;
+    background:var(--amarelo);
+    color:var(--azul);
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:900;
 }
 
-.subtitulo {
-    font-size: 12px;
-    opacity: .9;
-    margin-top: 4px;
+.marca h1{
+    font-size:21px;
+    letter-spacing:.3px;
 }
 
-.topo-direita {
-    display: flex;
-    align-items: center;
-    gap: 18px;
+.marca p{
+    font-size:12px;
+    margin-top:4px;
+    opacity:.9;
 }
 
-.caixa {
-    background: rgba(255,255,255,.13);
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 13px;
+.topo-direita{
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
 
-.menu-btn {
-    border: none;
-    background: transparent;
-    color: white;
-    font-size: 29px;
-    cursor: pointer;
+.caixa{
+    background:var(--azul-escuro);
+    border:1px solid rgba(255,255,255,.18);
+    padding:10px 15px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
 }
 
-/* MENU */
-.menu {
-    position: absolute;
-    right: 20px;
-    top: 72px;
-    width: 220px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0,0,0,.2);
-    display: none;
-    z-index: 10;
-    overflow: hidden;
+.menu-btn{
+    width:45px;
+    height:45px;
+    border:0;
+    border-radius:9px;
+    background:var(--amarelo);
+    color:var(--azul);
+    font-size:27px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.menu button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    background: white;
-    text-align: left;
-    cursor: pointer;
-    font-size: 14px;
+/* ================= MENU ================= */
+
+.menu{
+    position:absolute;
+    right:20px;
+    top:74px;
+    width:240px;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 35px rgba(0,0,0,.25);
+    display:none;
+    z-index:100;
 }
 
-.menu button:hover {
-    background: #eef5ff;
-    color: #0756a8;
+.menu button{
+    width:100%;
+    padding:15px 17px;
+    border:0;
+    background:white;
+    text-align:left;
+    font-size:14px;
+    cursor:pointer;
 }
 
-/* CONTEÚDO */
-.container {
-    padding: 24px;
-    max-width: 1450px;
-    margin: auto;
+.menu button:hover{
+    background:#edf5ff;
+    color:var(--azul);
 }
 
-.titulo {
-    font-size: 22px;
-    font-weight: 800;
-    color: #0756a8;
-    margin-bottom: 18px;
+/* ================= LAYOUT ================= */
+
+.pagina{
+    display:flex;
+    min-height:calc(100vh - 82px);
 }
 
-/* LEITOR */
-.leitor {
-    background: white;
-    border-radius: 14px;
-    padding: 18px;
-    box-shadow: 0 2px 9px rgba(0,0,0,.08);
-    margin-bottom: 20px;
-    border-left: 6px solid #ffd21c;
+/* MENU LATERAL */
+
+.lateral{
+    width:225px;
+    background:var(--azul-escuro);
+    padding:20px 13px;
+    color:white;
 }
 
-.leitor-titulo {
-    font-weight: bold;
-    color: #0756a8;
-    margin-bottom: 10px;
+.lateral-titulo{
+    padding:8px 12px 14px;
+    font-size:11px;
+    text-transform:uppercase;
+    opacity:.65;
+    letter-spacing:1px;
 }
 
-.leitor-area {
-    display: flex;
-    gap: 10px;
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
 }
 
-.leitor input {
-    flex: 1;
-    height: 50px;
-    border: 2px solid #dce3ec;
-    border-radius: 9px;
-    padding: 0 15px;
-    font-size: 17px;
-    outline: none;
+.nav button{
+    border:0;
+    border-radius:8px;
+    background:transparent;
+    color:white;
+    padding:13px 12px;
+    text-align:left;
+    font-size:14px;
+    cursor:pointer;
 }
 
-.leitor input:focus {
-    border-color: #0756a8;
+.nav button:hover,
+.nav button.ativo{
+    background:var(--amarelo);
+    color:#172536;
+    font-weight:bold;
 }
 
-.btn-adicionar {
-    width: 150px;
-    border: none;
-    border-radius: 9px;
-    background: #ffd21c;
-    color: #172033;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
+.nav-icon{
+    display:inline-block;
+    width:27px;
 }
 
-.btn-adicionar:hover {
-    filter: brightness(.95);
+/* ================= CONTEÚDO ================= */
+
+.conteudo{
+    flex:1;
+    padding:22px;
+    min-width:0;
 }
 
-/* GRID */
-.venda-grid {
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 20px;
+.titulo-area{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
 }
 
-/* PRODUTOS */
-.produtos {
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 2px 9px rgba(0,0,0,.08);
+.titulo-area h2{
+    color:var(--azul);
+    font-size:23px;
 }
 
-.produtos-header {
-    background: #0756a8;
-    color: white;
-    padding: 15px 18px;
-    font-weight: bold;
-    display: grid;
-    grid-template-columns: 1fr 90px 120px 130px 45px;
-    gap: 10px;
+.status{
+    background:white;
+    border:1px solid var(--cinza);
+    padding:8px 13px;
+    border-radius:8px;
+    font-size:12px;
 }
 
-.lista {
-    min-height: 400px;
-    max-height: 480px;
-    overflow-y: auto;
+.status span{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    background:var(--verde);
+    border-radius:50%;
+    margin-right:5px;
 }
 
-.produto {
-    display: grid;
-    grid-template-columns: 1fr 90px 120px 130px 45px;
-    gap: 10px;
-    align-items: center;
-    padding: 16px 18px;
-    border-bottom: 1px solid #edf0f4;
+/* ================= LEITOR ================= */
+
+.leitor{
+    background:var(--azul);
+    border-radius:12px;
+    padding:17px;
+    color:white;
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
+    margin-bottom:18px;
 }
 
-.produto:hover {
-    background: #f8fbff;
+.leitor-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:11px;
 }
 
-.produto-nome {
-    font-weight: bold;
+.leitor-titulo{
+    font-weight:bold;
+    font-size:14px;
 }
 
-.preco,
-.subtotal {
-    font-weight: bold;
+.leitor-ajuda{
+    font-size:11px;
+    opacity:.8;
 }
 
-.subtotal {
-    color: #0756a8;
+.leitor-form{
+    display:flex;
+    gap:10px;
 }
 
-.qtd {
-    display: flex;
-    align-items: center;
-    gap: 7px;
+.leitor input{
+    flex:1;
+    height:50px;
+    border:3px solid var(--amarelo);
+    border-radius:8px;
+    padding:0 15px;
+    font-size:17px;
+    outline:none;
 }
 
-.qtd button {
-    width: 27px;
-    height: 27px;
-    border: none;
-    border-radius: 6px;
-    background: #0756a8;
-    color: white;
-    cursor: pointer;
+.adicionar{
+    width:145px;
+    border:0;
+    border-radius:8px;
+    background:var(--amarelo);
+    color:#172536;
+    font-size:14px;
+    font-weight:900;
+    cursor:pointer;
 }
 
-.remover {
-    border: none;
-    background: #e9edf2;
-    color: #c62828;
-    width: 30px;
-    height: 30px;
-    border-radius: 7px;
-    cursor: pointer;
+/* ================= VENDA ================= */
+
+.venda{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 330px;
+    gap:18px;
 }
 
-/* VAZIO */
-.vazio {
-    min-height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: #8792a2;
-    gap: 10px;
+.painel{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 3px 10px rgba(0,0,0,.09);
 }
 
-.vazio-icon {
-    font-size: 45px;
+.painel-titulo{
+    height:53px;
+    background:var(--azul);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 17px;
+    font-size:14px;
+    font-weight:bold;
 }
 
-/* RESUMO */
-.resumo {
-    background: white;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 2px 9px rgba(0,0,0,.08);
-    height: fit-content;
+.contador{
+    background:var(--amarelo);
+    color:#172536;
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:11px;
 }
 
-.resumo h2 {
-    color: #0756a8;
-    font-size: 19px;
-    margin-bottom: 20px;
+.colunas{
+    display:grid;
+    grid-template-columns:1fr 90px 110px 120px 40px;
+    gap:8px;
+    padding:11px 15px;
+    background:#e9eef5;
+    color:#4e5d6d;
+    font-size:10px;
+    font-weight:bold;
 }
 
-.linha {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 13px;
-    color: #596579;
+.lista{
+    min-height:380px;
+    max-height:440px;
+    overflow:auto;
 }
 
-.total {
-    margin-top: 17px;
-    padding-top: 17px;
-    border-top: 2px solid #edf0f4;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.vazio{
+    min-height:380px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    color:#8b98a7;
+    gap:9px;
 }
 
-.total span:first-child {
-    font-weight: bold;
-    font-size: 17px;
+.vazio-icon{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#e8eef6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
 }
 
-.total-valor {
-    color: #0756a8;
-    font-size: 29px;
-    font-weight: 900;
+.produto{
+    display:grid;
+    grid-template-columns:1fr 90px 110px 120px 40px;
+    gap:8px;
+    align-items:center;
+    padding:14px 15px;
+    border-bottom:1px solid #edf0f4;
+    font-size:13px;
 }
 
-/* PAGAMENTO */
-.pagamento {
-    margin-top: 22px;
+.produto:hover{
+    background:#f5f9ff;
 }
 
-.pagamento h3 {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: #596579;
+.produto-nome{
+    font-weight:bold;
 }
 
-.formas {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+.codigo{
+    display:block;
+    color:#8995a3;
+    font-size:10px;
+    margin-top:3px;
 }
 
-.forma {
-    height: 48px;
-    border: 2px solid #dce3ec;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-    font-weight: bold;
+.quantidade{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.quantidade button{
+    width:25px;
+    height:25px;
+    border:0;
+    border-radius:5px;
+    background:var(--azul);
+    color:white;
+    cursor:pointer;
+}
+
+.subtotal{
+    color:var(--azul);
+    font-weight:bold;
+}
+
+.remover{
+    width:28px;
+    height:28px;
+    border:0;
+    border-radius:5px;
+    background:#f0f2f5;
+    color:var(--vermelho);
+    cursor:pointer;
+}
+
+/* ================= RESUMO ================= */
+
+.resumo{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 3px 10px rgba(0,0,0,.09);
+    height:max-content;
+}
+
+.resumo-titulo{
+    background:var(--azul);
+    color:white;
+    padding:17px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.resumo-corpo{
+    padding:17px;
+}
+
+.linha{
+    display:flex;
+    justify-content:space-between;
+    padding:9px 0;
+    color:#596777;
+    font-size:13px;
+}
+
+.linha + .linha{
+    border-top:1px solid #edf0f4;
+}
+
+.total{
+    margin-top:12px;
+    background:#eef5ff;
+    border:2px solid var(--azul);
+    border-radius:9px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.total small{
+    display:block;
+    color:#607083;
+    font-size:10px;
+}
+
+.total strong{
+    color:var(--azul);
+    font-size:25px;
+}
+
+/* ================= PAGAMENTO ================= */
+
+.pagamento{
+    margin-top:18px;
+}
+
+.pagamento h3{
+    color:#4d5c6d;
+    font-size:12px;
+    margin-bottom:9px;
+}
+
+.formas{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+}
+
+.forma{
+    min-height:45px;
+    border:2px solid #dce3eb;
+    background:white;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:11px;
 }
 
 .forma:hover,
-.forma.ativa {
-    border-color: #0756a8;
-    background: #eef5ff;
-    color: #0756a8;
+.forma.ativa{
+    background:var(--amarelo);
+    border-color:var(--amarelo);
+    color:#172536;
 }
 
-.finalizar {
-    width: 100%;
-    height: 55px;
-    margin-top: 18px;
-    border: none;
-    border-radius: 9px;
-    background: #0756a8;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.finalizar{
+    width:100%;
+    height:52px;
+    margin-top:12px;
+    border:0;
+    border-radius:8px;
+    background:var(--azul);
+    color:white;
+    font-size:14px;
+    font-weight:900;
+    cursor:pointer;
 }
 
-.finalizar:hover {
-    background: #06488c;
+.finalizar:hover{
+    background:var(--azul-claro);
 }
 
-/* RODAPÉ */
-.rodape {
-    margin-top: 25px;
-    background: #171717;
-    color: #ddd;
-    padding: 14px 25px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
+/* ================= RODAPÉ ================= */
+
+.rodape{
+    background:var(--preto);
+    color:#dce1e6;
+    padding:12px 18px;
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
 }
 
-.gt {
-    color: #ffd21c;
-    font-weight: bold;
+.gt{
+    color:var(--amarelo);
+    font-weight:bold;
 }
 
-/* RESPONSIVO */
-@media(max-width: 900px) {
-    .venda-grid {
-        grid-template-columns: 1fr;
+/* ================= RESPONSIVO ================= */
+
+@media(max-width:1050px){
+
+    .lateral{
+        width:190px;
     }
 
-    .resumo {
-        width: 100%;
+    .venda{
+        grid-template-columns:1fr;
     }
+
 }
 
-@media(max-width: 650px) {
-    .produtos-header {
-        display: none;
+@media(max-width:750px){
+
+    .lateral{
+        display:none;
     }
 
-    .produto {
-        grid-template-columns: 1fr;
-        gap: 7px;
+    .conteudo{
+        padding:12px;
     }
 
-    .leitor-area {
-        flex-direction: column;
+    .topo{
+        padding:0 12px;
     }
 
-    .btn-adicionar {
-        width: 100%;
-        height: 50px;
+    .marca h1{
+        font-size:16px;
     }
 
-    .topo {
-        padding: 0 12px;
+    .caixa{
+        display:none;
     }
 
-    .nome {
-        font-size: 17px;
+    .colunas{
+        display:none;
     }
 
-    .caixa {
-        display: none;
+    .produto{
+        grid-template-columns:1fr;
+        gap:7px;
+    }
+
+    .leitor-form{
+        flex-direction:column;
+    }
+
+    .adicionar{
+        width:100%;
+        height:48px;
     }
 }
 </style>
@@ -427,54 +589,146 @@ body {
 
 <body>
 
+<!-- ================= TOPO ================= -->
+
 <header class="topo">
 
-    <div class="logo-area">
+    <div class="marca">
+
         <div class="logo">VB</div>
 
         <div>
-            <div class="nome">SUPERMERCADO VAL BENÇA</div>
-            <div class="subtitulo">DAV • ADMINISTRAÇÃO DE VENDAS</div>
+            <h1>SUPERMERCADO VAL BENÇA</h1>
+            <p>DAV • ADMINISTRAÇÃO DE VENDAS</p>
         </div>
+
     </div>
 
     <div class="topo-direita">
-        <div class="caixa">CAIXA 01</div>
+
+        <div class="caixa">
+            CAIXA 01 • OPERADOR
+        </div>
 
         <button class="menu-btn" onclick="abrirMenu()">⋮</button>
+
     </div>
 
 </header>
 
+<!-- ================= MENU 3 PONTOS ================= -->
+
 <div class="menu" id="menu">
-    <button onclick="alert('Vendas do dia')">📊 Vendas do dia</button>
-    <button onclick="novaVenda()">🛒 Nova venda</button>
-    <button onclick="alert('Produtos cadastrados')">📦 Produtos cadastrados</button>
-    <button onclick="alert('Configurações')">⚙️ Configurações</button>
-    <button onclick="alert('Sair')">🚪 Sair</button>
+
+    <button onclick="mostrarVendas()">
+        📊 Vendas do dia
+    </button>
+
+    <button onclick="novaVenda()">
+        🛒 Nova venda
+    </button>
+
+    <button onclick="alert('Tela de produtos será adicionada na próxima etapa.')">
+        📦 Produtos cadastrados
+    </button>
+
+    <button onclick="alert('Configurações do DAV')">
+        ⚙️ Configurações
+    </button>
+
+    <button onclick="alert('Função de saída do operador')">
+        🚪 Sair
+    </button>
+
 </div>
 
-<main class="container">
+<div class="pagina">
 
-    <div class="titulo">Nova venda</div>
+<!-- ================= LATERAL ================= -->
 
-    <!-- LEITOR -->
-    <section class="leitor">
+<aside class="lateral">
 
-        <div class="leitor-titulo">
-            🔎 PASSAR PRODUTO NO LEITOR
+    <div class="lateral-titulo">
+        MENU PRINCIPAL
+    </div>
+
+    <nav class="nav">
+
+        <button class="ativo">
+            <span class="nav-icon">🛒</span>
+            Nova venda
+        </button>
+
+        <button onclick="mostrarVendas()">
+            <span class="nav-icon">📊</span>
+            Vendas do dia
+        </button>
+
+        <button>
+            <span class="nav-icon">📦</span>
+            Produtos
+        </button>
+
+        <button>
+            <span class="nav-icon">💰</span>
+            Financeiro
+        </button>
+
+        <button>
+            <span class="nav-icon">📈</span>
+            Relatórios
+        </button>
+
+        <button>
+            <span class="nav-icon">⚙️</span>
+            Configurações
+        </button>
+
+    </nav>
+
+</aside>
+
+<!-- ================= CONTEÚDO ================= -->
+
+<main class="conteudo">
+
+    <div class="titulo-area">
+
+        <h2>Nova venda</h2>
+
+        <div class="status">
+            <span></span>
+            Sistema online
         </div>
 
-        <div class="leitor-area">
+    </div>
+
+    <!-- LEITOR -->
+
+    <section class="leitor">
+
+        <div class="leitor-topo">
+
+            <div class="leitor-titulo">
+                🔎 LEITURA DE PRODUTO
+            </div>
+
+            <div class="leitor-ajuda">
+                Passe o código no leitor
+            </div>
+
+        </div>
+
+        <div class="leitor-form">
 
             <input
                 id="codigo"
                 type="text"
-                placeholder="Digite ou escaneie o código de barras..."
-                autofocus
+                autocomplete="off"
+                placeholder="Digite ou passe o código de barras..."
             >
 
-            <button class="btn-adicionar" onclick="adicionarProduto()">
+            <button class="adicionar" onclick="adicionarProduto()">
                 + ADICIONAR
             </button>
 
@@ -482,25 +736,44 @@ body {
 
     </section>
 
-    <section class="venda-grid">
+    <!-- VENDA -->
 
-        <!-- LISTA -->
-        <div class="produtos">
+    <section class="venda">
 
-            <div class="produtos-header">
+        <!-- PRODUTOS -->
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+
+                <span>PRODUTOS DA VENDA</span>
+
+                <span class="contador" id="contador">
+                    0 ITENS
+                </span>
+
+            </div>
+
+            <div class="colunas">
                 <div>PRODUTO</div>
-                <div>QTD.</div>
+                <div>QUANTIDADE</div>
                 <div>PREÇO</div>
                 <div>SUBTOTAL</div>
                 <div></div>
             </div>
 
-            <div class="lista" id="listaProdutos">
+            <div class="lista" id="lista">
 
                 <div class="vazio" id="vazio">
+
                     <div class="vazio-icon">🛒</div>
-                    <div>Nenhum produto adicionado</div>
-                    <small>Passe o código de barras no leitor</small>
+
+                    <strong>A venda está vazia</strong>
+
+                    <span>
+                        Passe o primeiro produto no leitor
+                    </span>
+
                 </div>
 
             </div>
@@ -508,57 +781,78 @@ body {
         </div>
 
         <!-- RESUMO -->
+
         <aside class="resumo">
 
-            <h2>RESUMO DA VENDA</h2>
-
-            <div class="linha">
-                <span>Itens</span>
-                <span id="quantidadeItens">0</span>
+            <div class="resumo-titulo">
+                RESUMO DA VENDA
             </div>
 
-            <div class="linha">
-                <span>Subtotal</span>
-                <span id="subtotal">R$ 0,00</span>
-            </div>
+            <div class="resumo-corpo">
 
-            <div class="linha">
-                <span>Desconto</span>
-                <span>R$ 0,00</span>
-            </div>
+                <div class="linha">
+                    <span>Quantidade de itens</span>
+                    <strong id="qtdItens">0</strong>
+                </div>
 
-            <div class="total">
-                <span>TOTAL</span>
-                <span class="total-valor" id="total">R$ 0,00</span>
-            </div>
+                <div class="linha">
+                    <span>Subtotal</span>
+                    <strong id="subtotal">R$ 0,00</strong>
+                </div>
 
-            <div class="pagamento">
+                <div class="linha">
+                    <span>Desconto</span>
+                    <strong>R$ 0,00</strong>
+                </div>
 
-                <h3>FORMA DE PAGAMENTO</h3>
+                <div class="total">
 
-                <div class="formas">
-
-                    <button class="forma" onclick="selecionarPagamento(this)">
-                        💵 DINHEIRO
-                    </button>
-
-                    <button class="forma" onclick="selecionarPagamento(this)">
-                        🔑 PIX
-                    </button>
-
-                    <button class="forma" onclick="selecionarPagamento(this)">
-                        💳 DÉBITO
-                    </button>
-
-                    <button class="forma" onclick="selecionarPagamento(this)">
-                        💳 CRÉDITO
-                    </button>
+                    <div>
+                        <small>TOTAL A PAGAR</small>
+                        <strong id="total">R$ 0,00</strong>
+                    </div>
 
                 </div>
 
-                <button class="finalizar" onclick="finalizarVenda()">
-                    ✓ FINALIZAR VENDA
-                </button>
+                <div class="pagamento">
+
+                    <h3>FORMA DE PAGAMENTO</h3>
+
+                    <div class="formas">
+
+                        <button
+                            class="forma"
+                            onclick="pagamento(this,'Dinheiro')">
+                            💵 DINHEIRO
+                        </button>
+
+                        <button
+                            class="forma"
+                            onclick="pagamento(this,'PIX')">
+                            🔑 PIX
+                        </button>
+
+                        <button
+                            class="forma"
+                            onclick="pagamento(this,'Débito')">
+                            💳 DÉBITO
+                        </button>
+
+                        <button
+                            class="forma"
+                            onclick="pagamento(this,'Crédito')">
+                            💳 CRÉDITO
+                        </button>
+
+                    </div>
+
+                    <button
+                        class="finalizar"
+                        onclick="finalizarVenda()">
+                        ✓ FINALIZAR VENDA
+                    </button>
+
+                </div>
 
             </div>
 
@@ -568,46 +862,61 @@ body {
 
 </main>
 
+</div>
+
 <footer class="rodape">
-    <span>Supermercado Val Bença • Sistema DAV</span>
-    <span class="gt">GT Delivery</span>
+
+    <span>
+        Supermercado Val Bença • DAV
+    </span>
+
+    <span class="gt">
+        GT Delivery
+    </span>
+
 </footer>
+
 
 <script>
 
-const produtosBanco = {
+/* ================= PRODUTOS DE TESTE ================= */
 
-    "7891000100103": {
-        nome: "Arroz Branco 5kg",
-        preco: 27.90
+const produtos = {
+
+    "7891000100103":{
+        nome:"Arroz Branco 5kg",
+        preco:27.90
     },
 
-    "7891000100202": {
-        nome: "Feijão Carioca 1kg",
-        preco: 8.49
+    "7891000100202":{
+        nome:"Feijão Carioca 1kg",
+        preco:8.49
     },
 
-    "7891000100301": {
-        nome: "Açúcar Cristal 1kg",
-        preco: 4.99
+    "7891000100301":{
+        nome:"Açúcar Cristal 1kg",
+        preco:4.99
     },
 
-    "7891000100400": {
-        nome: "Café 500g",
-        preco: 16.90
+    "7891000100400":{
+        nome:"Café 500g",
+        preco:16.90
     },
 
-    "7891000100509": {
-        nome: "Leite Integral 1L",
-        preco: 5.49
+    "7891000100509":{
+        nome:"Leite Integral 1L",
+        preco:5.49
     }
 
 };
 
 let carrinho = [];
-let pagamentoSelecionado = null;
+let formaPagamento = null;
 
-function abrirMenu() {
+
+/* ================= MENU ================= */
+
+function abrirMenu(){
 
     const menu = document.getElementById("menu");
 
@@ -617,40 +926,52 @@ function abrirMenu() {
         : "block";
 }
 
-function adicionarProduto() {
 
-    const campo = document.getElementById("codigo");
+/* ================= ADICIONAR ================= */
 
-    const codigo = campo.value.trim();
+function adicionarProduto(){
 
-    if (!codigo) return;
+    const campo =
+        document.getElementById("codigo");
 
-    let produto = produtosBanco[codigo];
+    const codigo =
+        campo.value.trim();
 
-    if (!produto) {
+    if(!codigo){
+        campo.focus();
+        return;
+    }
+
+    let produto = produtos[codigo];
+
+    /* Produto não cadastrado,
+       apenas para teste */
+
+    if(!produto){
 
         produto = {
-            nome: "Produto " + codigo,
-            preco: 10.00
+            nome:"Produto "+codigo,
+            preco:10.00
         };
 
     }
 
-    const existente = carrinho.find(
-        item => item.codigo === codigo
-    );
+    const existente =
+        carrinho.find(
+            item => item.codigo === codigo
+        );
 
-    if (existente) {
+    if(existente){
 
-        existente.qtd++;
+        existente.quantidade++;
 
-    } else {
+    }else{
 
         carrinho.push({
-            codigo: codigo,
-            nome: produto.nome,
-            preco: produto.preco,
-            qtd: 1
+            codigo:codigo,
+            nome:produto.nome,
+            preco:produto.preco,
+            quantidade:1
         });
 
     }
@@ -663,65 +984,78 @@ function adicionarProduto() {
 
 }
 
-function renderizar() {
 
-    const lista = document.getElementById("listaProdutos");
+/* ================= RENDERIZAR ================= */
 
-    const vazio = document.getElementById("vazio");
+function renderizar(){
 
-    if (carrinho.length === 0) {
+    const lista =
+        document.getElementById("lista");
+
+    const vazio =
+        document.getElementById("vazio");
+
+    if(carrinho.length === 0){
+
+        lista.innerHTML = "";
+
+        lista.appendChild(vazio);
 
         vazio.style.display = "flex";
 
-        document.getElementById("quantidadeItens").textContent = "0";
-        document.getElementById("subtotal").textContent = "R$ 0,00";
-        document.getElementById("total").textContent = "R$ 0,00";
+        atualizarResumo();
 
         return;
-
     }
-
-    vazio.style.display = "none";
 
     lista.innerHTML = "";
 
-    let quantidadeTotal = 0;
-    let total = 0;
+    let totalItens = 0;
 
-    carrinho.forEach((produto, index) => {
+    carrinho.forEach((produto,index)=>{
+
+        totalItens += produto.quantidade;
 
         const subtotal =
-            produto.preco * produto.qtd;
+            produto.preco *
+            produto.quantidade;
 
-        quantidadeTotal += produto.qtd;
-
-        total += subtotal;
-
-        const div = document.createElement("div");
+        const div =
+            document.createElement("div");
 
         div.className = "produto";
 
         div.innerHTML = `
 
             <div class="produto-nome">
+
                 ${produto.nome}
+
+                <span class="codigo">
+                    Cód. ${produto.codigo}
+                </span>
+
             </div>
 
-            <div class="qtd">
+            <div class="quantidade">
 
-                <button onclick="alterarQuantidade(${index}, -1)">
+                <button
+                    onclick="alterarQuantidade(${index},-1)">
                     −
                 </button>
 
-                <strong>${produto.qtd}</strong>
+                <strong>
+                    ${produto.quantidade}
+                </strong>
 
-                <button onclick="alterarQuantidade(${index}, 1)">
+                <button
+                    onclick="alterarQuantidade(${index},1)">
                     +
                 </button>
 
             </div>
 
-            <div class="preco">
+            <div>
                 ${formatar(produto.preco)}
             </div>
 
@@ -729,8 +1063,9 @@ function renderizar() {
                 ${formatar(subtotal)}
             </div>
 
-            <button class="remover"
-                    onclick="removerProduto(${index})">
+            <button
+                class="remover"
+                onclick="removerProduto(${index})">
                 ✕
             </button>
 
@@ -740,24 +1075,60 @@ function renderizar() {
 
     });
 
-    document.getElementById("quantidadeItens").textContent =
-        quantidadeTotal;
+    document
+        .getElementById("contador")
+        .textContent =
+        totalItens +
+        (totalItens === 1 ? " ITEM" : " ITENS");
 
-    document.getElementById("subtotal").textContent =
+    atualizarResumo();
+
+}
+
+
+/* ================= RESUMO ================= */
+
+function atualizarResumo(){
+
+    let qtd = 0;
+    let total = 0;
+
+    carrinho.forEach(produto=>{
+
+        qtd += produto.quantidade;
+
+        total +=
+            produto.preco *
+            produto.quantidade;
+
+    });
+
+    document
+        .getElementById("qtdItens")
+        .textContent = qtd;
+
+    document
+        .getElementById("subtotal")
+        .textContent =
         formatar(total);
 
-    document.getElementById("total").textContent =
+    document
+        .getElementById("total")
+        .textContent =
         formatar(total);
 
 }
 
-function alterarQuantidade(index, valor) {
 
-    carrinho[index].qtd += valor;
+/* ================= QUANTIDADE ================= */
 
-    if (carrinho[index].qtd <= 0) {
+function alterarQuantidade(index,valor){
 
-        carrinho.splice(index, 1);
+    carrinho[index].quantidade += valor;
+
+    if(carrinho[index].quantidade <= 0){
+
+        carrinho.splice(index,1);
 
     }
 
@@ -765,104 +1136,151 @@ function alterarQuantidade(index, valor) {
 
 }
 
-function removerProduto(index) {
 
-    carrinho.splice(index, 1);
+/* ================= REMOVER ================= */
+
+function removerProduto(index){
+
+    carrinho.splice(index,1);
 
     renderizar();
 
 }
 
-function selecionarPagamento(botao) {
 
-    document.querySelectorAll(".forma")
-        .forEach(b => b.classList.remove("ativa"));
+/* ================= PAGAMENTO ================= */
+
+function pagamento(botao,forma){
+
+    document
+        .querySelectorAll(".forma")
+        .forEach(item=>{
+            item.classList.remove("ativa");
+        });
 
     botao.classList.add("ativa");
 
-    pagamentoSelecionado =
-        botao.textContent.trim();
+    formaPagamento = forma;
 
 }
 
-function finalizarVenda() {
 
-    if (carrinho.length === 0) {
+/* ================= FINALIZAR ================= */
 
-        alert("Adicione pelo menos um produto.");
+function finalizarVenda(){
+
+    if(carrinho.length === 0){
+
+        alert(
+            "Não há produtos na venda."
+        );
 
         return;
-
     }
 
-    if (!pagamentoSelecionado) {
+    if(!formaPagamento){
 
-        alert("Escolha uma forma de pagamento.");
+        alert(
+            "Escolha a forma de pagamento."
+        );
 
         return;
-
     }
 
     const total =
         carrinho.reduce(
-            (soma, produto) =>
-                soma + produto.preco * produto.qtd,
+            (soma,item)=>
+                soma +
+                item.preco *
+                item.quantidade,
             0
         );
 
     alert(
-        "VENDA FINALIZADA!\n\n" +
-        "Total: " + formatar(total) + "\n" +
-        "Pagamento: " + pagamentoSelecionado
+        "VENDA FINALIZADA!\n\n"+
+        "Total: "+formatar(total)+"\n"+
+        "Pagamento: "+formaPagamento
     );
 
     novaVenda();
 
 }
 
-function novaVenda() {
+
+/* ================= NOVA VENDA ================= */
+
+function novaVenda(){
 
     carrinho = [];
 
-    pagamentoSelecionado = null;
+    formaPagamento = null;
 
-    document.querySelectorAll(".forma")
-        .forEach(b => b.classList.remove("ativa"));
+    document
+        .querySelectorAll(".forma")
+        .forEach(item=>{
+            item.classList.remove("ativa");
+        });
 
     renderizar();
 
-    document.getElementById("codigo").focus();
+    document
+        .getElementById("codigo")
+        .focus();
 
 }
 
-function formatar(valor) {
+
+/* ================= VENDAS DO DIA ================= */
+
+function mostrarVendas(){
+
+    alert(
+        "VENDAS DO DIA\n\n"+
+        "A tela de consulta das vendas será integrada ao banco de dados Supabase."
+    );
+
+}
+
+
+/* ================= FORMATAÇÃO ================= */
+
+function formatar(valor){
 
     return valor.toLocaleString(
         "pt-BR",
         {
-            style: "currency",
-            currency: "BRL"
+            style:"currency",
+            currency:"BRL"
         }
     );
 
 }
 
-/* FUNCIONA COM LEITOR USB:
-   normalmente o leitor envia o código
-   e depois ENTER. */
 
-document.getElementById("codigo")
-    .addEventListener("keydown", function(event) {
+/* ================= LEITOR ================= */
 
-        if (event.key === "Enter") {
+/*
+   A maioria dos leitores USB funciona como
+   teclado. Ao terminar a leitura, ele envia ENTER.
+*/
 
-            event.preventDefault();
+document
+    .getElementById("codigo")
+    .addEventListener(
+        "keydown",
+        function(event){
 
-            adicionarProduto();
+            if(event.key === "Enter"){
+
+                event.preventDefault();
+
+                adicionarProduto();
+
+            }
 
         }
+    );
 
-    });
 
 renderizar();
 
