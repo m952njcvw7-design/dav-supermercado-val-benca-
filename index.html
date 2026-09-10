@@ -1174,4 +1174,674 @@ body{
             </strong>
 
             <button onclick="fecharVendas()">
-               
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="vendas-lista"
+            id="vendasLista">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   PRODUTOS
+===================================================== */
+
+const produtosBanco = {
+
+    "7891000100103":{
+        nome:"Arroz Branco 5kg",
+        preco:27.90
+    },
+
+    "7891000100202":{
+        nome:"Feijão Carioca 1kg",
+        preco:8.49
+    },
+
+    "7891000100301":{
+        nome:"Açúcar Cristal 1kg",
+        preco:4.99
+    },
+
+    "7891000100400":{
+        nome:"Café 500g",
+        preco:16.90
+    },
+
+    "7891000100509":{
+        nome:"Leite Integral 1L",
+        preco:5.49
+    }
+
+};
+
+
+let carrinho = [];
+
+let pagamentoAtual = "";
+
+let vendasDoDia = [];
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+function abrirMenu(){
+
+    document
+        .getElementById("menu")
+        .classList.toggle("aberto");
+
+}
+
+
+/* =====================================================
+   BIPAR PRODUTO
+===================================================== */
+
+function bipar(){
+
+    const campo =
+        document.getElementById("codigo");
+
+    const codigo =
+        campo.value.trim();
+
+    if(!codigo){
+
+        campo.focus();
+
+        return;
+
+    }
+
+
+    let produto =
+        produtosBanco[codigo];
+
+
+    if(!produto){
+
+        produto = {
+
+            nome:"Produto " + codigo,
+
+            preco:10.00
+
+        };
+
+    }
+
+
+    const existente =
+        carrinho.find(
+            item => item.codigo === codigo
+        );
+
+
+    if(existente){
+
+        existente.quantidade++;
+
+    }else{
+
+        carrinho.push({
+
+            codigo:codigo,
+
+            nome:produto.nome,
+
+            preco:produto.preco,
+
+            quantidade:1
+
+        });
+
+    }
+
+
+    campo.value = "";
+
+    atualizarTela();
+
+    campo.focus();
+
+}
+
+
+/* =====================================================
+   ENTER DO LEITOR
+===================================================== */
+
+document
+    .getElementById("codigo")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                bipar();
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   ATUALIZAR TELA
+===================================================== */
+
+function atualizarTela(){
+
+    const lista =
+        document.getElementById("listaProdutos");
+
+    lista.innerHTML = "";
+
+
+    if(carrinho.length === 0){
+
+        lista.innerHTML = `
+
+            <div class="vazio">
+
+                <div class="vazio-icone">
+                    🛒
+                </div>
+
+                <strong>
+                    Nenhum produto na venda
+                </strong>
+
+                <span>
+                    Passe os produtos no leitor
+                </span>
+
+            </div>
+
+        `;
+
+        atualizarTotal();
+
+        return;
+
+    }
+
+
+    carrinho.forEach(
+        (produto,index)=>{
+
+            const subtotal =
+                produto.preco *
+                produto.quantidade;
+
+
+            lista.innerHTML += `
+
+                <div class="produto">
+
+                    <div>
+
+                        <div class="produto-nome">
+                            ${produto.nome}
+                        </div>
+
+                        <span class="produto-codigo">
+                            ${produto.codigo}
+                        </span>
+
+                    </div>
+
+
+                    <div class="produto-qtd">
+                        ${produto.quantidade}
+                    </div>
+
+
+                    <div class="produto-preco">
+
+                        ${formatarMoeda(subtotal)}
+
+                    </div>
+
+
+                    <button
+                        class="excluir"
+                        onclick="removerProduto(${index})">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    atualizarTotal();
+
+}
+
+
+/* =====================================================
+   TOTAL
+===================================================== */
+
+function atualizarTotal(){
+
+    let total = 0;
+
+
+    carrinho.forEach(
+        produto => {
+
+            total +=
+                produto.preco *
+                produto.quantidade;
+
+        }
+    );
+
+
+    document
+        .getElementById("total")
+        .innerText =
+            formatarMoeda(total);
+
+}
+
+
+/* =====================================================
+   REMOVER
+===================================================== */
+
+function removerProduto(index){
+
+    if(
+        carrinho[index].quantidade > 1
+    ){
+
+        carrinho[index].quantidade--;
+
+    }else{
+
+        carrinho.splice(index,1);
+
+    }
+
+
+    atualizarTela();
+
+}
+
+
+/* =====================================================
+   PAGAMENTO
+===================================================== */
+
+function selecionarPagamento(
+    botao,
+    forma
+){
+
+    document
+        .querySelectorAll(
+            ".pagamentos button"
+        )
+        .forEach(
+            b =>
+                b.classList.remove(
+                    "selecionado"
+                )
+        );
+
+
+    botao.classList.add(
+        "selecionado"
+    );
+
+
+    pagamentoAtual = forma;
+
+}
+
+
+/* =====================================================
+   FINALIZAR VENDA
+===================================================== */
+
+function finalizarVenda(){
+
+    if(carrinho.length === 0){
+
+        alert(
+            "Nenhum produto foi adicionado."
+        );
+
+        return;
+
+    }
+
+
+    if(!pagamentoAtual){
+
+        alert(
+            "Escolha a forma de pagamento."
+        );
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+
+    carrinho.forEach(
+        produto => {
+
+            total +=
+                produto.preco *
+                produto.quantidade;
+
+        }
+    );
+
+
+    vendasDoDia.push({
+
+        numero:
+            vendasDoDia.length + 1,
+
+        horario:
+            new Date(),
+
+        produtos:
+            JSON.parse(
+                JSON.stringify(carrinho)
+            ),
+
+        pagamento:
+            pagamentoAtual,
+
+        total:
+            total
+
+    });
+
+
+    alert(
+        "Venda finalizada com sucesso!"
+    );
+
+
+    carrinho = [];
+
+    pagamentoAtual = "";
+
+
+    document
+        .querySelectorAll(
+            ".pagamentos button"
+        )
+        .forEach(
+            b =>
+                b.classList.remove(
+                    "selecionado"
+                )
+        );
+
+
+    atualizarTela();
+
+}
+
+
+/* =====================================================
+   VENDAS DO DIA
+   SOMENTE NO MENU ⋮
+===================================================== */
+
+function abrirVendasDoDia(){
+
+    document
+        .getElementById("menu")
+        .classList.remove("aberto");
+
+
+    const lista =
+        document.getElementById(
+            "vendasLista"
+        );
+
+
+    lista.innerHTML = "";
+
+
+    if(vendasDoDia.length === 0){
+
+        lista.innerHTML = `
+
+            <div style="
+                text-align:center;
+                padding:50px;
+                color:#888;
+            ">
+
+                Nenhuma venda realizada hoje.
+
+            </div>
+
+        `;
+
+    }else{
+
+        [...vendasDoDia]
+            .reverse()
+            .forEach(
+                venda => {
+
+                    const hora =
+                        venda.horario
+                        .toLocaleTimeString(
+                            "pt-BR",
+                            {
+                                hour:"2-digit",
+                                minute:"2-digit"
+                            }
+                        );
+
+
+                    let produtos = "";
+
+
+                    venda.produtos.forEach(
+                        produto => {
+
+                            produtos += `
+                                ${produto.quantidade}x
+                                ${produto.nome}
+                                <br>
+                            `;
+
+                        }
+                    );
+
+
+                    lista.innerHTML += `
+
+                        <div class="venda">
+
+                            <strong>
+                                Venda #${venda.numero}
+                            </strong>
+
+                            <span>
+                                — ${hora}
+                            </span>
+
+                            <div style="
+                                margin-top:10px;
+                                line-height:1.6;
+                            ">
+
+                                ${produtos}
+
+                            </div>
+
+
+                            <div style="
+                                margin-top:8px;
+                            ">
+
+                                Pagamento:
+                                <strong>
+                                    ${venda.pagamento}
+                                </strong>
+
+                            </div>
+
+
+                            <div style="
+                                margin-top:8px;
+                                font-size:19px;
+                                font-weight:bold;
+                            ">
+
+                                ${formatarMoeda(
+                                    venda.total
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+    }
+
+
+    document
+        .getElementById(
+            "modalVendas"
+        )
+        .classList.add("aberto");
+
+}
+
+
+/* =====================================================
+   FECHAR VENDAS
+===================================================== */
+
+function fecharVendas(){
+
+    document
+        .getElementById(
+            "modalVendas"
+        )
+        .classList.remove("aberto");
+
+}
+
+
+/* =====================================================
+   ALERTAS
+===================================================== */
+
+function aviso(texto){
+
+    document
+        .getElementById("menu")
+        .classList.remove("aberto");
+
+    alert(texto);
+
+}
+
+
+/* =====================================================
+   MOEDA
+===================================================== */
+
+function formatarMoeda(valor){
+
+    return valor.toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FECHAR MENU CLICANDO FORA
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const menuArea =
+            document.querySelector(
+                ".menu-area"
+            );
+
+        if(
+            !menuArea.contains(
+                event.target
+            )
+        ){
+
+            document
+                .getElementById("menu")
+                .classList.remove(
+                    "aberto"
+                );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FOCO NO LEITOR
+===================================================== */
+
+window.onload = function(){
+
+    document
+        .getElementById("codigo")
+        .focus();
+
+};
+
+</script>
+
+</body>
+</html>
