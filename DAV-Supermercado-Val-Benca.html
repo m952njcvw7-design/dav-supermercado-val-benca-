@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAV - Supermercado Val Bença</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --blue:#0647a8;
+  --blue2:#0b56c4;
+  --dark:#063b8f;
+  --yellow:#ffd21a;
+  --white:#fff;
+  --ice:#f4f7fb;
+  --text:#12305d;
+}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--ice);
+  color:var(--text);
+  min-height:100vh;
+}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0}
+.top{
+  height:190px;
+  background:linear-gradient(115deg,#003b92,#0756bd);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  padding:20px 45px;
+  position:relative;
+  overflow:hidden;
+  border-bottom:3px solid var(--yellow);
+}
+.top:after{
+  content:"";
+  position:absolute;
+  width:520px;height:520px;
+  border:20px solid var(--yellow);
+  border-left-color:transparent;border-bottom-color:transparent;
+  border-radius:50%;
+  right:80px;top:-360px;
+  transform:rotate(20deg);
+}
+.brand{display:flex;align-items:center;gap:18px;z-index:2}
+.logo{
+  width:125px;height:125px;border:7px solid var(--yellow);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:58px;color:var(--yellow);
+  background:#0648a8;
+}
+.brand h1{margin:0;font-size:42px;letter-spacing:3px;color:var(--yellow)}
+.brand small{font-size:18px;letter-spacing:5px}
+.brand p{margin:5px 0 0;font-size:17px}
+.slogan{
+  margin-left:55px;border-left:3px solid var(--yellow);
+  padding-left:50px;font-size:31px;font-weight:bold;font-style:italic;
+  z-index:2;max-width:390px;
+}
+.dav{margin-left:auto;z-index:2;text-align:center;font-size:48px;font-weight:900}
+.dav span{display:block;font-size:18px;letter-spacing:1px}
+
+.layout{display:grid;grid-template-columns:225px 1fr;min-height:calc(100vh - 190px)}
+.sidebar{
+  background:linear-gradient(#063f94,#052f70);
+  color:#fff;padding-top:30px;position:relative;overflow:hidden;
+}
+.nav button{
+  width:100%;height:68px;background:transparent;color:white;text-align:left;
+  padding:0 28px;font-size:18px;display:flex;align-items:center;gap:18px;
+}
+.nav button:hover,.nav button.active{background:var(--yellow);color:#062f70}
+.icon{font-size:28px;width:30px;text-align:center}
+.side-bottom{
+  position:absolute;bottom:25px;left:20px;right:20px;
+  color:#fff;font-size:22px;font-weight:bold;font-style:italic;
+  border-top:2px solid var(--yellow);padding-top:18px;
+}
+.side-bottom b{color:var(--yellow)}
+
+.main{padding:28px;background:#f7f9fc}
+.content{display:grid;grid-template-columns:minmax(500px,1fr) 390px;gap:20px;max-width:1500px;margin:auto}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{
+  min-height:250px;background:linear-gradient(145deg,#0649a8,#073d8d);
+  border-radius:17px;color:white;padding:25px;text-align:center;
+  box-shadow:0 6px 15px #0002;position:relative;overflow:hidden;
+  border:1px solid #0c64d5;
+}
+.card:after{
+  content:"";position:absolute;width:190px;height:80px;border-top:5px solid var(--yellow);
+  border-radius:50%;right:-65px;bottom:-35px;transform:rotate(-18deg)
+}
+.card .big{font-size:58px;color:var(--yellow);margin:0 0 18px}
+.card h2{margin:0;font-size:25px}
+.card p{font-size:17px;line-height:1.35;margin:10px auto;max-width:210px}
+.sales{
+  background:#fff;border-radius:15px;box-shadow:0 5px 16px #0002;
+  overflow:hidden;border:1px solid #dbe3ef;display:flex;flex-direction:column;
+  max-height:690px;
+}
+.sales-head{background:var(--yellow);padding:16px 18px;color:#063b8f}
+.sales-head h2{margin:0;font-size:21px}
+.sales-head p{margin:5px 0 0;font-size:14px}
+.barcode{
+  display:flex;gap:8px;padding:12px;background:#eef3fa;border-bottom:1px solid #d9e1ec
+}
+.barcode input{flex:1;border:1px solid #bdc9d8;border-radius:8px;padding:10px}
+.barcode button{background:#0753b8;color:#fff;border-radius:8px;padding:0 13px}
+.items{overflow:auto;flex:1}
+.item{
+  display:grid;grid-template-columns:58px 1fr auto;gap:10px;align-items:center;
+  padding:12px 14px;border-bottom:1px solid #e1e7ef;
+}
+.pic{
+  width:54px;height:60px;border-radius:7px;background:#f0f3f7;
+  display:flex;align-items:center;justify-content:center;font-size:29px
+}
+.item-name{font-weight:500;font-size:15px}
+.price{font-weight:bold;font-size:17px;margin-top:5px;color:#063f94}
+.controls{display:flex;align-items:center;gap:5px;margin-top:6px}
+.controls button{width:28px;height:27px;border-radius:6px;background:#e7edf6;color:#063f94}
+.trash{background:transparent!important;color:#e33!important;font-size:20px!important}
+.total{padding:14px 17px;border-top:2px solid #e0e6ef}
+.total-row{display:flex;justify-content:space-between;font-size:21px;font-weight:bold}
+.total-value{color:#0753b8;font-size:25px}
+.finish{width:100%;margin-top:12px;padding:15px;background:var(--yellow);color:#073b8d;font-weight:bold;border-radius:9px}
+.empty{padding:35px;text-align:center;color:#73839b}
+
+.bottom{
+  position:fixed;bottom:0;left:0;right:0;height:88px;background:#053a88;
+  color:#fff;border-top:3px solid var(--yellow);display:flex;align-items:center;
+  justify-content:space-around;z-index:10
+}
+.bottom .box{display:flex;align-items:center;gap:13px;font-size:16px}
+.bottom .bi{font-size:32px;color:var(--yellow)}
+.bottom strong{display:block;font-size:18px}
+.menu3{
+  position:fixed;right:18px;top:12px;z-index:30;background:transparent;
+  color:white;font-size:30px;letter-spacing:3px
+}
+.dropdown{
+  display:none;position:fixed;right:18px;top:52px;background:#fff;
+  border-radius:10px;box-shadow:0 5px 20px #0003;z-index:31;min-width:210px;overflow:hidden
+}
+.dropdown button{display:block;width:100%;padding:13px 16px;text-align:left;background:#fff;color:#183b6d}
+.dropdown button:hover{background:#eef3fb}
+.toast{
+  position:fixed;right:25px;bottom:105px;background:#063f94;color:#fff;
+  padding:13px 18px;border-radius:9px;display:none;z-index:40
+}
+@media(max-width:1050px){
+  .slogan{display:none}.content{grid-template-columns:1fr}.sales{max-height:none}
+  .cards{grid-template-columns:repeat(2,1fr)}.top{height:150px}.logo{width:90px;height:90px;font-size:42px}
+  .brand h1{font-size:29px}.brand small{font-size:13px}.layout{grid-template-columns:190px 1fr}
+}
+@media(max-width:700px){
+  .top{padding:15px;height:115px}.dav{font-size:28px}.dav span{font-size:11px}
+  .layout{grid-template-columns:1fr}.sidebar{display:none}.main{padding:15px}.cards{grid-template-columns:1fr}
+  .bottom{height:65px}.bottom .box:nth-child(2),.bottom .box:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+
+<button class="menu3" onclick="toggleMenu()">⋮</button>
+<div id="menu" class="dropdown">
+  <button onclick="mostrarVendas()">📋 Vendas do dia</button>
+  <button onclick="novaVenda()">🛒 Nova venda</button>
+  <button onclick="limparVenda()">🗑️ Limpar venda atual</button>
+</div>
+
+<header class="top">
+  <div class="brand">
+    <div class="logo">🛒</div>
+    <div>
+      <small>SUPERMERCADO</small>
+      <h1>VAL BENÇA</h1>
+      <p>Mais qualidade, mais economia, pertinho de você!</p>
+    </div>
+  </div>
+  <div class="slogan">Aqui é<br><span style="color:#ffd21a">sempre</span><br>mais barato!</div>
+  <div class="dav">▮▮▮ DAV<span>ADMINISTRAÇÃO DE VENDAS</span></div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="nav">
+      <button class="active" onclick="home()"><span class="icon">⌂</span>Início</button>
+      <button onclick="focoLeitor()"><span class="icon">🛒</span>Vendas</button>
+      <button onclick="alert('Cadastro de produtos será integrado ao banco de dados.')"><span class="icon">📦</span>Produtos</button>
+      <button onclick="alert('Módulo financeiro.')"><span class="icon">＄</span>Financeiro</button>
+      <button onclick="mostrarVendas()"><span class="icon">▮▮▮</span>Relatórios</button>
+      <button onclick="alert('Configurações do DAV.')"><span class="icon">⚙</span>Configurações</button>
+      <button onclick="if(confirm('Deseja sair do DAV?')) location.reload()"><span class="icon">⇥</span>Sair</button>
+    </nav>
+    <div class="side-bottom">Juntos<br><b>fazemos</b><br>mais!</div>
+  </aside>
+
+  <main class="main">
+    <div class="content">
+      <section class="cards">
+        <button class="card" onclick="focoLeitor()"><div class="big">🛒</div><h2>VENDAS</h2><p>Registrar e consultar vendas</p></button>
+        <button class="card" onclick="alert('Cadastro de produtos: em breve.')"><div class="big">📦</div><h2>PRODUTOS</h2><p>Cadastrar, editar e consultar produtos</p></button>
+        <button class="card" onclick="alert('Movimentações e fechamento de caixa.')"><div class="big">＄</div><h2>FINANCEIRO</h2><p>Movimentações e fechamento de caixa</p></button>
+        <button class="card" onclick="mostrarVendas()"><div class="big">▮▮▮</div><h2>RELATÓRIOS</h2><p>Vendas, produtos, financeiro e mais</p></button>
+        <button class="card" onclick="alert('Sistema e preferências.')"><div class="big">⚙</div><h2>CONFIGURAÇÕES</h2><p>Sistema e preferências</p></button>
+        <button class="card" onclick="if(confirm('Deseja sair do DAV?')) location.reload()"><div class="big">⇥</div><h2>SAIR</h2><p>Encerrar o sistema</p></button>
+      </section>
+
+      <section class="sales" id="salesPanel">
+        <div class="sales-head">
+          <h2>▥ &nbsp; Leitor de Código de Barras</h2>
+          <p>Passe o produto no leitor para adicionar</p>
+        </div>
+        <div class="barcode">
+          <input id="barcodeInput" inputmode="numeric" autocomplete="off"
+                 placeholder="Código de barras..." onkeydown="barcodeKey(event)">
+          <button onclick="addBarcode()">Adicionar</button>
+        </div>
+        <div class="items" id="items"></div>
+        <div class="total">
+          <div class="total-row"><span>Total da Venda</span><span class="total-value" id="total">R$ 0,00</span></div>
+          <button class="finish" onclick="finalizarVenda()">▣ &nbsp; Finalizar Venda</button>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<footer class="bottom">
+  <div class="box"><span class="bi">▦</span><div>Hoje é<strong id="date"></strong></div></div>
+  <div class="box"><span class="bi">◷</span><div>Hora<strong id="clock"></strong></div></div>
+  <div class="box"><span class="bi">▱</span><div>Loja<strong>Supermercado Val Bença</strong></div></div>
+  <div class="box"><span class="bi">🛵</span><div><strong>GT Delivery</strong>Peça também pelo app!</div></div>
+</footer>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const produtos = {
+  "7891000100015": {nome:"Arroz Branco 5kg Tio João", preco:25.00, icon:"🍚"},
+  "7896001250017": {nome:"Feijão Dona Mira 1kg", preco:7.50, icon:"🫘"},
+  "7891035110208": {nome:"Óleo de Soja Liza 900ml", preco:6.99, icon:"🫗"},
+  "7894900011517": {nome:"Coca-Cola 2L", preco:10.00, icon:"🥤"},
+  "7890000000010": {nome:"Hambúrguer GT", preco:18.00, icon:"🍔"},
+  "7890000000027": {nome:"Pizza Calabresa", preco:35.00, icon:"🍕"}
+};
+
+let carrinho = [];
+let vendasDoDia = JSON.parse(localStorage.getItem("dav_vendas") || "[]");
+
+function dinheiro(v){
+  return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+}
+
+function render(){
+  const el=document.getElementById("items");
+  if(!carrinho.length){
+    el.innerHTML='<div class="empty">Nenhum produto na venda.<br>Passe um código no leitor de barras.</div>';
+  } else {
+    el.innerHTML=carrinho.map((p,i)=>`
+      <div class="item">
+        <div class="pic">${p.icon}</div>
+        <div>
+          <div class="item-name">${p.nome}</div>
+          <div class="price">${dinheiro(p.preco * p.qtd)}</div>
+          <div class="controls">
+            <button onclick="alterar(${i},-1)">−</button>
+            <b>${p.qtd}</b>
+            <button onclick="alterar(${i},1)">+</button>
+          </div>
+        </div>
+        <button class="trash" onclick="remover(${i})">🗑</button>
+      </div>`).join("");
+  }
+  const total=carrinho.reduce((s,p)=>s+p.preco*p.qtd,0);
+  document.getElementById("total").textContent=dinheiro(total);
+}
+
+function addProduto(codigo){
+  const p=produtos[codigo];
+  if(!p){toast("Produto não cadastrado: "+codigo);return false}
+  const existente=carrinho.find(x=>x.codigo===codigo);
+  if(existente) existente.qtd++;
+  else carrinho.push({...p,codigo,qtd:1});
+  render();
+  toast(p.nome+" adicionado");
+  return true;
+}
+
+function addBarcode(){
+  const input=document.getElementById("barcodeInput");
+  const codigo=input.value.trim();
+  if(codigo){addProduto(codigo);input.value="";input.focus();}
+}
+
+function barcodeKey(e){
+  if(e.key==="Enter"){e.preventDefault();addBarcode();}
+}
+
+function alterar(i,delta){
+  carrinho[i].qtd+=delta;
+  if(carrinho[i].qtd<=0)carrinho.splice(i,1);
+  render();
+}
+function remover(i){carrinho.splice(i,1);render();}
+
+function focoLeitor(){
+  document.getElementById("barcodeInput").focus();
+  document.getElementById("salesPanel").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function novaVenda(){carrinho=[];render();focoLeitor();toast("Nova venda iniciada");}
+function limparVenda(){if(confirm("Limpar a venda atual?")){carrinho=[];render();}}
+
+function finalizarVenda(){
+  if(!carrinho.length){toast("Adicione produtos antes de finalizar.");return}
+  const total=carrinho.reduce((s,p)=>s+p.preco*p.qtd,0);
+  vendasDoDia.push({data:new Date().toISOString(),itens:carrinho,total});
+  localStorage.setItem("dav_vendas",JSON.stringify(vendasDoDia));
+  alert("Venda finalizada com sucesso!\\nTotal: "+dinheiro(total));
+  carrinho=[];render();
+}
+
+function mostrarVendas(){
+  const total=vendasDoDia.reduce((s,v)=>s+v.total,0);
+  alert("VENDAS DO DIA\\n\\nQuantidade de vendas: "+vendasDoDia.length+"\\nTotal vendido: "+dinheiro(total));
+}
+
+function toggleMenu(){
+  const m=document.getElementById("menu");
+  m.style.display=m.style.display==="block"?"none":"block";
+}
+function home(){window.scrollTo({top:0,behavior:"smooth"});}
+function toast(msg){
+  const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";
+  clearTimeout(window._toast);window._toast=setTimeout(()=>t.style.display="none",1800);
+}
+function atualizarDataHora(){
+  const d=new Date();
+  document.getElementById("date").textContent=d.toLocaleDateString("pt-BR");
+  document.getElementById("clock").textContent=d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+}
+setInterval(atualizarDataHora,1000);atualizarDataHora();render();
+
+/* Muitos leitores USB/Bluetooth funcionam como teclado:
+   basta configurar o leitor para enviar ENTER no final do código.
+   O campo recebe o código e o Enter adiciona o produto automaticamente. */
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".menu3") && !e.target.closest(".dropdown"))
+    document.getElementById("menu").style.display="none";
+});
+</script>
+</body>
+</html>
