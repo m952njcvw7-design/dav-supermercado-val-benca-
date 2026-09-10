@@ -3,584 +3,428 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>DAV - Supermercado Val Bença</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    background: #f1f3f5;
-    min-height: 100vh;
-    color: #222;
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#fff;
+    font-family:Arial,sans-serif;
 }
 
-/* =========================
-   ESTRUTURA PRINCIPAL
-========================= */
+/* =====================================================
+   TELA PRINCIPAL
+===================================================== */
 
-.app {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+#inicio{
+    width:100vw;
+    height:100vh;
+    position:relative;
+    background-image:url("dav-val-benca.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
 }
 
-/* =========================
-   CABEÇALHO
-========================= */
+/* =====================================================
+   ÁREAS CLICÁVEIS SOBRE A ARTE
+===================================================== */
 
-.header {
-    height: 72px;
-    background: #0756a8;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 22px;
-    color: white;
-    box-shadow: 0 2px 7px rgba(0,0,0,.18);
+.area{
+    position:absolute;
+    cursor:pointer;
+    background:transparent;
+    border:none;
 }
 
-.logo-area {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+/* VENDAS */
+.vendas{
+    left:16.5%;
+    top:28%;
+    width:18.5%;
+    height:29%;
 }
 
-.logo {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: #ffd900;
-    color: #0756a8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 20px;
+/* PRODUTOS */
+.produtos{
+    left:36.5%;
+    top:28%;
+    width:18.5%;
+    height:29%;
 }
 
-.logo-text strong {
-    display: block;
-    font-size: 20px;
+/* FINANCEIRO */
+.financeiro{
+    left:56.5%;
+    top:28%;
+    width:18.5%;
+    height:29%;
 }
 
-.logo-text small {
-    font-size: 11px;
-    opacity: .9;
+/* RELATÓRIOS */
+.relatorios{
+    left:16.5%;
+    top:61%;
+    width:18.5%;
+    height:28%;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 18px;
+/* CONFIGURAÇÕES */
+.config{
+    left:36.5%;
+    top:61%;
+    width:18.5%;
+    height:28%;
 }
 
-.caixa {
-    font-size: 13px;
-}
-
-.menu-btn {
-    border: 0;
-    background: transparent;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    width: 42px;
-    height: 42px;
-}
-
-/* =========================
-   ÁREA CENTRAL
-========================= */
-
-.main {
-    flex: 1;
-    display: flex;
-    min-height: calc(100vh - 122px);
-}
-
-/* =========================
+/* =====================================================
    MENU LATERAL
-========================= */
+===================================================== */
 
-.sidebar {
-    width: 220px;
-    background: #064d96;
-    color: white;
-    padding: 18px 12px;
+.menu-inicio{
+    left:0;
+    top:22%;
+    width:14%;
+    height:8%;
 }
 
-.sidebar-title {
-    font-size: 12px;
-    opacity: .75;
-    padding: 10px 12px;
-    text-transform: uppercase;
+.menu-vendas{
+    left:0;
+    top:30%;
+    width:14%;
+    height:8%;
 }
 
-.nav-button {
-    width: 100%;
-    border: 0;
-    background: transparent;
-    color: white;
-    padding: 14px 13px;
-    text-align: left;
-    border-radius: 8px;
-    margin-bottom: 5px;
-    cursor: pointer;
-    font-size: 14px;
+.menu-produtos{
+    left:0;
+    top:38%;
+    width:14%;
+    height:8%;
 }
 
-.nav-button:hover,
-.nav-button.active {
-    background: rgba(255,255,255,.14);
+/* =====================================================
+   TRÊS PONTINHOS
+===================================================== */
+
+.tres-pontos{
+    position:absolute;
+    right:1.5%;
+    top:4%;
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:50%;
+    background:rgba(0,0,0,.25);
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+    z-index:20;
 }
 
-.nav-button span {
-    margin-right: 8px;
+.tres-pontos:hover{
+    background:rgba(0,0,0,.45);
 }
 
-/* =========================
-   CONTEÚDO DAV
-========================= */
+/* =====================================================
+   MENU DE VENDAS DO DIA
+===================================================== */
 
-.content {
-    flex: 1;
-    padding: 22px;
-    overflow: auto;
+.menu{
+    display:none;
+    position:absolute;
+    right:1.5%;
+    top:10%;
+    width:250px;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
+    overflow:hidden;
+    z-index:50;
 }
 
-.page-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
+.menu.aberto{
+    display:block;
 }
 
-.page-title h1 {
-    font-size: 24px;
-    color: #0756a8;
+.menu button{
+    width:100%;
+    padding:17px;
+    border:none;
+    background:white;
+    text-align:left;
+    font-size:15px;
+    cursor:pointer;
 }
 
-.page-title small {
-    color: #777;
+.menu button:hover{
+    background:#f2f2f2;
 }
 
-/* =========================
-   LEITOR
-========================= */
+/* =====================================================
+   TELA DE VENDAS
+===================================================== */
 
-.scanner {
-    background: white;
-    border-radius: 12px;
-    padding: 17px;
-    margin-bottom: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+#vendasTela{
+    display:none;
+    width:100vw;
+    height:100vh;
+    background:#f5f5f5;
+    position:relative;
 }
 
-.scanner-label {
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #0756a8;
+/* Cabeçalho */
+.topo{
+    height:15%;
+    background:#064aa3;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 3%;
 }
 
-.scanner-row {
-    display: flex;
-    gap: 10px;
+.topo h1{
+    font-size:clamp(20px,2.5vw,38px);
 }
 
-#barcode {
-    flex: 1;
-    height: 48px;
-    border: 2px solid #0756a8;
-    border-radius: 8px;
-    padding: 0 14px;
-    font-size: 17px;
-    outline: none;
+.topo small{
+    display:block;
+    margin-top:5px;
 }
 
-#barcode:focus {
-    border-color: #ffd900;
-}
-
-.scan-button {
-    width: 125px;
-    border: 0;
-    border-radius: 8px;
-    background: #ffd900;
-    color: #0756a8;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.scan-button:hover {
-    filter: brightness(.95);
-}
-
-/* =========================
+/* =====================================================
    ÁREA DA VENDA
-========================= */
+===================================================== */
 
-.sale-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 18px;
+.venda{
+    height:70%;
+    display:grid;
+    grid-template-columns:65% 35%;
+    gap:15px;
+    padding:18px;
 }
 
-.products-card,
-.summary-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+/* Produtos */
+.lista{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
 }
 
-.card-title {
-    padding: 15px 18px;
-    border-bottom: 1px solid #eee;
-    color: #0756a8;
-    font-weight: bold;
+.lista-titulo{
+    background:#064aa3;
+    color:white;
+    padding:15px;
+    font-weight:bold;
 }
 
-/* =========================
-   PRODUTOS
-========================= */
-
-.products {
-    min-height: 330px;
-    max-height: 430px;
-    overflow-y: auto;
+#produtosVenda{
+    height:calc(100% - 55px);
+    overflow-y:auto;
 }
 
-.empty {
-    min-height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #999;
-    text-align: center;
-    padding: 30px;
+.produto{
+    display:grid;
+    grid-template-columns:1fr 80px 120px 40px;
+    padding:15px;
+    border-bottom:1px solid #ddd;
+    align-items:center;
 }
 
-.product {
-    display: grid;
-    grid-template-columns: 1fr 75px 110px 35px;
-    gap: 10px;
-    align-items: center;
-    padding: 13px 18px;
-    border-bottom: 1px solid #eee;
+.produto strong{
+    color:#064aa3;
 }
 
-.product-name {
-    font-weight: bold;
+.produto button{
+    border:none;
+    background:#eee;
+    border-radius:5px;
+    height:30px;
+    cursor:pointer;
 }
 
-.product-code {
-    font-size: 11px;
-    color: #999;
-    margin-top: 3px;
+/* =====================================================
+   PAGAMENTO
+===================================================== */
+
+.resumo{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
+    overflow:hidden;
 }
 
-.quantity {
-    text-align: center;
+.total{
+    background:#064aa3;
+    color:white;
+    padding:25px;
 }
 
-.price {
-    text-align: right;
-    font-weight: bold;
+.total span{
+    display:block;
+    font-size:14px;
 }
 
-.remove {
-    border: 0;
-    background: #eee;
-    width: 30px;
-    height: 30px;
-    border-radius: 6px;
-    cursor: pointer;
+#valorTotal{
+    font-size:38px;
+    font-weight:bold;
+    margin-top:8px;
 }
 
-.remove:hover {
-    background: #ddd;
+.pagamento{
+    padding:20px;
 }
 
-/* =========================
-   RESUMO
-========================= */
-
-.summary-card {
-    padding-bottom: 16px;
+.pagamento h3{
+    color:#064aa3;
+    margin-bottom:12px;
 }
 
-.total-area {
-    padding: 22px 18px;
-    background: #0756a8;
-    color: white;
+.pagamento button{
+    width:48%;
+    padding:13px;
+    margin:1%;
+    border:2px solid #064aa3;
+    border-radius:7px;
+    background:white;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.total-label {
-    font-size: 13px;
-    opacity: .9;
+.pagamento button.selecionado{
+    background:#ffd400;
 }
 
-.total {
-    font-size: 34px;
-    font-weight: 900;
-    margin-top: 5px;
+.finalizar{
+    width:94%;
+    margin:15px 3%;
+    padding:16px;
+    background:#064aa3;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
 }
 
-.payment-title {
-    padding: 17px 18px 10px;
-    font-weight: bold;
-    color: #0756a8;
+/* =====================================================
+   LEITOR
+===================================================== */
+
+.leitor{
+    position:absolute;
+    left:18px;
+    right:18px;
+    bottom:10px;
+    height:11%;
+    display:flex;
+    gap:10px;
 }
 
-.payment-buttons {
-    padding: 0 15px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+.leitor input{
+    flex:1;
+    border:2px solid #064aa3;
+    border-radius:8px;
+    padding:15px;
+    font-size:17px;
 }
 
-.payment {
-    height: 45px;
-    border: 1px solid #ddd;
-    background: white;
-    border-radius: 7px;
-    cursor: pointer;
-    font-weight: bold;
+.leitor button{
+    width:180px;
+    border:none;
+    border-radius:8px;
+    background:#ffd400;
+    color:#064aa3;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.payment:hover,
-.payment.selected {
-    background: #ffd900;
-    border-color: #ffd900;
-    color: #0756a8;
+/* =====================================================
+   VENDAS DO DIA
+===================================================== */
+
+#modalVendas{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-.finish {
-    width: calc(100% - 30px);
-    margin: 16px 15px 0;
-    height: 50px;
-    border: 0;
-    border-radius: 8px;
-    background: #0756a8;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.caixaVendas{
+    width:min(700px,100%);
+    max-height:85vh;
+    background:white;
+    border-radius:14px;
+    overflow:hidden;
 }
 
-.finish:hover {
-    background: #064782;
+.cabecalhoVendas{
+    background:#064aa3;
+    color:white;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
 }
 
-.new-sale {
-    width: calc(100% - 30px);
-    margin: 8px 15px 0;
-    height: 42px;
-    border: 1px solid #0756a8;
-    border-radius: 8px;
-    background: white;
-    color: #0756a8;
-    font-weight: bold;
-    cursor: pointer;
+.cabecalhoVendas button{
+    background:none;
+    border:none;
+    color:white;
+    font-size:25px;
+    cursor:pointer;
 }
 
-/* =========================
-   MENU DOS TRÊS PONTOS
-========================= */
-
-.menu-wrapper {
-    position: relative;
+#listaVendas{
+    padding:20px;
+    max-height:70vh;
+    overflow-y:auto;
 }
 
-.dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 52px;
-    width: 245px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.2);
-    overflow: hidden;
-    z-index: 1000;
+.vendaDia{
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:15px;
+    margin-bottom:10px;
 }
 
-.dropdown.open {
-    display: block;
+.vendaDia strong{
+    color:#064aa3;
 }
 
-.dropdown button {
-    width: 100%;
-    border: 0;
-    background: white;
-    padding: 15px;
-    text-align: left;
-    cursor: pointer;
-    font-size: 14px;
-}
+@media(max-width:800px){
 
-.dropdown button:hover {
-    background: #f2f2f2;
-}
-
-/* =========================
-   JANELA VENDAS DO DIA
-========================= */
-
-.modal-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.55);
-    z-index: 2000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.modal-bg.open {
-    display: flex;
-}
-
-.modal {
-    background: white;
-    width: min(700px, 100%);
-    max-height: 85vh;
-    border-radius: 14px;
-    overflow: hidden;
-}
-
-.modal-header {
-    background: #0756a8;
-    color: white;
-    padding: 17px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.close-modal {
-    border: 0;
-    background: transparent;
-    color: white;
-    font-size: 25px;
-    cursor: pointer;
-}
-
-.sales-list {
-    max-height: 65vh;
-    overflow-y: auto;
-    padding: 15px;
-}
-
-.sale-item {
-    border: 1px solid #ddd;
-    border-radius: 9px;
-    padding: 13px;
-    margin-bottom: 9px;
-}
-
-.sale-item strong {
-    color: #0756a8;
-}
-
-.sale-total {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 5px;
-}
-
-.no-sales {
-    padding: 40px;
-    text-align: center;
-    color: #888;
-}
-
-/* =========================
-   RODAPÉ
-========================= */
-
-.footer {
-    height: 50px;
-    background: #111;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    font-size: 12px;
-}
-
-.footer strong {
-    color: #ffd900;
-}
-
-/* =========================
-   RESPONSIVO
-========================= */
-
-@media(max-width: 850px) {
-
-    .sidebar {
-        display: none;
+    .venda{
+        grid-template-columns:1fr;
+        overflow:auto;
     }
 
-    .sale-layout {
-        grid-template-columns: 1fr;
+    .resumo{
+        order:-1;
     }
 
-    .summary-card {
-        order: -1;
+    .topo{
+        height:12%;
     }
 
-    .product {
-        grid-template-columns: 1fr 55px 90px 35px;
-        font-size: 13px;
-    }
-
-    .header {
-        padding: 0 12px;
-    }
-
-    .content {
-        padding: 12px;
-    }
-}
-
-@media(max-width: 520px) {
-
-    .logo-text {
-        display: none;
-    }
-
-    .caixa {
-        display: none;
-    }
-
-    .scanner-row {
-        flex-direction: column;
-    }
-
-    .scan-button {
-        width: 100%;
-        height: 45px;
-    }
-
-    .product {
-        grid-template-columns: 1fr 45px 75px 30px;
-        gap: 5px;
-        padding: 12px 10px;
-    }
-
-    .price {
-        font-size: 12px;
+    .leitor{
+        position:relative;
+        bottom:auto;
+        height:auto;
+        padding:10px;
     }
 }
 </style>
@@ -588,276 +432,209 @@ body {
 
 <body>
 
-<div class="app">
+<!-- =====================================================
+     INÍCIO — A PRÓPRIA ARTE
+===================================================== -->
 
-    <!-- CABEÇALHO -->
-    <header class="header">
+<section id="inicio">
 
-        <div class="logo-area">
-            <div class="logo">VB</div>
+    <!-- três pontinhos -->
+    <button class="tres-pontos" onclick="abrirMenu()">
+        ⋮
+    </button>
 
-            <div class="logo-text">
-                <strong>Supermercado Val Bença</strong>
-                <small>DAV • Frente de Caixa</small>
-            </div>
+    <!-- áreas clicáveis -->
+
+    <button
+        class="area vendas"
+        onclick="abrirVendas()">
+    </button>
+
+    <button
+        class="area produtos"
+        onclick="mensagem('Produtos')">
+    </button>
+
+    <button
+        class="area financeiro"
+        onclick="mensagem('Financeiro')">
+    </button>
+
+    <button
+        class="area relatorios"
+        onclick="mensagem('Relatórios')">
+    </button>
+
+    <button
+        class="area config"
+        onclick="mensagem('Configurações')">
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     TELA DE VENDAS
+===================================================== -->
+
+<section id="vendasTela">
+
+    <header class="topo">
+
+        <div>
+            <h1>Supermercado Val Bença</h1>
+            <small>DAV • Administração de Vendas</small>
         </div>
 
-        <div class="header-right">
+        <button
+            class="tres-pontos"
+            onclick="abrirMenuVendas()">
+            ⋮
+        </button>
 
-            <div class="caixa">
-                Caixa 01
-            </div>
-
-            <!-- TRÊS PONTINHOS -->
-            <div class="menu-wrapper">
-
-                <button
-                    class="menu-btn"
-                    onclick="toggleMenu()">
-                    ⋮
-                </button>
-
-                <div
-                    class="dropdown"
-                    id="dropdownMenu">
-
-                    <button onclick="openSales()">
-                        📋 Vendas do dia
-                    </button>
-
-                    <button onclick="showMessage('Consulta de produtos')">
-                        🔎 Consulta de produtos
-                    </button>
-
-                    <button onclick="showMessage('Configurações')">
-                        ⚙️ Configurações
-                    </button>
-
-                </div>
-            </div>
-
-        </div>
     </header>
 
 
-    <main class="main">
+    <div class="venda">
 
-        <!-- MENU LATERAL -->
-        <aside class="sidebar">
+        <!-- PRODUTOS BIPADOS -->
 
-            <div class="sidebar-title">
-                Menu
+        <div class="lista">
+
+            <div class="lista-titulo">
+                PRODUTOS DA VENDA
             </div>
 
-            <button class="nav-button active">
-                🛒 Nova venda
-            </button>
+            <div id="produtosVenda">
 
-            <button class="nav-button">
-                📦 Produtos
-            </button>
-
-            <button class="nav-button">
-                👥 Clientes
-            </button>
-
-            <button class="nav-button">
-                💳 Caixa
-            </button>
-
-        </aside>
-
-
-        <!-- CONTEÚDO -->
-        <section class="content">
-
-            <div class="page-title">
-
-                <div>
-                    <h1>Nova venda</h1>
-                    <small>Passe os produtos no leitor</small>
-                </div>
-
-            </div>
-
-
-            <!-- LEITOR -->
-            <div class="scanner">
-
-                <div class="scanner-label">
-                    Código de barras
-                </div>
-
-                <div class="scanner-row">
-
-                    <input
-                        id="barcode"
-                        type="text"
-                        placeholder="Aponte o leitor ou digite o código..."
-                        autocomplete="off">
-
-                    <button
-                        class="scan-button"
-                        onclick="scanProduct()">
-                        BIPAR PRODUTO
-                    </button>
+                <div
+                    id="vazio"
+                    style="
+                    text-align:center;
+                    padding:80px 20px;
+                    color:#888;">
+                    
+                    Passe os produtos no leitor.
 
                 </div>
 
             </div>
 
-
-            <!-- VENDA -->
-            <div class="sale-layout">
-
-                <!-- LISTA DE PRODUTOS -->
-                <div class="products-card">
-
-                    <div class="card-title">
-                        Produtos da venda
-                    </div>
-
-                    <div
-                        class="products"
-                        id="products">
-
-                        <div class="empty" id="empty">
-                            <div>
-                                <div style="font-size:40px;margin-bottom:10px;">
-                                    🛒
-                                </div>
-
-                                <strong>Nenhum produto na venda</strong>
-
-                                <br>
-
-                                <small>
-                                    Passe o primeiro produto no leitor.
-                                </small>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
+        </div>
 
 
-                <!-- RESUMO -->
-                <div class="summary-card">
+        <!-- RESUMO -->
 
-                    <div class="total-area">
+        <div class="resumo">
 
-                        <div class="total-label">
-                            TOTAL DA VENDA
-                        </div>
+            <div class="total">
 
-                        <div
-                            class="total"
-                            id="total">
-                            R$ 0,00
-                        </div>
+                <span>TOTAL DA VENDA</span>
 
-                    </div>
-
-
-                    <div class="payment-title">
-                        Forma de pagamento
-                    </div>
-
-                    <div class="payment-buttons">
-
-                        <button
-                            class="payment"
-                            onclick="selectPayment(this,'Dinheiro')">
-                            💵 Dinheiro
-                        </button>
-
-                        <button
-                            class="payment"
-                            onclick="selectPayment(this,'Pix')">
-                            📱 Pix
-                        </button>
-
-                        <button
-                            class="payment"
-                            onclick="selectPayment(this,'Débito')">
-                            💳 Débito
-                        </button>
-
-                        <button
-                            class="payment"
-                            onclick="selectPayment(this,'Crédito')">
-                            💳 Crédito
-                        </button>
-
-                    </div>
-
-
-                    <button
-                        class="finish"
-                        onclick="finishSale()">
-                        FINALIZAR VENDA
-                    </button>
-
-                    <button
-                        class="new-sale"
-                        onclick="newSale()">
-                        NOVA VENDA
-                    </button>
-
+                <div id="valorTotal">
+                    R$ 0,00
                 </div>
 
             </div>
 
-        </section>
 
-    </main>
+            <div class="pagamento">
+
+                <h3>Forma de pagamento</h3>
+
+                <button onclick="pagamento(this,'Dinheiro')">
+                    💵 Dinheiro
+                </button>
+
+                <button onclick="pagamento(this,'Pix')">
+                    📱 Pix
+                </button>
+
+                <button onclick="pagamento(this,'Débito')">
+                    💳 Débito
+                </button>
+
+                <button onclick="pagamento(this,'Crédito')">
+                    💳 Crédito
+                </button>
+
+            </div>
+
+            <button
+                class="finalizar"
+                onclick="finalizarVenda()">
+
+                FINALIZAR VENDA
+
+            </button>
+
+        </div>
+
+    </div>
 
 
-    <!-- RODAPÉ -->
-    <footer class="footer">
+    <!-- LEITOR -->
 
-        <span>
-            Supermercado Val Bença
-        </span>
+    <div class="leitor">
 
-        <span>
-            <strong>GT Delivery</strong>
-        </span>
+        <input
+            id="codigo"
+            placeholder="Passe o produto no leitor ou digite o código"
+            autocomplete="off">
 
-    </footer>
+        <button onclick="bipar()">
+            BIPAR PRODUTO
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MENU
+===================================================== -->
+
+<div
+    class="menu"
+    id="menu">
+
+    <button onclick="abrirVendasDoDia()">
+        📋 Vendas do dia
+    </button>
+
+    <button onclick="mensagem('Consulta de produtos')">
+        🔎 Consulta de produtos
+    </button>
+
+    <button onclick="mensagem('Configurações')">
+        ⚙️ Configurações
+    </button>
 
 </div>
 
 
-<!-- =========================
+<!-- =====================================================
      MODAL VENDAS DO DIA
-========================= -->
+===================================================== -->
 
-<div
-    class="modal-bg"
-    id="salesModal">
+<div id="modalVendas">
 
-    <div class="modal">
+    <div class="caixaVendas">
 
-        <div class="modal-header">
+        <div class="cabecalhoVendas">
 
             <strong>
                 Vendas do dia
             </strong>
 
-            <button
-                class="close-modal"
-                onclick="closeSales()">
+            <button onclick="fecharVendas()">
                 ×
             </button>
 
         </div>
 
-        <div
-            class="sales-list"
-            id="salesList">
-        </div>
+        <div id="listaVendas"></div>
 
     </div>
 
@@ -866,524 +643,493 @@ body {
 
 <script>
 
-/* =========================
-   BANCO DE PRODUTOS DEMO
-========================= */
+/* =====================================================
+   PRODUTOS
+===================================================== */
 
-const productsDB = {
+const banco = {
 
-    "7891000100103": {
-        name: "Arroz Branco 5kg",
-        price: 27.90
+    "7891000100103":{
+        nome:"Arroz Branco 5kg",
+        preco:27.90
     },
 
-    "7891000100202": {
-        name: "Feijão Carioca 1kg",
-        price: 8.49
+    "7891000100202":{
+        nome:"Feijão Carioca 1kg",
+        preco:8.49
     },
 
-    "7891000100301": {
-        name: "Açúcar Cristal 1kg",
-        price: 4.99
+    "7891000100301":{
+        nome:"Açúcar Cristal 1kg",
+        preco:4.99
     },
 
-    "7891000100400": {
-        name: "Café 500g",
-        price: 16.90
+    "7891000100400":{
+        nome:"Café 500g",
+        preco:16.90
     },
 
-    "7891000100509": {
-        name: "Leite Integral 1L",
-        price: 5.49
+    "7891000100509":{
+        nome:"Leite Integral 1L",
+        preco:5.49
     }
 
 };
 
+let carrinho = [];
 
-/* =========================
-   CARRINHO
-========================= */
+let formaPagamento = "";
 
-let cart = [];
-
-let selectedPayment = null;
+let vendas = [];
 
 
-/* =========================
-   VENDAS DO DIA
-========================= */
+/* =====================================================
+   MENU
+===================================================== */
 
-let salesToday = [];
+function abrirMenu(){
+
+    document
+        .getElementById("menu")
+        .classList.toggle("aberto");
+
+}
 
 
-/* =========================
+/* =====================================================
+   ABRIR VENDAS
+===================================================== */
+
+function abrirVendas(){
+
+    document
+        .getElementById("inicio")
+        .style.display="none";
+
+    document
+        .getElementById("vendasTela")
+        .style.display="block";
+
+}
+
+
+/* =====================================================
+   MENU DA TELA DE VENDAS
+===================================================== */
+
+function abrirMenuVendas(){
+
+    abrirMenu();
+
+}
+
+
+/* =====================================================
    BIPAR
-========================= */
+===================================================== */
 
-function scanProduct() {
+function bipar(){
 
-    const input = document.getElementById("barcode");
+    const campo =
+        document.getElementById("codigo");
 
-    const code = input.value.trim();
+    const codigo =
+        campo.value.trim();
 
-    if (!code) {
-        input.focus();
+    if(!codigo){
+
+        campo.focus();
+
         return;
+
     }
 
-    let product = productsDB[code];
+    let produto =
+        banco[codigo];
 
-    if (!product) {
+    if(!produto){
 
-        product = {
-            name: "Produto " + code,
-            price: 10.00
+        produto = {
+
+            nome:"Produto "+codigo,
+
+            preco:10
+
         };
 
     }
 
-    const existing = cart.find(
-        item => item.code === code
-    );
+    const existente =
+        carrinho.find(
+            p => p.codigo === codigo
+        );
 
-    if (existing) {
+    if(existente){
 
-        existing.quantity++;
+        existente.quantidade++;
 
-    } else {
+    }else{
 
-        cart.push({
-            code: code,
-            name: product.name,
-            price: product.price,
-            quantity: 1
+        carrinho.push({
+
+            codigo:codigo,
+
+            nome:produto.nome,
+
+            preco:produto.preco,
+
+            quantidade:1
+
         });
 
     }
 
-    input.value = "";
+    campo.value="";
 
-    renderCart();
+    atualizar();
 
-    input.focus();
+    campo.focus();
+
 }
 
 
-/* =========================
-   ENTER NO LEITOR
-========================= */
+/* ENTER DO LEITOR */
 
 document
-    .getElementById("barcode")
-    .addEventListener("keydown", function(event) {
+.getElementById("codigo")
+.addEventListener(
+    "keydown",
+    function(e){
 
-        if (event.key === "Enter") {
-            scanProduct();
+        if(e.key==="Enter"){
+
+            bipar();
+
         }
 
-    });
+    }
+);
 
 
-/* =========================
-   MOSTRAR PRODUTOS
-========================= */
+/* =====================================================
+   ATUALIZAR PRODUTOS
+===================================================== */
 
-function renderCart() {
+function atualizar(){
 
-    const container =
-        document.getElementById("products");
+    const lista =
+        document.getElementById("produtosVenda");
 
-    container.innerHTML = "";
+    lista.innerHTML="";
 
-    if (cart.length === 0) {
+    if(carrinho.length===0){
 
-        container.innerHTML = `
-            <div class="empty">
-                <div>
-                    <div style="font-size:40px;margin-bottom:10px;">
-                        🛒
-                    </div>
-
-                    <strong>Nenhum produto na venda</strong>
-
-                    <br>
-
-                    <small>
-                        Passe o primeiro produto no leitor.
-                    </small>
-                </div>
+        lista.innerHTML=`
+            <div style="
+            text-align:center;
+            padding:80px 20px;
+            color:#888;">
+            Passe os produtos no leitor.
             </div>
         `;
 
-        updateTotal();
+        document
+        .getElementById("valorTotal")
+        .innerText="R$ 0,00";
 
         return;
+
     }
 
+    let total=0;
 
-    cart.forEach((item, index) => {
+    carrinho.forEach(
+        (produto,index)=>{
 
         const subtotal =
-            item.price * item.quantity;
+            produto.preco *
+            produto.quantidade;
 
-        const div =
-            document.createElement("div");
+        total += subtotal;
 
-        div.className = "product";
+        lista.innerHTML += `
 
-        div.innerHTML = `
+            <div class="produto">
 
-            <div>
-                <div class="product-name">
-                    ${item.name}
+                <div>
+                    <strong>
+                        ${produto.nome}
+                    </strong>
+
+                    <small style="
+                    display:block;
+                    color:#999;">
+                        ${produto.codigo}
+                    </small>
                 </div>
 
-                <div class="product-code">
-                    ${item.code}
+                <div>
+                    ${produto.quantidade}x
                 </div>
-            </div>
 
-            <div class="quantity">
-                ${item.quantity}x
-            </div>
+                <div>
+                    R$ ${subtotal
+                    .toFixed(2)
+                    .replace(".",",")}
+                </div>
 
-            <div class="price">
-                ${money(subtotal)}
-            </div>
+                <button
+                    onclick="remover(${index})">
+                    ×
+                </button>
 
-            <button
-                class="remove"
-                onclick="removeProduct(${index})">
-                ×
-            </button>
+            </div>
         `;
 
-        container.appendChild(div);
-
     });
 
-
-    updateTotal();
-}
-
-
-/* =========================
-   REMOVER PRODUTO
-========================= */
-
-function removeProduct(index) {
-
-    if (cart[index].quantity > 1) {
-
-        cart[index].quantity--;
-
-    } else {
-
-        cart.splice(index, 1);
-
-    }
-
-    renderCart();
-}
-
-
-/* =========================
-   TOTAL
-========================= */
-
-function updateTotal() {
-
-    let total = 0;
-
-    cart.forEach(item => {
-
-        total +=
-            item.price * item.quantity;
-
-    });
-
-    document.getElementById("total")
-        .textContent = money(total);
-}
-
-
-/* =========================
-   PAGAMENTO
-========================= */
-
-function selectPayment(button, payment) {
 
     document
-        .querySelectorAll(".payment")
-        .forEach(btn => {
+    .getElementById("valorTotal")
+    .innerText =
+        "R$ " +
+        total
+        .toFixed(2)
+        .replace(".",",");
 
-            btn.classList.remove("selected");
-
-        });
-
-    button.classList.add("selected");
-
-    selectedPayment = payment;
 }
 
 
-/* =========================
-   FINALIZAR VENDA
-========================= */
+/* =====================================================
+   REMOVER
+===================================================== */
 
-function finishSale() {
+function remover(index){
 
-    if (cart.length === 0) {
+    if(carrinho[index].quantidade>1){
 
-        alert("Passe pelo menos um produto.");
+        carrinho[index].quantidade--;
 
-        return;
+    }else{
+
+        carrinho.splice(index,1);
+
     }
 
-    if (!selectedPayment) {
+    atualizar();
+
+}
+
+
+/* =====================================================
+   PAGAMENTO
+===================================================== */
+
+function pagamento(botao,forma){
+
+    document
+    .querySelectorAll(".pagamento button")
+    .forEach(b =>
+        b.classList.remove("selecionado")
+    );
+
+    botao.classList.add("selecionado");
+
+    formaPagamento=forma;
+
+}
+
+
+/* =====================================================
+   FINALIZAR VENDA
+===================================================== */
+
+function finalizarVenda(){
+
+    if(carrinho.length===0){
+
+        alert("Nenhum produto foi adicionado.");
+
+        return;
+
+    }
+
+    if(!formaPagamento){
 
         alert("Escolha a forma de pagamento.");
 
         return;
+
     }
 
+    let total=0;
 
-    let total = cart.reduce(
-        (sum, item) =>
-            sum + item.price * item.quantity,
-        0
-    );
+    carrinho.forEach(p=>{
 
+        total +=
+            p.preco*p.quantidade;
 
-    const sale = {
+    });
 
-        number: salesToday.length + 1,
+    vendas.push({
 
-        date: new Date(),
+        numero:vendas.length+1,
 
-        items: [...cart],
+        horario:new Date(),
 
-        payment: selectedPayment,
+        produtos:[...carrinho],
 
-        total: total
+        pagamento:formaPagamento,
 
-    };
+        total:total
 
-
-    salesToday.push(sale);
-
+    });
 
     alert(
-        "Venda finalizada com sucesso!\n\n" +
-        "Total: " + money(total) +
-        "\nPagamento: " + selectedPayment
+        "Venda finalizada com sucesso!"
     );
 
+    carrinho=[];
 
-    newSale();
+    formaPagamento="";
+
+    document
+    .querySelectorAll(".pagamento button")
+    .forEach(b =>
+        b.classList.remove("selecionado")
+    );
+
+    atualizar();
+
 }
 
 
-/* =========================
-   NOVA VENDA
-========================= */
-
-function newSale() {
-
-    cart = [];
-
-    selectedPayment = null;
-
-    document
-        .querySelectorAll(".payment")
-        .forEach(btn => {
-
-            btn.classList.remove("selected");
-
-        });
-
-    renderCart();
-
-    document
-        .getElementById("barcode")
-        .focus();
-}
-
-
-/* =========================
-   MENU TRÊS PONTINHOS
-========================= */
-
-function toggleMenu() {
-
-    document
-        .getElementById("dropdownMenu")
-        .classList.toggle("open");
-}
-
-
-/* =========================
+/* =====================================================
    VENDAS DO DIA
-========================= */
+===================================================== */
 
-function openSales() {
-
-    document
-        .getElementById("dropdownMenu")
-        .classList.remove("open");
-
-    renderSales();
+function abrirVendasDoDia(){
 
     document
-        .getElementById("salesModal")
-        .classList.add("open");
-}
+    .getElementById("menu")
+    .classList.remove("aberto");
 
+    const lista =
+        document.getElementById("listaVendas");
 
-function closeSales() {
+    lista.innerHTML="";
 
-    document
-        .getElementById("salesModal")
-        .classList.remove("open");
-}
+    if(vendas.length===0){
 
-
-function renderSales() {
-
-    const container =
-        document.getElementById("salesList");
-
-    container.innerHTML = "";
-
-
-    if (salesToday.length === 0) {
-
-        container.innerHTML = `
-            <div class="no-sales">
-                Nenhuma venda realizada hoje.
+        lista.innerHTML=`
+            <div style="
+            text-align:center;
+            padding:40px;
+            color:#888;">
+            Nenhuma venda realizada hoje.
             </div>
         `;
 
-        return;
-    }
+    }else{
 
-
-    [...salesToday]
+        [...vendas]
         .reverse()
-        .forEach(sale => {
+        .forEach(venda=>{
 
-            const div =
-                document.createElement("div");
-
-            div.className = "sale-item";
-
-
-            const time =
-                sale.date.toLocaleTimeString(
+            const hora =
+                venda.horario
+                .toLocaleTimeString(
                     "pt-BR",
                     {
-                        hour: "2-digit",
-                        minute: "2-digit"
+                        hour:"2-digit",
+                        minute:"2-digit"
                     }
                 );
 
+            let produtos="";
 
-            const productsText =
-                sale.items
-                    .map(item =>
-                        `${item.quantity}x ${item.name}`
-                    )
-                    .join("<br>");
+            venda.produtos.forEach(p=>{
 
+                produtos +=
+                    `${p.quantidade}x ${p.nome}<br>`;
 
-            div.innerHTML = `
+            });
 
-                <strong>
-                    Venda #${sale.number}
-                </strong>
+            lista.innerHTML += `
 
-                <span>
-                    — ${time}
-                </span>
+                <div class="vendaDia">
 
-                <div style="margin-top:8px;font-size:13px;">
-                    ${productsText}
+                    <strong>
+                        Venda #${venda.numero}
+                    </strong>
+
+                    <span>
+                        — ${hora}
+                    </span>
+
+                    <div style="margin-top:10px;">
+                        ${produtos}
+                    </div>
+
+                    <div style="margin-top:8px;">
+                        Pagamento:
+                        <strong>
+                            ${venda.pagamento}
+                        </strong>
+                    </div>
+
+                    <div style="
+                    margin-top:8px;
+                    font-size:20px;
+                    font-weight:bold;">
+
+                        R$
+                        ${venda.total
+                        .toFixed(2)
+                        .replace(".",",")}
+
+                    </div>
+
                 </div>
-
-                <div style="margin-top:7px;font-size:13px;">
-                    Pagamento: ${sale.payment}
-                </div>
-
-                <div class="sale-total">
-                    ${money(sale.total)}
-                </div>
-
             `;
 
-            container.appendChild(div);
-
         });
-}
-
-
-/* =========================
-   OUTROS BOTÕES
-========================= */
-
-function showMessage(text) {
-
-    document
-        .getElementById("dropdownMenu")
-        .classList.remove("open");
-
-    alert(text);
-}
-
-
-/* =========================
-   FORMATAÇÃO DE DINHEIRO
-========================= */
-
-function money(value) {
-
-    return value.toLocaleString(
-        "pt-BR",
-        {
-            style: "currency",
-            currency: "BRL"
-        }
-    );
-
-}
-
-
-/* =========================
-   FECHAR MENU AO CLICAR FORA
-========================= */
-
-document.addEventListener("click", function(event) {
-
-    const wrapper =
-        document.querySelector(".menu-wrapper");
-
-    if (!wrapper.contains(event.target)) {
-
-        document
-            .getElementById("dropdownMenu")
-            .classList.remove("open");
 
     }
 
-});
+    document
+    .getElementById("modalVendas")
+    .style.display="flex";
+
+}
 
 
-/* =========================
-   INICIAR
-========================= */
+/* =====================================================
+   FECHAR VENDAS
+===================================================== */
 
-document
-    .getElementById("barcode")
-    .focus();
+function fecharVendas(){
+
+    document
+    .getElementById("modalVendas")
+    .style.display="none";
+
+}
+
+
+/* =====================================================
+   MENSAGEM
+===================================================== */
+
+function mensagem(nome){
+
+    document
+    .getElementById("menu")
+    .classList.remove("aberto");
+
+    alert(nome+" em breve.");
+
+}
 
 </script>
 
